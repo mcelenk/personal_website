@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Fourier Analysis</title>
+    <link rel="stylesheet" href="./main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.js" integrity="sha512-XHX1BtNTb2lSeCsQQQ7/MBdpG+aIOiUKGgWkNHTAa737lUtZ+vVSKkAu5/GxX2QNCW7ZgPmWQJPDuutl7+Lf7A==" crossorigin="anonymous"></script>
+
+    <script type="text/paperscript" src="main.js" canvas="myCanvas">
+    </script>
+    <script type="text/javascript">
+        window.onload = function () {
+            dottilde.setUIUpdateCallback(function (data) {
+                document.getElementById('snapToTip').checked = data.snappedToTip;
+                document.getElementById('startStopAnim').checked = data.stopped;
+                document.getElementById('fill').checked = data.fill;
+            });
+
+            var item = document.getElementById("snapToTip");
+            item.addEventListener('change', function () {
+                dottilde.toggleSnapToTip();
+            });
+
+            item = document.getElementById("startStopAnim");
+            item.addEventListener('change', function () {
+                dottilde.toggleAnimation();
+            });
+
+            item = document.getElementById("fill");
+            item.addEventListener('change', function () {
+                dottilde.toggleFill();
+            });
+
+            if (window.addEventListener) {
+                window.addEventListener("mousewheel", dottilde.doScroll, false);
+                window.addEventListener("DOMMouseScroll", dottilde.doScroll, false);
+            } else {
+                window.attachEvent("onmousewheel", dottilde.doScroll);
+            }
+
+            dottilde.restart();
+        };
+    </script>
+</head>
+<body>
+    <canvas id="myCanvas" resize=resize></canvas>
+    <div id=menu>
+        <div class="menuItem">
+            <input type="checkbox" id="startStopAnim" name="startStop">
+            <label for="snapToTip">Stop/Resume</label>
+        </div>
+        <div class="menuItem">
+            <input type="checkbox" id="snapToTip" name="snap">
+            <label for="snapToTip">Toggle Snap to Tip</label>
+        </div>
+        <div class="menuItem">
+            <input type="checkbox" id="fill" name="fill">
+            <label for="fill">Toggle Fill</label>
+        </div>
+    </div>
+</body>
+</html>
