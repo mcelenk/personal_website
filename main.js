@@ -121,11 +121,11 @@
                 restart();
             }
         };
-        xhttp.open("POST", "/.netlify/functions/get-data", true);
+        xhttp.open("GET", "/.netlify/functions/get-data", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         var params = { 'name': (name ? name : 'einstein') };
         //var selection = name ? 'name=' + name : 'name=einstein';
-        xhttp.send(params);
+        xhttp.send(JSON.stringify(params));
     }
 
     //TODO
