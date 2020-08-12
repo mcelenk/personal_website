@@ -127,7 +127,7 @@
         xhttp.setRequestHeader("Content-type", "application/json");
         //var params = { 'name': (name ? name : 'einstein') };
 
-        xhttp.send(JSON.stringify(params));
+        xhttp.send(null);
     }
 
     //TODO
