@@ -115,6 +115,8 @@
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(this.responseText);
                 data = resp;
+                window.data = data;
+                console.log('you can check window.data');
                 init();
                 restart();
             }

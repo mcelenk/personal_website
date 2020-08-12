@@ -44,6 +44,7 @@ exports.handler = function (event, context, callback) {
             data.points = dataPointsMapping[selectedName];
         }
     }
+    data.qsp = event.queryStringParameters;
     callback(null, {
 
         statusCode: 200,
