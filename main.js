@@ -116,6 +116,7 @@
                 var resp = JSON.parse(this.responseText);
                 window.data = resp;
                 data = resp;
+                initialized = 1;
                 restart();
             }
         };
