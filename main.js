@@ -116,7 +116,6 @@
                 var resp = JSON.parse(this.responseText);
                 window.data = resp;
                 data = resp;
-                initialized = 1;
                 restart();
             }
         };
@@ -153,6 +152,7 @@
         if (data.prefferedDt) {
             dt = data.prefferedDt;
         }
+        initialized = 1;
     }
 
     function prefillFxValues() {
