@@ -4,7 +4,7 @@ exports.handler = function (event, context, callback) {
         paceFactor: 0.000213,
         snappedToTip: 1,
         stopped: 0,
-        initialZoom: 250.0,
+        initialZoom: 350.0,
         numCircles: 350,
         fill: 1,
         prefferedDt: 0.0008,
