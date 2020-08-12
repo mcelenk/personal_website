@@ -123,8 +123,9 @@
         };
         xhttp.open("POST", "/.netlify/functions/get-data", true);
         xhttp.setRequestHeader("Content-type", "application/json");
-        var selection = name ? 'name=' + name : 'name=einstein';
-        xhttp.send(selection);
+        var params = { name: (name ? name : 'einstein') };
+        //var selection = name ? 'name=' + name : 'name=einstein';
+        xhttp.send(params);
     }
 
     //TODO
