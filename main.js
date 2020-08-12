@@ -109,12 +109,11 @@
         }
     }
 
-    function tryRetrieveData() {
+    function tryRetrieveData(name) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(this.responseText);
-                window.data = resp;
                 data = resp;
                 init();
                 restart();
@@ -122,7 +121,8 @@
         };
         xhttp.open("GET", "/.netlify/functions/get-data", true);
         xhttp.setRequestHeader("Content-type", "application/json");
-        xhttp.send();
+        var selection = name ? 'name=' + name ? 'name=einstein';
+        xhttp.send(selection);
     }
 
     //TODO
@@ -542,6 +542,7 @@
 
     var tmpDrawingPoints;
     return {
+        reinitializeWith: function (name) { tryRetrieveData(name); },
         setBackgroundColor: function (color) { if (color) { bgColor = color; } setBackground(); },
         setCircleColor: function (color) { if (color) { circleColor = color; restart(); } },
 

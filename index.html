@@ -43,6 +43,11 @@
                 dottilde.toggleFill();
             });
 
+            item = document.getElementById("predefinedItems");
+            item.addEventListener('change', function (e) {
+                dottilde.reinitializeWith(item.value);
+            });
+
             if (window.addEventListener) {
                 window.addEventListener("mousewheel", dottilde.doScroll, false);
                 window.addEventListener("DOMMouseScroll", dottilde.doScroll, false);
@@ -68,6 +73,15 @@
         <div class="menuItem">
             <input type="checkbox" id="fill" name="fill">
             <label for="fill">Toggle Fill</label>
+        </div>
+        <div class="menuItem">
+            <label for="predefined">Load Predefined</label>
+            <select id="predefinedItems" name="predefined">
+                <option value="einstein">Einstein</option>
+                <option value="monalisa">MonaLisa</option>
+                <option value="monroe">Monroe</option>
+                <option value="david">David</option>
+            </select>
         </div>
     </div>
 </body>
