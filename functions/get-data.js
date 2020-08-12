@@ -37,14 +37,17 @@ exports.handler = function (event, context, callback) {
     };
     if (!event.queryStringParameters.name) {
         data.points = dataPointsMapping['david'];
+        data.qsp = event.queryStringParameters;
     }
     else {
-        var selectedName = event.queryStringParameters.name || 'einstein';
+        const params = querystring.parse(event.body);
+        data.qsp = params;
+        var selectedName = params.name || 'einstein';
         if (selectedName in dataPointsMapping) {
             data.points = dataPointsMapping[selectedName];
         }
     }
-    data.qsp = event.queryStringParameters;
+    
     callback(null, {
 
         statusCode: 200,
