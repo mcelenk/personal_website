@@ -235,7 +235,7 @@
 
     function animateItems(delta) {
 
-        if (data.stopped)
+        if (!data || data.stopped)
             return;
 
         delta += accumulatedDeltaValues;
