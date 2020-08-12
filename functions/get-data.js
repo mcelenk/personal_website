@@ -5,7 +5,7 @@ exports.handler = function (event, context, callback) {
         snappedToTip: 1,
         stopped: 0,
         initialZoom: 400.0,
-        numCircles: 350,
+        numCircles: 400,
         fill: 1,
         prefferedDt: 0.0008,
         roundCompletedInfo: {
@@ -18,7 +18,7 @@ exports.handler = function (event, context, callback) {
                 wheelDelta: -0.05,
                 scale: 1.057,
                 startFrame: 100,
-                endFrame: 550,
+                endFrame: 555,
             },
             pace: {
                 wheelDelta: 0.1179,
