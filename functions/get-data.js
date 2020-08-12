@@ -13,7 +13,6 @@ exports.handler = function (event, context, callback) {
             numRounds: 1,
             dimmed: 1,
         },
-
         animation: {
             zoom: {
                 wheelDelta: -0.05,
