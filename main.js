@@ -111,11 +111,13 @@
 
     function tryRetrieveData() {
         var xhttp = new XMLHttpRequest();
+        console.log('in try retrieve data');
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(this.responseText);
                 window.data = resp;
                 data = resp;
+                console.log('restarting from within xmlhhtprequest onreadystatechange handler');
                 restart();
             }
         };
@@ -126,6 +128,7 @@
 
     //TODO
     function init() {
+        console.log('in init');
         if (!data)
             tryRetrieveData();
 
@@ -152,6 +155,7 @@
         if (data.prefferedDt) {
             dt = data.prefferedDt;
         }
+        console.log('exiting init maturely');
         initialized = 1;
     }
 
