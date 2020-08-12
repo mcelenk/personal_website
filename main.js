@@ -311,7 +311,7 @@
                     if (data.roundCompletedInfo.dimmed) {
 
                         circles.forEach(function (element, index, arr) {
-                            element.bigCircle.strokeWidth = 0.02; //view.bounds.height / GLOBAL_SCALE_FACTOR / 10;
+                            element.bigCircle.strokeWidth = 0.005; //view.bounds.height / GLOBAL_SCALE_FACTOR / 10;
                             element.segment.strokeWidth = element.bigCircle.strokeWidth;
                         });
                     }

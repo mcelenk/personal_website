@@ -9,7 +9,7 @@ exports.handler = function (event, context, callback) {
         fill: 1,
         prefferedDt: 0.0008,
         roundCompletedInfo: {
-            factor: 9,
+            factor: 18,
             numRounds: 1,
             dimmed: 1,
         },
