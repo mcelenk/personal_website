@@ -118,6 +118,7 @@
                 window.data = resp;
                 data = resp;
                 console.log('restarting from within xmlhhtprequest onreadystatechange handler');
+                init();
                 restart();
             }
         };
@@ -554,7 +555,6 @@
         setDelta: function (delta) { dt = delta; restart(); },
 
         doScroll: doScroll,
-        restart: restart,
         animateItems: animateItems,
         restart: function () {
             if (!initialized)
