@@ -35,9 +35,14 @@ exports.handler = function (event, context, callback) {
             },
         },
     };
-    var selectedName = event.queryStringParameters.name || 'einstein';
-    if (selectedName in dataPointsMapping) {
-        data.points = dataPointsMapping[selectedName];
+    if (!event.queryStringParameters.name) {
+        data.points = dataPointsMapping['david'];
+    }
+    else {
+        var selectedName = event.queryStringParameters.name || 'einstein';
+        if (selectedName in dataPointsMapping) {
+            data.points = dataPointsMapping[selectedName];
+        }
     }
     callback(null, {
 
