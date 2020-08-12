@@ -111,13 +111,11 @@
 
     function tryRetrieveData() {
         var xhttp = new XMLHttpRequest();
-        console.log('in try retrieve data');
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(this.responseText);
                 window.data = resp;
                 data = resp;
-                console.log('restarting from within xmlhhtprequest onreadystatechange handler');
                 init();
                 restart();
             }
@@ -152,12 +150,10 @@
             setUiCallback(data);
 
         setEvalFunctionValues(data.points);
-        console.log('initial zoom received : ', data.initialZoom);
         view.zoom = data.initialZoom;
         if (data.prefferedDt) {
             dt = data.prefferedDt;
         }
-        console.log('exiting init maturely');
         initialized = 1;
     }
 
