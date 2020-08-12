@@ -118,7 +118,7 @@
                 data = resp;
             }
         };
-        xhttp.open("GET", ".netlify/functions/get-data", true);
+        xhttp.open("GET", "/.netlify/functions/get-data", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send();
     }
