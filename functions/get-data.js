@@ -35,23 +35,17 @@ exports.handler = function (event, context, callback) {
             },
         },
     };
-    //if (!event.queryStringParameters.name) {
-    //    data.points = dataPointsMapping['david'];
-    //    data.qsp = event.queryStringParameters;
-    //}
-    //else {
-    //    const params = querystring.parse(event.body);
-    //    data.qsp = params;
-    //    var selectedName = params.name || 'einstein';
-    //    if (selectedName in dataPointsMapping) {
-    //        data.points = dataPointsMapping[selectedName];
-    //    }
-    //}
-    data.points = dataPointsMapping['einstein'];
-    data.event = event;
+    if (!event.queryStringParameters.name) {
+        data.points = dataPointsMapping['einstein'];
+    }
+    else {
+        var selectedName = event.queryStringParameters.name || 'einstein';
+        if (selectedName in dataPointsMapping) {
+            data.points = dataPointsMapping[selectedName];
+        }
+    }
 
     callback(null, {
-
         statusCode: 200,
         body: JSON.stringify(data),
     });
