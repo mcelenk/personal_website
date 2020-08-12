@@ -111,6 +111,8 @@
 
     function tryRetrieveData(name) {
         var xhttp = new XMLHttpRequest();
+        var selection = name ? 'name=' + name : 'name=einstein';
+
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(this.responseText);
@@ -121,10 +123,10 @@
                 restart();
             }
         };
-        xhttp.open("GET", "/.netlify/functions/get-data", true);
+        xhttp.open("GET", "/.netlify/functions/get-data?" + selection, true);
         xhttp.setRequestHeader("Content-type", "application/json");
-        var params = { 'name': (name ? name : 'einstein') };
-        //var selection = name ? 'name=' + name : 'name=einstein';
+        //var params = { 'name': (name ? name : 'einstein') };
+
         xhttp.send(JSON.stringify(params));
     }
 
