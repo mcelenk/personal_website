@@ -59,9 +59,9 @@
                 dottilde.reinitializeWith(name);
             });
 
-            item = document.getElementById("circleCountSlider");
-            item.addEventListener('change', function (e) {
-                dottilde.setNumCircles(item.value);
+            var countSlider = document.getElementById("circleCountSlider");
+            countSlider.addEventListener('change', function (e) {
+                dottilde.setNumCircles(countSlider.value);
             });
 
             if (window.addEventListener) {
@@ -72,7 +72,7 @@
             }
 
             dottilde.restart();
-            view.draw();
+            //view.draw();
             view.onResize = function (event) {
                 dottilde.setBackgroundColor();
             }
