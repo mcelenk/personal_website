@@ -71,6 +71,10 @@
                 window.attachEvent("onmousewheel", dottilde.doScroll);
             }
 
+            view.onResize = function (event) {
+                dottilde.setBackgroundColor();
+            }
+
             dottilde.restart();
         });
 

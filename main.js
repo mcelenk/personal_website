@@ -633,8 +633,3 @@ function onMouseUp(event) {
 function onFrame(event) {
     dottilde.animateItems(event.delta);
 }
-
-view.onResize = function (event) {
-    dottilde.setBackgroundColor('#111223');
-}
-
