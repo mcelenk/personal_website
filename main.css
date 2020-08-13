@@ -28,15 +28,3 @@ canvas[resize] {
     border-style: solid double;
     border-color: #92a8d1;
 }
-
-#imageDrop {
-    display: flex;
-    flex-flow: column;
-    height: 100%;
-    outline: 2px dashed black;
-    outline-offset: -10px;
-}
-
-.is-dragover {
-    background-color: grey;
-}

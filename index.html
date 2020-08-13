@@ -117,9 +117,7 @@
             //    var droppedFiles = e.originalEvent.dataTransfer.files;
             //    console.log('actually dropped');
             //});
-            var el = document.getElementsByClassName('file-upload');
-            window.el = el;
-            el.file_upload();
+            $('.file-upload').file_upload();
         });
     </script>
 </head>
@@ -153,7 +151,8 @@
         </div>
         <div class="menuItem">
             <div class="file-upload-wrapper">
-                <input type="file" id="input-file-now" class="file-upload" />
+                <input type="file" id="input-file-now-custom-2" class="file-upload"
+                       data-height="500" />
             </div>
         </div>
     </div>
