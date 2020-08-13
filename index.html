@@ -13,9 +13,10 @@
 
         gtag('config', 'UA-81611631-2');
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha512-MoRNloxbStBcD8z3M/2BmnT+rg4IsMxPkXaGh2zD6LGNNFE80W3onsAhRcMAMrSoyWL9xD7Ert0men7vR8LUZg==" crossorigin="anonymous" />
     <link rel="stylesheet" href="./main.css">
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha512-M5KW3ztuIICmVIhjSqXe01oV2bpe248gOxqmlcYrEzAvws7Pw3z6BK0iGbrwvdrUQUhi3eXgtxp5I8PDo9YfjQ==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.js" integrity="sha512-XHX1BtNTb2lSeCsQQQ7/MBdpG+aIOiUKGgWkNHTAa737lUtZ+vVSKkAu5/GxX2QNCW7ZgPmWQJPDuutl7+Lf7A==" crossorigin="anonymous"></script>
 
     <script type="text/javascript">
@@ -92,30 +93,31 @@
             }
 
             //arrange image drop area
-            function stopPropagation(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            var dropArea = document.getElementById("imageDrop");
-            dropArea.addEventListener('drag', stopPropagation);
-            dropArea.addEventListener('dragstart', stopPropagation);
-            dropArea.addEventListener('dragend', stopPropagation);
-            dropArea.addEventListener('dragover', stopPropagation);
-            dropArea.addEventListener('dragenter', stopPropagation);
-            dropArea.addEventListener('dragleave', stopPropagation);
+            //function stopPropagation(e) {
+            //    e.preventDefault();
+            //    e.stopPropagation();
+            //}
+            //var dropArea = document.getElementById("imageDrop");
+            //dropArea.addEventListener('drag', stopPropagation);
+            //dropArea.addEventListener('dragstart', stopPropagation);
+            //dropArea.addEventListener('dragend', stopPropagation);
+            //dropArea.addEventListener('dragover', stopPropagation);
+            //dropArea.addEventListener('dragenter', stopPropagation);
+            //dropArea.addEventListener('dragleave', stopPropagation);
 
-            dropArea.addEventListener('dragover', function () { dropArea.addClass('is-dragover'); });
-            dropArea.addEventListener('dragenter', function () { dropArea.addClass('is-dragover'); });
+            //dropArea.addEventListener('dragover', function () { dropArea.addClass('is-dragover'); });
+            //dropArea.addEventListener('dragenter', function () { dropArea.addClass('is-dragover'); });
 
-            dropArea.addEventListener('dragleave', function () { dropArea.removeClass('is-dragover'); });
-            dropArea.addEventListener('dragend', function () { dropArea.removeClass('is-dragover'); });
-            dropArea.addEventListener('drop', function () { dropArea.removeClass('is-dragover'); });
+            //dropArea.addEventListener('dragleave', function () { dropArea.removeClass('is-dragover'); });
+            //dropArea.addEventListener('dragend', function () { dropArea.removeClass('is-dragover'); });
+            //dropArea.addEventListener('drop', function () { dropArea.removeClass('is-dragover'); });
 
-            dropArea.addEventListener('drop', function (e) {
-                stopPropagation();
-                var droppedFiles = e.originalEvent.dataTransfer.files;
-                console.log('actually dropped');
-            });
+            //dropArea.addEventListener('drop', function (e) {
+            //    stopPropagation();
+            //    var droppedFiles = e.originalEvent.dataTransfer.files;
+            //    console.log('actually dropped');
+            //});
+            document.getElementById('file-upload').file_upload();
         });
     </script>
 </head>
@@ -148,9 +150,8 @@
             <input id="circleCountSlider" type="range" min="1" max="500" value="250">
         </div>
         <div class="menuItem">
-            <div id="imageDrop">
-                <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
-                <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
+            <div class="file-upload-wrapper">
+                <input type="file" id="input-file-now" class="file-upload" />
             </div>
         </div>
     </div>
