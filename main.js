@@ -380,6 +380,7 @@
 
             if (index == arr.length - 1) {
                 if (data.snappedToTip) {
+                    console.log('view.center : ', view.center);
                     view.center = Object.assign({}, a.tipOfArrow);
                     setBackground();
                 }
@@ -475,7 +476,7 @@
             bigCircle: bigCircle,
             segment: lineSegment,
             triangle: triangle,
-            tipOfArrow: item.position + [item.radius, 0],
+            tipOfArrow: new paper.Point(item.position.x + item.radius, item.position.y),
         });
     }
 
