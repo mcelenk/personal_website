@@ -419,7 +419,7 @@
                 arrowColor: arrowColor
             });
             if (p == 0) {
-                view.center = [c[0], c[1]];
+                view.center = new Point(c[0], c[1]);
             }
         }
         sortCircles();
