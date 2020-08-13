@@ -98,15 +98,15 @@
                 e.stopPropagation();
             })
                 .on('dragover dragenter', function () {
-                    $form.addClass('is-dragover');
+                    dropArea.addClass('is-dragover');
                 })
                 .on('dragleave dragend drop', function () {
-                    $form.removeClass('is-dragover');
+                    dropArea.removeClass('is-dragover');
                 })
                 .on('drop', function (e) {
                     droppedFiles = e.originalEvent.dataTransfer.files;
+                    console.log('actually dropped');
                 });
-
         });
     </script>
 </head>
