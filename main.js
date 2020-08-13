@@ -186,7 +186,7 @@
 
         setEvalFunctionValues(data.points);
         console.log('initial zoom received : ', data.initialZoom);
-        paper.view.zoom = data.initialZoom;
+        view.zoom = data.initialZoom;
         if (data.prefferedDt) {
             dt = data.prefferedDt;
         }
@@ -344,7 +344,7 @@
                     if (data.roundCompletedInfo.dimmed) {
 
                         circles.forEach(function (element, index, arr) {
-                            element.bigCircle.strokeWidth = 0.005; //paper.view.bounds.height / GLOBAL_SCALE_FACTOR / 10;
+                            element.bigCircle.strokeWidth = 0.005; //view.bounds.height / GLOBAL_SCALE_FACTOR / 10;
                             element.segment.strokeWidth = element.bigCircle.strokeWidth;
                         });
                     }
@@ -381,7 +381,7 @@
 
             if (index == arr.length - 1) {
                 if (data.snappedToTip) {
-                    paper.view.center = a.tipOfArrow.clone();
+                    view.center = a.tipOfArrow.clone();
                     setBackground();
                 }
                 updateFlame(a.tipOfArrow);
@@ -415,12 +415,12 @@
                 initialAngle: Math.atan2(c[1], c[0]),
                 position: new paper.Point(0, 0),
                 period: p,
-                width: paper.view.bounds.height / GLOBAL_SCALE_FACTOR,
+                width: view.bounds.height / GLOBAL_SCALE_FACTOR,
                 skipArrowHead: (p == 0),
                 arrowColor: arrowColor
             });
             if (p == 0) {
-                paper.view.center = [c[0], c[1]];
+                view.center = [c[0], c[1]];
             }
         }
         sortCircles();
@@ -482,7 +482,7 @@
 
     function setBackground() {
         if (background) background.segments = [];
-        background = new paper.Path.Rectangle(paper.view.bounds);
+        background = new paper.Path.Rectangle(view.bounds);
         background.sendToBack();
         background.fillColor = bgColor;
     }
@@ -491,7 +491,7 @@
         if (flamePathPoints.length > 1) {
 
             flamePath.segments = [];
-            flamePath.strokeWidth = paper.view.bounds.height / GLOBAL_SCALE_FACTOR;
+            flamePath.strokeWidth = view.bounds.height / GLOBAL_SCALE_FACTOR;
 
             if (data.fill) {
                 flamePath.fillColor = flamePathColor;
@@ -548,16 +548,16 @@
         }
         else { // ZOOM
             var zoomRatio = delta > 0 ? MAGIC_RATIO_REPICROCAL / scale : MAGIC_RATIO * scale;
-            paper.view.scale(zoomRatio);
+            view.scale(zoomRatio);
 
-            var mousePosInViewSystem = paper.view.viewToProject([e.offsetX || 0, e.offsetY || 0]);
-            var diffVector = mousePosInViewSystem - paper.view.center;
+            var mousePosInViewSystem = view.viewToProject([e.offsetX || 0, e.offsetY || 0]);
+            var diffVector = mousePosInViewSystem - view.center;
             var shiftVector = diffVector - diffVector * zoomRatio;
 
-            paper.view.translate(shiftVector);
+            view.translate(shiftVector);
 
             circles.forEach(function (element, index, arr) {
-                element.bigCircle.strokeWidth = paper.view.bounds.height / GLOBAL_SCALE_FACTOR;
+                element.bigCircle.strokeWidth = view.bounds.height / GLOBAL_SCALE_FACTOR;
                 element.segment.strokeWidth = element.bigCircle.strokeWidth;
             });
 
@@ -600,7 +600,7 @@
         },
         drawingPointAdd: function (point) {
             tmpDrawingPoints.push(point);
-            var circle = new paper.Path.Circle(point, paper.view.bounds.height / 160);
+            var circle = new paper.Path.Circle(point, view.bounds.height / 160);
             circle.fillColor = 'red';
         },
         drawingFinalised: function (lastPoint) {
@@ -634,7 +634,7 @@ function onFrame(event) {
     dottilde.animateItems(event.delta);
 }
 
-paper.view.onResize = function (event) {
+view.onResize = function (event) {
     dottilde.setBackgroundColor('#111223');
 }
 
