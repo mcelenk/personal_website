@@ -555,10 +555,10 @@
 
             view.translate(shiftVector);
 
-            circles.forEach(function (element, index, arr) {
-                element.bigCircle.strokeWidth = view.bounds.height / GLOBAL_SCALE_FACTOR;
-                element.segment.strokeWidth = element.bigCircle.strokeWidth;
-            });
+            //circles.forEach(function (element, index, arr) {
+            //    element.bigCircle.strokeWidth = view.bounds.height / GLOBAL_SCALE_FACTOR;
+            //    element.segment.strokeWidth = element.bigCircle.strokeWidth;
+            //});
 
             setBackground();
         }
