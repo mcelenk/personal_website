@@ -380,7 +380,6 @@
 
             if (index == arr.length - 1) {
                 if (data.snappedToTip) {
-                    console.log('view.center : ', view.center);
                     view.center = Object.assign({}, a.tipOfArrow);
                     setBackground();
                 }
