@@ -381,7 +381,7 @@
 
             if (index == arr.length - 1) {
                 if (data.snappedToTip) {
-                    view.center = a.tipOfArrow.clone();
+                    view.center = Object.assign({}, a.tipOfArrow);
                     setBackground();
                 }
                 updateFlame(a.tipOfArrow);
@@ -466,7 +466,7 @@
         }
 
         var lineSegment = new paper.Path();
-        lineSegment.add(item.position.clone());
+        lineSegment.add(Object.assign({}, item.position));
         lineSegment.add(new paper.Point(item.position.x + item.radius, item.position.y));
         lineSegment.strokeColor = item.arrowColor;
         lineSegment.strokeWidth = item.width;
@@ -508,7 +508,7 @@
     }
 
     function updateFlame(newPos) {
-        flamePathPoints.push(newPos.clone());
+        flamePathPoints.push(Object.assign({}, newPos));
         if (flamePathPoints.length > FLAME_POS_COUNT_MAX) {
             flamePathPoints.shift();
         }
