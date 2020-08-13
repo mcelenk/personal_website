@@ -556,7 +556,7 @@
         toggleFill: function () { data.fill = 1 - data.fill; },
 
         setDelta: function (delta) { dt = delta; restart(); },
-        setNumCircles: function (nummCircles) {
+        setNumCircles: function (numCircles) {
             data.numCircles = numCircles;
             data.numCircles = Math.min(MAX_CIRCLE_COUNT, data.numCircles);
             data.numCircles = Math.max(MIN_CIRCLE_COUNT, data.numCircles);
