@@ -23,22 +23,15 @@
     <script type="text/javascript">
         paper.install(window);
         window.addEventListener('load', function () {
-            console.log('First listener');
             var canvas = document.getElementById('myCanvas');
             paper.setup(canvas);
         });
     </script>
     <script type="text/javascript" src="main.js">
     </script>
-    <script type="text/javascript">
-        window.addEventListener('load', function () {
-            console.log('Second listener');
-        });
-    </script>
 
     <script type="text/javascript">
         window.addEventListener('load', function () {
-            console.log('Third listener');
             dottilde.setUIUpdateCallback(function (data) {
                 document.getElementById('snapToTip').checked = data.snappedToTip;
                 document.getElementById('startStopAnim').checked = data.stopped;
@@ -63,6 +56,11 @@
             item = document.getElementById("predefinedItems");
             item.addEventListener('change', function (e) {
                 dottilde.reinitializeWith(item.value);
+            });
+
+            item = document.getElementById("circleCountSlider");
+            item.addEventListener('change', function (e) {
+                console.log('numCirclesVal : ', item.value);
             });
 
             if (window.addEventListener) {
@@ -109,6 +107,10 @@
                 <option value="monroe">Monroe</option>
                 <option value="david">David</option>
             </select>
+        </div>
+        <div class="menuItem">
+            <label for="circleCountSlider">Load Predefined</label>
+            <input id="circleCountSlider" type="range" min="1" max="500" value="250">
         </div>
     </div>
 </body>

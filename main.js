@@ -1,6 +1,6 @@
 ﻿window.dottilde = function () {
     //So many constants some of which should be refined actually
-    var MAX_CIRCLE_COUNT = 750;
+    var MAX_CIRCLE_COUNT = 500;
     var MIN_CIRCLE_COUNT = 1;
     var FPS_ADJUSTED_DELTA_LIMIT = 0.0333; // fps = (1 / FPS_ADJUSTED_DELTA_LIMIT) ~= 30
     var INPUT_VALUE_SCALE_FACTOR = 120.0;
