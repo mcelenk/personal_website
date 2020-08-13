@@ -630,6 +630,6 @@ function onMouseUp(event) {
     dottilde.drawingFinalised(event.point);
 }
 
-function onFrame(event) {
-    dottilde.animateItems(event.delta);
-}
+//function onFrame(event) {
+//    dottilde.animateItems(event.delta);
+//}

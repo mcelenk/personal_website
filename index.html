@@ -72,11 +72,15 @@
                 window.attachEvent("onmousewheel", dottilde.doScroll);
             }
 
+            dottilde.restart();
+
             view.onResize = function (event) {
                 dottilde.setBackgroundColor();
             }
-
-            dottilde.restart();
+            
+            view.onFrame = function (event) {
+                dottilde.animateItems(event.delta);
+            }
         });
 
         //view.draw();
