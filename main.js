@@ -315,7 +315,7 @@
                     if (data.roundCompletedInfo.dimmed) {
 
                         circles.forEach(function (element, index, arr) {
-                            element.bigCircle.strokeWidth = 0.005; //view.bounds.height / GLOBAL_SCALE_FACTOR / 10;
+                            element.bigCircle.strokeWidth /= 2; //view.bounds.height / GLOBAL_SCALE_FACTOR / 10;
                             element.segment.strokeWidth = element.bigCircle.strokeWidth;
                         });
                     }
@@ -396,13 +396,11 @@
                 skipArrowHead: (p == 0),
                 arrowColor: arrowColor
             });
-            if (p == 1) {
-                var pos = view.viewToProject(new Point(c[0], c[1]));
-                console.log('CENTER SET AT ', pos);
-                view.setCenter(pos);
-            }
         }
         sortCircles();
+        var centerX = circles[0].base.position.x + Math.cos(circles[0].base.theta) * circles[0].base.radius;
+        var centerY = circles[0].base.position.y + Math.sin(circles[0].base.theta) * circles[0].base.radius;
+        view.setCenter(new paper.Point(centerX, centerY));
     }
 
     function sortCircles() {
@@ -415,7 +413,7 @@
     }
 
     function setOneCircle(args) {
-        var item = {
+        var base = {
             position: args.position || new paper.Point(0, 0),
             radius: args.radius || 50,
             width: args.width || 3,
@@ -451,7 +449,7 @@
         lineSegment.strokeWidth = item.width;
 
         circles.push({
-            base: item,
+            base: base,
             bigCircle: bigCircle,
             segment: lineSegment,
             triangle: triangle,
