@@ -388,10 +388,10 @@
                 skipArrowHead: (p == 0),
                 arrowColor: arrowColor
             });
-            if (p == 1) {
-                console.log('CENTER SET AT ', c[0], ' ' , c[1]);
-                view.setCenter(new Point(c[0], c[1]));
-            }
+            //if (p == 1) {
+            //    console.log('CENTER SET AT ', c[0], ' ' , c[1]);
+            //    view.setCenter(new Point(c[0], c[1]));
+            //}
         }
         sortCircles();
     }
