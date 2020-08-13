@@ -388,7 +388,7 @@
                 skipArrowHead: (p == 0),
                 arrowColor: arrowColor
             });
-            if (p == 0) {
+            if (p == 1 || p == -1) {
                 view.setCenter(new Point(c[0], c[1]));
             }
         }
