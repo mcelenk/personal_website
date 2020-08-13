@@ -92,21 +92,30 @@
             }
 
             //arrange image drop area
-            var dropArea = document.getElementById("imageDrop");
-            dropArea.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
+            function stopPropagation(e) {
                 e.preventDefault();
                 e.stopPropagation();
-            })
-                .on('dragover dragenter', function () {
-                    dropArea.addClass('is-dragover');
-                })
-                .on('dragleave dragend drop', function () {
-                    dropArea.removeClass('is-dragover');
-                })
-                .on('drop', function (e) {
-                    droppedFiles = e.originalEvent.dataTransfer.files;
-                    console.log('actually dropped');
-                });
+            }
+            var dropArea = document.getElementById("imageDrop");
+            dropArea.addEventListener('drag', stopPropagation);
+            dropArea.addEventListener('dragstart', stopPropagation);
+            dropArea.addEventListener('dragend', stopPropagation);
+            dropArea.addEventListener('dragover', stopPropagation);
+            dropArea.addEventListener('dragenter', stopPropagation);
+            dropArea.addEventListener('dragleave', stopPropagation);
+            dropArea.addEventListener('drop', stopPropagation);
+
+            dropArea.addEventListener('dragover', function () { dropArea.addClass('is-dragover'); });
+            dropArea.addEventListener('dragenter', function () { dropArea.addClass('is-dragover'); });
+
+            dropArea.addEventListener('dragleave', function () { dropArea.removeClass('is-dragover'); });
+            dropArea.addEventListener('dragend', function () { dropArea.removeClass('is-dragover'); });
+            dropArea.addEventListener('drop', function () { dropArea.removeClass('is-dragover'); });
+
+            dropArea.addEventListener('drop', function (e) {
+                var droppedFiles = e.originalEvent.dataTransfer.files;
+                console.log('actually dropped');
+            });
         });
     </script>
 </head>
