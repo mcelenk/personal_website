@@ -380,7 +380,7 @@
 
             if (index == arr.length - 1) {
                 if (data.snappedToTip) {
-                    view.center = new Point(a.tipOfArrow.x, a.tipOfArrow.y);// Object.assign({}, a.tipOfArrow);
+                    view.setCenter(new Point(a.tipOfArrow.x, a.tipOfArrow.y));// Object.assign({}, a.tipOfArrow);
                     setBackground();
                 }
                 updateFlame(a.tipOfArrow);
@@ -419,7 +419,7 @@
                 arrowColor: arrowColor
             });
             if (p == 0) {
-                view.center = new Point(c[0], c[1]);
+                view.setCenter(new Point(c[0], c[1]));
             }
         }
         sortCircles();
@@ -481,6 +481,9 @@
 
     function setBackground() {
         if (background) background.segments = [];
+        console.log('setBG called!');
+        console.log('view : ', view);
+
         background = new paper.Path.Rectangle(view.bounds);
         background.sendToBack();
         background.fillColor = bgColor;
@@ -549,9 +552,9 @@
             var zoomRatio = delta > 0 ? MAGIC_RATIO_REPICROCAL / scale : MAGIC_RATIO * scale;
             view.scale(zoomRatio);
 
-            var mousePosInViewSystem = view.viewToProject([e.offsetX || 0, e.offsetY || 0]);
-            var diffVector = mousePosInViewSystem - view.center;
-            var shiftVector = diffVector - diffVector * zoomRatio;
+            var mousePosInViewSystem = view.viewToProject(new Point(e.offsetX || 0, e.offsetY || 0));
+            var diffVector = new Point(mousePosInViewSystem.x - view.center.x, mousePosInViewSystem.y - ciew.center.y);
+            var shiftVector = new Point(diffVector.x - diffVector.x * zoomRatio, diffVector.y - diffVector.y * zoomRatio);
 
             view.translate(shiftVector);
 
