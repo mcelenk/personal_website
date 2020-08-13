@@ -453,7 +453,7 @@
             bigCircle: bigCircle,
             segment: lineSegment,
             triangle: triangle,
-            tipOfArrow: new paper.Point(item.position.x + item.radius, item.position.y),
+            tipOfArrow: new paper.Point(base.position.x + base.radius, base.position.y),
         });
     }
 
