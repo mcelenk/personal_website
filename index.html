@@ -117,7 +117,9 @@
             //    var droppedFiles = e.originalEvent.dataTransfer.files;
             //    console.log('actually dropped');
             //});
-            document.getElementsByClassName('file-upload').file_upload();
+            var el = document.getElementsByClassName('file-upload');
+            window.el = el;
+            el.file_upload();
         });
     </script>
 </head>
