@@ -240,6 +240,8 @@
     var accumulatedDeltaValues = 0;
     var currentAnimationFrameNo = 0;
 
+    var loggedCenterOfFirst = 0;
+
     function animateItems(delta) {
 
         if (!data || data.stopped)
@@ -325,6 +327,11 @@
             if (index > 0) {
                 var prev = arr[index - 1];
                 a.base.position = prev.tipOfArrow;
+
+                if (index == 1 && loggedCenterOfFirst == 0) {
+                    loggedCenterOfFirst = 1;
+                    console.log('First circles center set to : ' + a.base.position);
+                }
                 a.bigCircle.position = a.base.position;
             }
 
@@ -369,6 +376,7 @@
         setEvalFunctionValues(data.points);
         calculateCirclePeriodLimits();
         setBackground();
+        loggedCenterOfFirst = 0;
     }
 
     function go() {
