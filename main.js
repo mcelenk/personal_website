@@ -424,29 +424,29 @@
             startingAngle: args.initialAngle || 0,
         };
 
-        var bigCircle = new paper.Path.Circle(item.position, item.radius);
+        var bigCircle = new paper.Path.Circle(base.position, base.radius);
         bigCircle.style = {
-            strokeColor: item.color,
-            strokeWidth: item.width
+            strokeColor: base.color,
+            strokeWidth: base.width
         };
 
         var triangle = null;
         if (!args.skipArrowHead) {
             triangle = new paper.Path();
-            triangle.fillColor = item.arrowColor;
+            triangle.fillColor = base.arrowColor;
             triangle.add(
-                item.position + [item.radius, 0],
-                item.position + [item.radius * TRIANGLE_RATIO, item.radius * (1 - TRIANGLE_RATIO) / 2],
-                item.position + [item.radius * TRIANGLE_RATIO, -item.radius * (1 - TRIANGLE_RATIO) / 2]
+                base.position + [base.radius, 0],
+                base.position + [base.radius * TRIANGLE_RATIO, base.radius * (1 - TRIANGLE_RATIO) / 2],
+                base.position + [base.radius * TRIANGLE_RATIO, -base.radius * (1 - TRIANGLE_RATIO) / 2]
             );
             triangle.closed = true;
         }
 
         var lineSegment = new paper.Path();
-        lineSegment.add(Object.assign({}, item.position));
-        lineSegment.add(new paper.Point(item.position.x + item.radius, item.position.y));
-        lineSegment.strokeColor = item.arrowColor;
-        lineSegment.strokeWidth = item.width;
+        lineSegment.add(Object.assign({}, base.position));
+        lineSegment.add(new paper.Point(base.position.x + base.radius, base.position.y));
+        lineSegment.strokeColor = base.arrowColor;
+        lineSegment.strokeWidth = base.width;
 
         circles.push({
             base: base,
