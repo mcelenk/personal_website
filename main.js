@@ -397,7 +397,7 @@
                 arrowColor: arrowColor
             });
             if (p == 1) {
-                var pos = new Point(c[0], c[1]);// view.viewToProject(new Point(c[0], c[1]));
+                var pos = view.viewToProject(new Point(c[0], c[1]));
                 console.log('CENTER SET AT ', pos);
                 view.setCenter(pos);
             }
