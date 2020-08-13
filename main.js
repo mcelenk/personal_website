@@ -556,7 +556,12 @@
         toggleFill: function () { data.fill = 1 - data.fill; },
 
         setDelta: function (delta) { dt = delta; restart(); },
-
+        setNumCircles: function (nummCircles) {
+            data.numCircles = numCircles;
+            data.numCircles = Math.min(MAX_CIRCLE_COUNT, data.numCircles);
+            data.numCircles = Math.max(MIN_CIRCLE_COUNT, data.numCircles);
+            restart();
+        },
         doScroll: doScroll,
         animateItems: animateItems,
         restart: function () {

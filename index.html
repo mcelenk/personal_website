@@ -60,7 +60,7 @@
 
             item = document.getElementById("circleCountSlider");
             item.addEventListener('change', function (e) {
-                console.log('numCirclesVal : ', item.value);
+                dottilde.setNumCircles(item.value);
             });
 
             if (window.addEventListener) {
