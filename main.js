@@ -591,20 +591,3 @@
     };
 
 }();
-
-
-function onMouseDown(event) {
-    dottilde.drawingInitiated();
-}
-
-function onMouseDrag(event) {
-    dottilde.drawingPointAdd(event.middlePoint);
-}
-
-function onMouseUp(event) {
-    dottilde.drawingFinalised(event.point);
-}
-
-//function onFrame(event) {
-//    dottilde.animateItems(event.delta);
-//}

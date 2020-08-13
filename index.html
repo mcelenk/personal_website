@@ -18,8 +18,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.js" integrity="sha512-XHX1BtNTb2lSeCsQQQ7/MBdpG+aIOiUKGgWkNHTAa737lUtZ+vVSKkAu5/GxX2QNCW7ZgPmWQJPDuutl7+Lf7A==" crossorigin="anonymous"></script>
 
-    <!--<script type="text/paperscript" src="main.js" canvas="myCanvas">
-    </script>-->
     <script type="text/javascript">
         paper.install(window);
         window.addEventListener('load', function () {
@@ -37,6 +35,18 @@
                 document.getElementById('startStopAnim').checked = data.stopped;
                 document.getElementById('fill').checked = data.fill;
             });
+
+            //mouse down/drag/up event handling
+            var tool = new paper.Tool();
+            tool.onMouseDown = function (event) {
+                dottilde.drawingInitiated();
+            };
+            tool.onMouseDrag = function (event) {
+                dottilde.drawingPointAdd(event.middlePoint);
+            };
+            tool.onMouseUp = function (event) {
+                dottilde.drawingFinalised(event.point);
+            };
 
             var item = document.getElementById("snapToTip");
             item.addEventListener('change', function () {
@@ -72,17 +82,15 @@
             }
 
             dottilde.restart();
-            //view.draw();
+
             view.onResize = function (event) {
                 dottilde.setBackgroundColor();
             }
-            
+
             view.onFrame = function (event) {
                 dottilde.animateItems(event.delta);
             }
         });
-
-        //view.draw();
     </script>
 </head>
 <body>
