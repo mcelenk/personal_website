@@ -15,8 +15,8 @@ canvas[resize] {
     position: fixed;
     left: 0;
     top: 10%;
-    width: 20em;
-    background-color: #98B4E4;
+    width: 24em;
+    background-color: #88B4E4;
     z-index: 0;
 }
 
