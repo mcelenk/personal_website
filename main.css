@@ -37,6 +37,6 @@ canvas[resize] {
     outline-offset: -10px;
 }
 
-.box.is-dragover {
+.is-dragover {
     background-color: grey;
 }

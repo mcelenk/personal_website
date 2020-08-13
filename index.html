@@ -103,7 +103,6 @@
             dropArea.addEventListener('dragover', stopPropagation);
             dropArea.addEventListener('dragenter', stopPropagation);
             dropArea.addEventListener('dragleave', stopPropagation);
-            dropArea.addEventListener('drop', stopPropagation);
 
             dropArea.addEventListener('dragover', function () { dropArea.addClass('is-dragover'); });
             dropArea.addEventListener('dragenter', function () { dropArea.addClass('is-dragover'); });
@@ -113,6 +112,7 @@
             dropArea.addEventListener('drop', function () { dropArea.removeClass('is-dragover'); });
 
             dropArea.addEventListener('drop', function (e) {
+                stopPropagation();
                 var droppedFiles = e.originalEvent.dataTransfer.files;
                 console.log('actually dropped');
             });
@@ -149,7 +149,8 @@
         </div>
         <div class="menuItem">
             <div id="imageDrop">
-
+                <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
+                <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
             </div>
         </div>
     </div>
