@@ -55,7 +55,8 @@
 
             item = document.getElementById("predefinedItems");
             item.addEventListener('change', function (e) {
-                dottilde.reinitializeWith(item.value);
+                var name = item.value;
+                dottilde.reinitializeWith(name);
             });
 
             item = document.getElementById("circleCountSlider");
