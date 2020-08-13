@@ -118,7 +118,8 @@
             //    console.log('actually dropped');
             //});
             var el = document.getElementsByClassName('file-upload');
-            el[0].file_upload();
+            window.el = el;
+            el.file_upload();
         });
     </script>
 </head>
