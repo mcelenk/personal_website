@@ -380,7 +380,7 @@
 
             if (index == arr.length - 1) {
                 if (data.snappedToTip) {
-                    view.center = Object.assign({}, a.tipOfArrow);
+                    view.center = new Point(a.tipOfArrow.x, a.tipOfArrow.y);// Object.assign({}, a.tipOfArrow);
                     setBackground();
                 }
                 updateFlame(a.tipOfArrow);
