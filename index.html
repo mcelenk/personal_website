@@ -13,15 +13,31 @@
 
         gtag('config', 'UA-81611631-2');
     </script>
-
-
     <link rel="stylesheet" href="./main.css">
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.js" integrity="sha512-XHX1BtNTb2lSeCsQQQ7/MBdpG+aIOiUKGgWkNHTAa737lUtZ+vVSKkAu5/GxX2QNCW7ZgPmWQJPDuutl7+Lf7A==" crossorigin="anonymous"></script>
 
-    <script type="text/paperscript" src="main.js" canvas="myCanvas">
+    <!--<script type="text/paperscript" src="main.js" canvas="myCanvas">
+    </script>-->
+    <script type="text/javascript">
+        window.addEventListener('load', function () {
+            console.log('First listener');
+            var canvas = document.getElementById('myCanvas');
+            paper.setup(canvas);
+        });
+    </script>
+    <script type="text/javascript" src="main.js">
     </script>
     <script type="text/javascript">
-        window.onload = function () {
+        window.addEventListener('load', function () {
+            console.log('Second listener');
+        });
+    </script>
+
+    <script type="text/javascript">
+        window.addEventListener('load', function () {
+            console.log('Third listener');
             dottilde.setUIUpdateCallback(function (data) {
                 document.getElementById('snapToTip').checked = data.snappedToTip;
                 document.getElementById('startStopAnim').checked = data.stopped;
@@ -56,7 +72,9 @@
             }
 
             dottilde.restart();
-        };
+        });
+
+        //paper.view.draw();
     </script>
 </head>
 <body>
