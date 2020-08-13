@@ -185,7 +185,6 @@
             setUiCallback(data);
 
         setEvalFunctionValues(data.points);
-        console.log('initial zoom received : ', data.initialZoom);
         view.zoom = data.initialZoom;
         if (data.prefferedDt) {
             dt = data.prefferedDt;
