@@ -90,6 +90,23 @@
             view.onFrame = function (event) {
                 dottilde.animateItems(event.delta);
             }
+
+            //arrange image drop area
+            var dropArea = document.getElementById("imageDrop");
+            dropArea.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            })
+                .on('dragover dragenter', function () {
+                    $form.addClass('is-dragover');
+                })
+                .on('dragleave dragend drop', function () {
+                    $form.removeClass('is-dragover');
+                })
+                .on('drop', function (e) {
+                    droppedFiles = e.originalEvent.dataTransfer.files;
+                });
+
         });
     </script>
 </head>
@@ -120,6 +137,11 @@
         <div class="menuItem">
             <label for="circleCountSlider"># of circles</label>
             <input id="circleCountSlider" type="range" min="1" max="500" value="250">
+        </div>
+        <div class="menuItem">
+            <div id="imageDrop">
+
+            </div>
         </div>
     </div>
 </body>
