@@ -296,6 +296,8 @@
                     if (data.animation.zoom.endFrame > currentAnimationFrameNo) {
                         scrollInternalWithScale({
                             wheelDelta: data.animation.zoom.wheelDelta,
+                            offsetX: 0,
+                            offsetY: 0,
                         }, data.animation.zoom.scale);
                     } else {
                         data.animation.zoom = null;
@@ -550,7 +552,7 @@
             var zoomRatio = delta > 0 ? MAGIC_RATIO_REPICROCAL / scale : MAGIC_RATIO * scale;
             view.scale(zoomRatio);
 
-            var mousePosInViewSystem = view.viewToProject(new Point(e.offsetX || 0, e.offsetY || 0));
+            var mousePosInViewSystem = view.viewToProject(new Point(e.offsetX, e.offsetY));
             var diffVector = new Point(mousePosInViewSystem.x - view.center.x, mousePosInViewSystem.y - ciew.center.y);
             var shiftVector = new Point(diffVector.x - diffVector.x * zoomRatio, diffVector.y - diffVector.y * zoomRatio);
 
