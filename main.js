@@ -553,7 +553,7 @@
             view.scale(zoomRatio);
 
             var mousePosInViewSystem = view.viewToProject(new Point(e.offsetX, e.offsetY));
-            var diffVector = new Point(mousePosInViewSystem.x - view.center.x, mousePosInViewSystem.y - ciew.center.y);
+            var diffVector = new Point(mousePosInViewSystem.x - view.center.x, mousePosInViewSystem.y - view.center.y);
             var shiftVector = new Point(diffVector.x - diffVector.x * zoomRatio, diffVector.y - diffVector.y * zoomRatio);
 
             view.translate(shiftVector);
