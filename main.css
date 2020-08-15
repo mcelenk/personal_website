@@ -28,3 +28,24 @@ canvas[resize] {
     border-style: solid double;
     border-color: #92a8d1;
 }
+
+.box__dragndrop,
+.box__uploading,
+.box__success,
+.box__error {
+    display: none;
+}
+
+.box.has-advanced-upload {
+    background-color: white;
+    outline: 2px dashed black;
+    outline-offset: -10px;
+}
+
+.box.has-advanced-upload .box__dragndrop {
+    display: inline;
+}
+
+.box.is-dragover {
+    background-color: grey;
+}
