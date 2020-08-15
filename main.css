@@ -15,7 +15,7 @@ canvas[resize] {
     position: fixed;
     left: 0;
     top: 10%;
-    width: 24em;
+    width: 120px;
     background-color: #88B4E4;
     z-index: 0;
 }
@@ -23,8 +23,8 @@ canvas[resize] {
 .menuItem {
     display: flex;
     align-items: center;
-    margin: 1em 2em;
-    padding: 1em 1em;
+    margin: 5px 10px;
+    padding: 5px 5px;
     border-style: solid double;
     border-color: #92a8d1;
 }
@@ -32,9 +32,9 @@ canvas[resize] {
 .box {
     background-color: #92a8d1;
     position: relative;
-    padding: 50px 2px;
-    outline: 2px dashed #92b0b3;
-    outline-offset: -10px;
+    padding: 25px 2px;
+    outline: 1px dashed #323033;
+    outline-offset: -2px;
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
     transition: outline-offset .15s ease-in-out, background-color .15s linear;
 }
@@ -59,6 +59,7 @@ canvas[resize] {
         cursor: pointer;
         display: inline-block;
         overflow: hidden;
+        padding: 5px 5px;
     }
 
         .box__file + label:hover strong,
