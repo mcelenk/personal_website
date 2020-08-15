@@ -30,10 +30,9 @@ canvas[resize] {
 }
 
 .box {
-    font-size: 1.25rem; /* 20 */
-    background-color: #c8dadf;
+    background-color: #92a8d1;
     position: relative;
-    padding: 100px 20px;
+    padding: 100px 1px;
     outline: 2px dashed #92b0b3;
     outline-offset: -10px;
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
@@ -73,15 +72,15 @@ canvas[resize] {
         outline: -webkit-focus-ring-color auto 5px;
     }
 
-.box.has-advanced-upload {
+/*.box.has-advanced-upload {
     background-color: white;
     outline: 2px dashed black;
     outline-offset: -10px;
-}
+}*/
 
-    .box.has-advanced-upload .box__dragndrop {
-        display: inline;
-    }
+.box.has-advanced-upload .box__dragndrop {
+    display: inline;
+}
 
 .box.is-dragover {
     background-color: grey;
