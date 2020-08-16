@@ -174,7 +174,7 @@
                         const c = document.createElement('canvas');
                         c.width = image.width;
                         c.height = image.height;
-                        const ctx = c.getContext('2d');
+                        var ctx = c.getContext('2d');
                         ctx.drawImage(image, 0, 0);
                         var imgData = ctx.getImageData(0, 0, image.width, image.height);
                         var divider = 16;
