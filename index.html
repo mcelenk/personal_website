@@ -193,7 +193,7 @@
                         var output = convolution(imgData, operator);
                         c.width = output.width;
                         c.height = output.height;
-
+                        ctx = c.getContext('2d');
                         ctx.putImageData(output, 0, 0);
                         image.src = c.toDataURL();
 
