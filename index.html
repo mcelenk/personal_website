@@ -119,6 +119,9 @@
                         // the result image data
                         image.src = e.target.result;
                         image.id = 'theImage';
+                        window.image2 = image;
+
+                        document.getElementById('imgContainer').appendChild(image);
 
                         const c = document.createElement('canvas');
                         c.width = image.width;
@@ -128,8 +131,6 @@
                         var imgData = ctx.getImageData(0, 0, image.width, image.height);
                         window.imgData = imgData;
 
-
-                        document.getElementById('imgContainer').appendChild(image);
                     }
                     // you have to declare the file loading
                     reader.readAsDataURL(droppedFiles[0]);
