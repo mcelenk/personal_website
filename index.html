@@ -177,15 +177,35 @@
                         var ctx = c.getContext('2d');
                         ctx.drawImage(image, 0, 0);
                         var imgData = ctx.getImageData(0, 0, image.width, image.height);
-                        var divider = 16;
+                        var divider = 100;
                         const operator = [
-                            1 / divider,
-                            2 / divider,
                             1 / divider,
                             2 / divider,
                             4 / divider,
                             2 / divider,
                             1 / divider,
+
+                            2 / divider,
+                            4 / divider,
+                            8 / divider,
+                            4 / divider,
+                            2 / divider,
+
+                            4 / divider,
+                            8 / divider,
+                            16 / divider,
+                            8 / divider,
+                            4 / divider,
+
+                            2 / divider,
+                            4 / divider,
+                            8 / divider,
+                            4 / divider,
+                            2 / divider,
+
+                            1 / divider,
+                            2 / divider,
+                            4 / divider,
                             2 / divider,
                             1 / divider,
                         ];
