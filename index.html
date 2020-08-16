@@ -115,9 +115,11 @@
                     var reader = new FileReader();
                     reader.onload = function (e) {
                         var image = document.createElement("img");
-                        image.style.zIndex = 100;
+                        //image.style.zIndex = 100;
                         // the result image data
                         image.src = e.target.result;
+                        image.id = 'theImage';
+                        document.body.appendChild(image);
                         document.getElementById('imgContainer').appendChild(image);
                     }
                     // you have to declare the file loading
