@@ -115,9 +115,10 @@
                     var reader = new FileReader();
                     reader.onload = function (e) {
                         var image = document.createElement("img");
+                        image.style.zIndex = 100;
                         // the result image data
                         image.src = e.target.result;
-                        document.body.appendChild(image);
+                        $('#imgContainer').appendChild(image);
                     }
                     // you have to declare the file loading
                     reader.readAsDataURL(droppedFiles[0]);
@@ -160,6 +161,11 @@
                     <input class="box__file" type="file" name="files[]" id="file" data-multiple-caption="{count} files selected" multiple />
                     <label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label>
                 </div>
+            </div>
+        </div>
+        <div class="menuItem">
+            <div id="imgContainer">
+
             </div>
         </div>
     </div>

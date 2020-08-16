@@ -29,6 +29,10 @@ canvas[resize] {
     border-color: #92a8d1;
 }
 
+#imgContainer {
+
+}
+
 .box {
     background-color: #92a8d1;
     position: relative;
