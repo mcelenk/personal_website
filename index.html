@@ -191,8 +191,8 @@
                         ];
                         var weights = [];
                         var output = convolution(imgData, operator);
-                        //c.width = output.width;
-                        //c.height = output.height;
+                        c.width = output.width;
+                        c.height = output.height;
 
                         ctx.putImageData(output, 0, 0);
                         image.src = c.toDataURL();
