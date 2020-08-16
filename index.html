@@ -211,6 +211,10 @@
                         ];
                         var weights = [];
                         var output = convolution(imgData, operator);
+                        output = convolution(output, operator);
+                        output = convolution(output, operator);
+                        output = convolution(output, operator);
+
                         c.width = output.width;
                         c.height = output.height;
                         ctx = c.getContext('2d');
