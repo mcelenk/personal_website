@@ -20,8 +20,8 @@ exports.handler = function (event, context, callback) {
         },
         animation: {
             zoom: {
-                wheelDelta: -0.05,
-                scale: 1.057,
+                wheelDelta: -0.06,
+                scale: 1.097,
                 startFrame: 100,
                 endFrame: 550,
             },
@@ -31,15 +31,15 @@ exports.handler = function (event, context, callback) {
                 endFrame: 530,
             },
             snap: {
-                startFrame: 550,
+                startFrame: 50,
             },
         },
     };
     if (!event.queryStringParameters.name) {
-        data.points = dataPointsMapping['einstein'];
+        data.points = dataPointsMapping['monroe'];
     }
     else {
-        var selectedName = event.queryStringParameters.name || 'einstein';
+        var selectedName = event.queryStringParameters.name || 'monroe';
         if (selectedName in dataPointsMapping) {
             data.points = dataPointsMapping[selectedName];
         }
