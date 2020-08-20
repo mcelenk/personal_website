@@ -12,7 +12,7 @@ exports.handler = function (event, context, callback) {
         initialZoom: 400, //process.env.START_ZOOM, //400.0,
         numCircles: 250,
         fill: 1,
-        prefferedDt: 0.0033332,
+        prefferedDt: 0033332,
         roundCompletedInfo: {
             factor: 18,
             numRounds: 1,
@@ -28,18 +28,18 @@ exports.handler = function (event, context, callback) {
             pace: {
                 wheelDelta: 0.1179,
                 startFrame: 150,
-                endFrame: 600,
+                endFrame: 530,
             },
             snap: {
-                startFrame: 75,
+                startFrame: 550,
             },
         },
     };
     if (!event.queryStringParameters.name) {
-        data.points = dataPointsMapping['monroe'];
+        data.points = dataPointsMapping['einstein'];
     }
     else {
-        var selectedName = event.queryStringParameters.name || 'monroe';
+        var selectedName = event.queryStringParameters.name || 'einstein';
         if (selectedName in dataPointsMapping) {
             data.points = dataPointsMapping[selectedName];
         }
