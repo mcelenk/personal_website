@@ -21,7 +21,7 @@ exports.handler = function (event, context, callback) {
         animation: {
             zoom: {
                 wheelDelta: -0.06,
-                scale: 1.071,
+                scale: 1.070,
                 startFrame: 100,
                 endFrame: 550,
             },
