@@ -111,7 +111,7 @@
 
     function tryRetrieveData(name) {
         var xhttp = new XMLHttpRequest();
-        var selection = name ? 'name=' + name : 'name=einstein';
+        var selection = name ? 'name=' + name : 'name=monroe';
 
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
