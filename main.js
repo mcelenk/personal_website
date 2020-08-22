@@ -302,7 +302,7 @@
             var diff = (a.base.period == 0) ? 0 : a.base.period * constTerm;
             a.base.theta += diff;
 
-            a.base.theta = a.base.theta > Math.PI * 2 ? a.base.theta - Math.PI * 2 : a.base.theta;
+            a.base.theta = a.base.theta > Math.PI * 8 ? a.base.theta - Math.PI * 2 : a.base.theta;
             if (a.base.period == 1 && data.roundCompletedInfo) {
                 if (Math.abs(a.base.startingAngle - a.base.theta) >= 2 * Math.PI * data.roundCompletedInfo.numRounds) {
                     scrollInternalWithScale({
