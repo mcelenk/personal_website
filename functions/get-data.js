@@ -10,9 +10,9 @@ exports.handler = function (event, context, callback) {
         snappedToTip: 1,
         stopped: 0,
         initialZoom: 400, //process.env.START_ZOOM, //400.0,
-        numCircles: 250,
+        numCircles: 125,
         fill: 1,
-        prefferedDt: 0.0033332,
+        prefferedDt: 0.0063332,
         roundCompletedInfo: {
             factor: 18,
             numRounds: 1,
