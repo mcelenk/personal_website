@@ -9,8 +9,8 @@ exports.handler = function (event, context, callback) {
         paceFactor: 0.000213,
         snappedToTip: 1,
         stopped: 0,
-        initialZoom: 400, //process.env.START_ZOOM, //400.0,
-        numCircles: 125,
+        initialZoom: 300, //process.env.START_ZOOM, //400.0,
+        numCircles: 250,
         fill: 1,
         prefferedDt: 0.0033332,
         roundCompletedInfo: {
