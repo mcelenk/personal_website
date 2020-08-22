@@ -12,7 +12,7 @@ exports.handler = function (event, context, callback) {
         initialZoom: 300, //process.env.START_ZOOM, //400.0,
         numCircles: 250,
         fill: 1,
-        prefferedDt: 0.0033332,
+        prefferedDt: 0.0009332,
         roundCompletedInfo: {
             factor: 18,
             numRounds: 1,
@@ -26,7 +26,7 @@ exports.handler = function (event, context, callback) {
                 endFrame: 550,
             },
             pace: {
-                wheelDelta: 0.1179,
+                wheelDelta: 0.1279,
                 startFrame: 150,
                 endFrame: 530,
             },
