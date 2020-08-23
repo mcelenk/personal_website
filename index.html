@@ -230,11 +230,34 @@
                     reader.readAsDataURL(droppedFiles[0]);
                 });
 
+            var collapsed = 1;
+            $('.menuLink').on('mouseenter', function () {
+                $('.menuLink')[0].style.left = '0px';
+            });
+
+            $('.menuLink').on('mouseleave', function () {
+                $('.menuLink')[0].style.left = '-80px';
+            });
+
+            $('.menuLink').on('click', function () {
+                console.log('collapsed is ', collapsed);
+                if (collapsed) {
+                    $('#menu')[0].style.left = '0px';
+                    $('.menuLink')[0].style.left = '0px';
+                } else {
+                    $('#menu')[0].style.left = '-288px';
+                    $('.menuLink')[0].style.left = '-80px';
+                }
+                collapsed = 1 - collapsed;
+            });
         });
     </script>
 </head>
 <body>
     <canvas id="myCanvas" resize=resize></canvas>
+    <div id="menuOpener" class="sidenav">
+        <a href="#" class="menuLink">Menu</a>
+    </div>
     <div id=menu>
         <div class="menuItem">
             <input type="checkbox" id="startStopAnim" name="startStop">
@@ -249,7 +272,7 @@
             <label for="fill">Toggle Fill</label>
         </div>
         <div class="menuItem">
-            <label for="predefined">Load Predefined</label>
+            <label for="predefined">Load Predefined </label>
             <select id="predefinedItems" name="predefined">
                 <option value="monroe">Monroe</option>
                 <option value="einstein">Einstein</option>
@@ -258,7 +281,7 @@
             </select>
         </div>
         <div class="menuItem">
-            <label for="circleCountSlider"># of circles</label>
+            <label for="circleCountSlider"># of circles </label>
             <input id="circleCountSlider" type="range" min="1" max="500" value="250">
         </div>
         <div class="menuItem">
@@ -271,7 +294,6 @@
         </div>
         <div class="menuItem">
             <div id="imgContainer">
-
             </div>
         </div>
     </div>
