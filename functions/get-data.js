@@ -31,7 +31,7 @@ exports.handler = function (event, context, callback) {
                 endFrame: 530,
             },
             snap: {
-                startFrame: 550,
+                startFrame: 100,
             },
         },
     };
