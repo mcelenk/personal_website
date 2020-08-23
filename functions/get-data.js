@@ -14,7 +14,7 @@ exports.handler = function (event, context, callback) {
         fill: 1,
         prefferedDt: 0.0009332,
         roundCompletedInfo: {
-            factor: 18,
+            factor: 6,
             numRounds: 1,
             dimmed: 1,
         },

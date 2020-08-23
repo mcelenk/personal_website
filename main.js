@@ -2,7 +2,7 @@
     //So many constants some of which should be refined actually
     var MAX_CIRCLE_COUNT = 500;
     var MIN_CIRCLE_COUNT = 1;
-    var FPS_ADJUSTED_DELTA_LIMIT = 0.0333; // fps = (1 / FPS_ADJUSTED_DELTA_LIMIT) ~= 30
+    var FPS_ADJUSTED_DELTA_LIMIT = 0.04166; // 0.0333; // fps = (1 / FPS_ADJUSTED_DELTA_LIMIT) ~= 30
     var INPUT_VALUE_SCALE_FACTOR = 120.0;
     var GLOBAL_SCALE_FACTOR = 300.0;
     var FLAME_POS_COUNT_MAX = 6144;//3072;
