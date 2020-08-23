@@ -266,8 +266,8 @@
                         window.circleFirst = circles[1];
 ;                        scrollInternalWithScale({
                             wheelDelta: data.animation.zoom.wheelDelta,
-                            offsetX: 0, //circles[1].position.x,
-                            offsetY: 0, //circles[1].position.y,
+                            offsetX: circles[1].base.position.x,
+                            offsetY: circles[1].base.position.y,
                         }, data.animation.zoom.scale);
                     } else {
                         data.animation.zoom = null;
