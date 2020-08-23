@@ -262,12 +262,11 @@
             if (data.animation.zoom) {
                 if (data.animation.zoom.startFrame <= currentAnimationFrameNo) {
                     if (data.animation.zoom.endFrame > currentAnimationFrameNo) {
-                        console.log('window.circleFirst is set to circles[1]');
-                        window.circleFirst = circles[1];
-;                        scrollInternalWithScale({
+
+                        ; scrollInternalWithScale({
                             wheelDelta: data.animation.zoom.wheelDelta,
-                            offsetX: circles[1].base.position.x,
-                            offsetY: circles[1].base.position.y,
+                            offsetX: circles[1].base.position.x / 2 + circles[circles.length - 1].base.position.x / 2,
+                            offsetY: circles[1].base.position.y / 2 + circles[circles.length - 1].base.position.y / 2,
                         }, data.animation.zoom.scale);
                     } else {
                         data.animation.zoom = null;
