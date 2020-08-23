@@ -264,8 +264,8 @@
                     if (data.animation.zoom.endFrame > currentAnimationFrameNo) {
                         scrollInternalWithScale({
                             wheelDelta: data.animation.zoom.wheelDelta,
-                            offsetX: 0,
-                            offsetY: 0,
+                            offsetX: circles[1].position.x,
+                            offsetY: circles[1].position.y,
                         }, data.animation.zoom.scale);
                     } else {
                         data.animation.zoom = null;
