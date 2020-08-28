@@ -144,9 +144,49 @@
                         outputData.data[dstOff + 3] = 255;
                     }
                 }
-                return outputData
+                return outputData;
             }
 
+            document.body.addEventListener('touchstart', touchStart, false);
+            document.body.addEventListener('touchmove', touchmove, false);
+            document.body.addEventListener('touchend', touchEnd, false);
+
+            var touch = false;
+            function touchStart() {
+                touch = true;
+            }
+
+            function touchEnd() {
+                touch = false;
+
+                //Finish all paths
+                myPaths = [];
+                for (var i = 0; i < 12; i++) {
+                    myPath = new paper.Path();
+                    myPath.strokeColor = '#00ff00';
+                    myPath.strokeWidth = 2;
+                    myPaths.push(myPath);
+                }
+
+            }
+
+            function touchmove(ev) {
+
+                if (!touch)
+                    return;
+
+                //Draw path for each touch
+                for (var i = 0; i < ev.changedTouches.length; i++) {
+                    var x1, y1;
+                    x1 = ev.changedTouches[i].pageX;
+                    y1 = ev.changedTouches[i].pageY;
+
+                    myPaths[i].add(new Point(x1, y1));
+                    paper.view.draw();
+                }
+
+                console.log(ev);
+            }
 
             $form.on('drag dragstart dragend dragover dragenter dragleave drop', function (e) {
                 e.preventDefault();
