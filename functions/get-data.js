@@ -21,14 +21,14 @@ exports.handler = function (event, context, callback) {
         animation: {
             zoom: {
                 wheelDelta: -0.05,
-                scale: 1.027,
+                scale: 1.057,
                 startFrame: 10,
-                endFrame: 500,
+                endFrame: 480,
             },
             pace: {
                 wheelDelta: 0.1279,
-                startFrame: 500,
-                endFrame: 850,
+                startFrame: 480,
+                endFrame: 860,
             },
             snap: {
                 startFrame: 100,
