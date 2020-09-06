@@ -31,24 +31,24 @@
 
     <script type="text/javascript">
         window.addEventListener('load', function () {
-            //dottilde.setUIUpdateCallback(function (data) {
-            //    document.getElementById('snapToTip').checked = data.snappedToTip;
-            //    document.getElementById('startStopAnim').checked = data.stopped;
-            //    document.getElementById('fill').checked = data.fill;
-            //    document.getElementById("circleCountSlider").value = data.numCircles;
-            //});
+            dottilde.setUIUpdateCallback(function (data) {
+                document.getElementById('snapToTip').checked = data.snappedToTip;
+                document.getElementById('startStopAnim').checked = data.stopped;
+                document.getElementById('fill').checked = data.fill;
+                document.getElementById("circleCountSlider").value = data.numCircles;
+            });
 
             //mouse down/drag/up event handling
-            var tool = new paper.Tool();
-            tool.onMouseDown = function (event) {
-                dottilde.drawingInitiated();
-            };
-            tool.onMouseDrag = function (event) {
-                dottilde.drawingPointAdd(event.middlePoint);
-            };
-            tool.onMouseUp = function (event) {
-                dottilde.drawingFinalised(event.point);
-            };
+            //var tool = new paper.Tool();
+            //tool.onMouseDown = function (event) {
+            //    dottilde.drawingInitiated();
+            //};
+            //tool.onMouseDrag = function (event) {
+            //    dottilde.drawingPointAdd(event.middlePoint);
+            //};
+            //tool.onMouseUp = function (event) {
+            //    dottilde.drawingFinalised(event.point);
+            //};
 
             var item = document.getElementById("snapToTip");
             item.addEventListener('change', function () {
