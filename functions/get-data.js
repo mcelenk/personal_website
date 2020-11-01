@@ -7,7 +7,7 @@ exports.handler = function (event, context, callback) {
     }
     var data = {
         paceFactor: 0.000613,
-        snappedToTip: 0, //1,
+        snappedToTip: 1,
         stopped: 0,
         initialZoom: 1,//300, //process.env.START_ZOOM, //400.0,
         numCircles: 250,
