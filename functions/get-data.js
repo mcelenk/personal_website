@@ -18,22 +18,22 @@ exports.handler = function (event, context, callback) {
             numRounds: 1,
             dimmed: 1,
         },
-        //animation: {
-        //    zoom: {
-        //        wheelDelta: -0.05,
-        //        scale: 1.057,
-        //        startFrame: 30,
-        //        endFrame: 500,
-        //    },
-        //    pace: {
-        //        wheelDelta: 0.2279,
-        //        startFrame: 480,
-        //        endFrame: 670,
-        //    },
-        //    snap: {
-        //        startFrame: 150,
-        //    },
-        //},
+        animation: {
+            zoom: {
+                wheelDelta: -0.05,
+                scale: 1.057,
+                startFrame: 30,
+                endFrame: 500,
+            },
+            pace: {
+                wheelDelta: 0.2279,
+                startFrame: 480,
+                endFrame: 670,
+            },
+            snap: {
+                startFrame: 150,
+            },
+        },
     };
     if (!event.queryStringParameters.name) {
         data.points = dataPointsMapping['monroe'];
