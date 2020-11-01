@@ -23,15 +23,15 @@ exports.handler = function (event, context, callback) {
                 wheelDelta: -0.02,
                 scale: 1.0578,
                 startFrame: 30,
-                endFrame: 500,
+                endFrame: 450,
             },
             pace: {
                 wheelDelta: 0.2279,
                 startFrame: 380,
-                endFrame: 670,
+                endFrame: 550,
             },
             snap: {
-                startFrame: 750,
+                startFrame: 551,
             },
         },
     };
