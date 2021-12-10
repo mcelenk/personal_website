@@ -9,7 +9,7 @@ let XL_row_object = null;
 let progressVal = 0;
 let maxMatch = 0;
 let dataToSave = null;
-const colNames = ["rowA", "rowB"];
+const colNames = ["first", "second"];
 
 button.onclick = ()=>{
 	input.click(); //if user click on the button then the input also clicked
@@ -46,15 +46,11 @@ goBtn.onclick = () => {
 	if (XL_row_object != null) {
 		progressVal = 0;
 		maxMatch = 0;
-		var myList = document. getElementById('matchedItemsList');
-		myList. innerHTML = '';
 		
 		let matchCountLimit = document.querySelector("#numColumn").value;
 		let keys = Object.keys(XL_row_object);
-		//console.log("There are " + keys.length + " rows");
-		var myList = document. getElementById('matchedItemsList');
+
 		maxMatch = 0;
-		//document.querySelector(".progress-container").style.visibility = "visible";
 		dataToSave = [];
 		toggleProgressVisibility(true).then(() => {
 			
@@ -81,8 +77,6 @@ function resetGlobals() {
 	XL_row_object = null;
 	progressVal = 0;
 	maxMatch = 0;
-	var myList = document.getElementById('matchedItemsList');
-	myList. innerHTML = '';
 }
 
 function toggleProgressVisibility(visible) {
@@ -112,7 +106,7 @@ function performTask(rows, keys, processItem) {
 			progressVal = 100;
 			toggleProgressVisibility(false).then(() => {
 				console.log("maxMatch : ", maxMatch);
-				exportFile(colNames, dataToSave, "matches.xlsx");
+				exportFile(colNames, dataToSave, "matches.xls");
 			});
 		}
     }
@@ -124,14 +118,13 @@ function exportFile(headers, data, fileName) {
 	let ws = XLSX.utils.json_to_sheet(data, {header: headers});
 	let wb = XLSX.utils.book_new();
 	XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-	//let exportFileName = `workbook_${i}.xls`;
-	XLSX.writeFile(wb, fileName);
+	XLSX.writeFile(wb, fileName, { bookType : "xls" });
 }
 
 function processFile() {
 	resetGlobals();
 	let fileType = file.type; //getting selected file type
-	console.log(fileType);
+	//console.log(fileType);
 	if (fileType === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
 		console.log("Correct file format");
 		let reader = new FileReader();
