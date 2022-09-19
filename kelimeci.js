@@ -6179,12 +6179,13 @@ window.kelimeci = function() {
         }
         pressedKey = pressedKey.toUpperCase();
     
-        let row = doc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - this.session.guessesRemaining]
-        let box = row.children[this.session.nextLetter]
-        box.textContent = pressedKey
-        box.classList.add("filled-box")
-        this.session.currentGuess.push(pressedKey)
-        this.session.nextLetter += 1
+        let row = doc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - this.session.guessesRemaining];
+        let box = row.children[this.session.nextLetter];
+        animateCSS(box, "pulse");
+        box.textContent = pressedKey;
+        box.classList.add("filled-box");
+        this.session.currentGuess.push(pressedKey);
+        this.session.nextLetter += 1;
     }
 
     function deleteLetter (doc) {
@@ -6234,9 +6235,11 @@ window.kelimeci = function() {
     
             let delay = DELAY_PER_LETTER_IN_MS * i;
             setTimeout(()=> {
+                //flip box
+                animateCSS(box, 'flipInX');
                 //shade box
-                box.style.backgroundColor = letterColor
-                shadeKeyBoard(doc, letter, letterColor)
+                box.style.backgroundColor = letterColor;
+                shadeKeyBoard(doc, letter, letterColor);
             }, delay);
         }
     
@@ -6251,7 +6254,6 @@ window.kelimeci = function() {
     
             if (this.session.guessesRemaining === 0) {
                 alert("You've run out of guesses! Game over!")
-                alert(`The right word was: "${rightGuessString}"`)
             }
         }
     }
@@ -6272,6 +6274,27 @@ window.kelimeci = function() {
                 break;
             }
         }
+    }
+
+    /* ANIMATION!! */
+    const animateCSS = (element, animation, prefix = 'animate__') => {
+        // We create a Promise and return it
+        return new Promise((resolve, reject) => {
+            const animationName = `${prefix}${animation}`;
+            // const node = document.querySelector(element);
+            const node = element
+            node.style.setProperty('--animate-duration', '0.3s');
+            node.classList.add(`${prefix}animated`, animationName);
+
+            // When the animation ends, we clean the classes and resolve the Promise
+            function handleAnimationEnd(event) {
+                event.stopPropagation();
+                node.classList.remove(`${prefix}animated`, animationName);
+                resolve('Animation ended');
+            }
+
+            node.addEventListener('animationend', handleAnimationEnd, {once: true});
+        });
     }
 
     return {
