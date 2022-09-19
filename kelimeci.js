@@ -6206,14 +6206,14 @@ window.kelimeci = function() {
         }
     
         if (guessString.length != NUM_LETTERS) {
-            alert("Not enough letters!");
+            toastr.error("Not enough letters!");
             return;
         }
 
         let guessResult = guess(guessString);
 
         if (guessResult.resultType === GuessResult.NonExisting) {
-            alert("Word not in list!");
+            toastr.error("Word not in list!");
             return;
         }
 
@@ -6244,7 +6244,7 @@ window.kelimeci = function() {
         }
     
         if (guessResult.matchArray.every(v => v === LetterMatchType.Correct)) {
-            alert("You guessed right! Game over!")
+            toastr.success("You guessed right! Game over!")
             this.session.guessesRemaining = 0;
             return;
         } else {
@@ -6253,7 +6253,7 @@ window.kelimeci = function() {
             this.session.nextLetter = 0;
     
             if (this.session.guessesRemaining === 0) {
-                alert("You've run out of guesses! Game over!")
+                toastr.error("You've run out of guesses! Game over!")
             }
         }
     }
@@ -6283,7 +6283,7 @@ window.kelimeci = function() {
             const animationName = `${prefix}${animation}`;
             // const node = document.querySelector(element);
             const node = element
-            node.style.setProperty('--animate-duration', '0.3s');
+            node.style.setProperty('--animate-duration', '0.35s');
             node.classList.add(`${prefix}animated`, animationName);
 
             // When the animation ends, we clean the classes and resolve the Promise
