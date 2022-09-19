@@ -6262,11 +6262,11 @@ window.kelimeci = function() {
         for (const elem of doc.getElementsByClassName("keyboard-button")) {
             if (elem.textContent === letter) {
                 let oldColor = elem.style.backgroundColor
-                if (oldColor === 'green') {
+                if (oldColor === Color.GREEN) {
                     return;
                 } 
     
-                if (oldColor === 'yellow' && color !== 'green') {
+                if (oldColor === Color.YELLOW && color !== Color.GREEN) {
                     return;
                 }
     
