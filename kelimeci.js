@@ -6270,8 +6270,8 @@ window.kelimeci = function() {
                     return;
                 }
     
-                elem.style.backgroundColor = color
-                break;
+                elem.style.backgroundColor = color;
+                return;
             }
         }
     }
