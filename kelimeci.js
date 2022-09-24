@@ -6130,7 +6130,7 @@ window.kelimeci = function() {
         nextLetter: 0,
     };
 
-    function guess(word) {
+    const guess = (word) => {
         if (!this.trie.exists(word)) {
             return {
                 resultType : GuessResult.NonExisting,
@@ -6173,7 +6173,7 @@ window.kelimeci = function() {
         }
     }
 
-    function insertLetter (pressedKey, doc) {
+    const insertLetter = (pressedKey, doc) => {
         if (this.session.nextLetter === NUM_LETTERS) {
             return;
         }
@@ -6188,7 +6188,7 @@ window.kelimeci = function() {
         this.session.nextLetter += 1;
     }
 
-    function deleteLetter (doc) {
+    const deleteLetter =  (doc) => {
         let row = doc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - this.session.guessesRemaining]
         let box = row.children[this.session.nextLetter - 1]
         box.textContent = ""
@@ -6197,7 +6197,7 @@ window.kelimeci = function() {
         this.session.nextLetter -= 1
     }
 
-    function checkGuess (doc) {
+    const checkGuess = (doc) => {
         let row = doc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - this.session.guessesRemaining]
         let guessString = ""
     
@@ -6258,7 +6258,7 @@ window.kelimeci = function() {
         }
     }
 
-    function shadeKeyBoard(doc, letter, color) {
+    const shadeKeyBoard = (doc, letter, color) => {
         for (const elem of doc.getElementsByClassName("keyboard-button")) {
             if (elem.textContent === letter) {
                 let oldColor = elem.style.backgroundColor
@@ -6321,7 +6321,7 @@ window.kelimeci = function() {
                 insertLetter(pressedKey, doc)
             }
         },
-        init: function(doc) {
+        init: (doc) => {
             
             let board = doc.getElementById(UI_BOARD_TAG_NAME);
             while (board.firstChild) {
