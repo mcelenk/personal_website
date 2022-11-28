@@ -2,7 +2,7 @@ window.mahjong = function () {
     const playAreaSpecs = {
         depth: 3,
         width: 5,
-        height: 6,
+        height: 4,
         scale: 0.5,
     };
     //src image data that is gathered by inspection with paint.net
