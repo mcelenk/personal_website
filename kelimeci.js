@@ -19,7 +19,7 @@ window.kelimeci = function() {
         Exist: 1,
         Correct: 2,
     };
-    const words = [
+    this.words = [
         "ABAJUR",
         "ABAKÜS",
         "ABANIŞ",
@@ -6126,8 +6126,13 @@ window.kelimeci = function() {
 
     this.session = {
         guessesRemaining : NUMBER_OF_GUESSES,
+        guesses: [],
         currentGuess : [],
         nextLetter: 0,
+    };
+
+    const clone_DEPRECIATED = (serializible) => {
+        return JSON.parse(JSON.stringify(serializible));
     };
 
     const guess = (word) => {
@@ -6140,7 +6145,7 @@ window.kelimeci = function() {
         let result = Array(NUM_LETTERS).fill(0);
         // check MATCHES FIRST THEN CHECK Exist & NotExist
         // and this cloning should possibly be avoided, IWRIL :P
-        let cloned = JSON.parse(JSON.stringify(this.selected));
+        let cloned = clone_DEPRECIATED(this.selected);
         let letters = Array.from(word);
         letters.forEach((ch, ind, arr) => {
             if (ch in cloned && cloned[ch].includes(ind)) {
@@ -6198,7 +6203,7 @@ window.kelimeci = function() {
     }
 
     const checkGuess = (doc) => {
-        let row = doc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - this.session.guessesRemaining]
+        let row = doc.getElementsByClassName("letter-row")[NUMBER_OF_GUESSES - this.session.guessesRemaining];
         let guessString = ""
     
         for (const val of this.session.currentGuess) {
@@ -6249,6 +6254,11 @@ window.kelimeci = function() {
             return;
         } else {
             this.session.guessesRemaining -= 1;
+            this.session.guesses.push({
+                matchArray: guessResult.matchArray,
+                word: this.session.currentGuess,
+                metadata : buildGuessMetaData(this.session.currentGuess, guessResult.matchArray),
+            });
             this.session.currentGuess = [];
             this.session.nextLetter = 0;
     
@@ -6297,6 +6307,105 @@ window.kelimeci = function() {
         });
     }
 
+    const buildGuessMetaData = (word, matchArray) => {
+        /*
+            let guess = {
+                word : "yalama",
+                matchArray : [2, 2, 0, 1, 1, 0]
+            } // selected : "YAZMAK"
+
+            Than we build,
+            correctsMap : { 0: 'Y', 1: 'A' }
+            corrects : [ 'Y', 'A' ]
+            exists : { 'A' : [ 3 ], 'M' : [ 4 ] }
+            notExists : [ 'L' ] ,
+            *****************
+            notice we do not put the last 'A' here
+            since it is in either or both of corrects
+            and exists collections
+            *****************
+        */
+        let correctsMap = {};
+        let corrects = new Set();
+        let exists = {};
+        let notExists = new Set();
+        let existingLetters = {};
+        matchArray.forEach((matchType, ind) => {
+            if (matchType == LetterMatchType.Correct) {
+                correctsMap[ind] = word[ind];
+                corrects.add(word[ind]);
+            }
+            if (matchType == LetterMatchType.Exist) {
+                if (!(word[ind] in exists)) {
+                    exists[word[ind]] = new Set();
+                }
+                exists[word[ind]].add(ind);
+            }
+        });
+
+        matchArray.forEach((matchType, ind) => {
+            if (matchType == LetterMatchType.NotExist) {
+                const ch = word[ind];
+                if (!corrects.has(ch) && !(ch in exists)) {
+                    notExists.add(ch);
+                }
+            }
+        });
+
+        // and to check the reverse case
+        matchArray.forEach((matchType, ind) => {
+            if (matchType != LetterMatchType.NotExist) {
+                const ch = word[ind];
+                if (!(ch in existingLetters)) {
+                    existingLetters[ch] = 1;
+                } else {
+                    existingLetters[ch] += 1;
+                }
+            }
+        });
+        return {
+            correctsMap : correctsMap,
+            corrects : corrects,
+            exists : exists,
+            notExists : notExists,
+            existingLetters : existingLetters,
+        };
+    }
+
+    const doesSatisfy = (metadata, letters) => {
+        result = true;
+        letters.forEach((ch, ind) => {
+            if (metadata.corrects.has(ch)) {
+                if (metadata.correctsMap[ind] != ch) {
+                    result = false;
+                    return;
+                }
+            } else if (ch in metadata.exists && metadata.exists[ch].has(ind)) {
+                result = false;
+                return;
+            } else if (metadata.notExists.has(ch)) {
+                result = false;
+                return;
+            }
+        });
+        if (result) {
+            const existing = clone_DEPRECIATED(metadata.existingLetters);
+            letters.forEach((ch) => {
+                if (ch in existing) {
+                    existing[ch] -= 1;
+                    if (existing[ch] == 0) {
+                        delete existing[ch];
+                    }
+                }
+            });
+            if (Object.keys(existing).length > 0) {
+                result = false;
+                return;
+            }
+        }
+        return result;
+    }
+
     return {
         handleEvent: (e, doc) => {
             if (this.session.guessesRemaining === 0) {
@@ -6333,11 +6442,11 @@ window.kelimeci = function() {
                 row.className = "letter-row"
                 
                 for (let j = 0; j < NUM_LETTERS; j++) {
-                    let box = doc.createElement("div")
-                    box.className = "letter-box"
-                    row.appendChild(box)
+                    let box = doc.createElement("div");
+                    box.className = "letter-box";
+                    row.appendChild(box);
                 }
-                board.appendChild(row)
+                board.appendChild(row);
             }
 
 
@@ -6356,6 +6465,26 @@ window.kelimeci = function() {
             
                 doc.dispatchEvent(new KeyboardEvent("keyup", {'key': key}));
             })
+        },
+        sel : this.selected,
+        suggest: () => {
+            return this.words.find((item) => {
+                // does this item satisfy all the guesses so far?
+                const lettersArray = Array.from(item);
+                if (this.session.guesses.length == 0) {
+                    return item;
+                }
+                let satisfies = true;
+
+                this.session.guesses.forEach((guess) => {
+                    if (!doesSatisfy(guess.metadata, lettersArray)) {
+                        satisfies = false;
+                        return;
+                    }
+                });
+
+                return satisfies;
+            });
         },
     };
 }();
