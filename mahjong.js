@@ -3,7 +3,7 @@ window.mahjong = function () {
         depth: 3,
         width: 6,
         height: 5,
-        scale: 0.75,
+        scale: 0.4,
     };
     //src image data that is gathered by inspection with paint.net
     const srcImgData = {
