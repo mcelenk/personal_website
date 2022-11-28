@@ -140,7 +140,7 @@ window.mahjong = function () {
 
                     //now we can porceed, YAY!
                     let thisTile = theGame.positionTileMatching[combined];
-                    console.log("SELECTED TILES INDEX : ", theGame.selectedTilesIndex);
+                    //console.log("SELECTED TILES INDEX : ", theGame.selectedTilesIndex);
                     if (theGame.selectedTilesIndex >= 0 &&
                         thisTile.equals(theGame.positionTileMatching[theGame.selectedTilesIndex])) {
                         console.log("WOOHOO!");
