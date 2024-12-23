@@ -1,0 +1,55 @@
+* NEXT BUTTON and all the things it brings ~??                       /
+    * advancing so that balances get updated according to incomes. \/
+                      /
+    * Tree spawning \/
+                                  /
+    * User interaction blocking \/
+                                                          /
+    * Displaying a link to go back to the list of games \/
+
+
+
+
+
+* The rest seems to be done on the server side first
+    * Retrieving list of games (we can start with those that awaits our action [our turn])
+    * Updating serialization, the game data and turn info (whose turn is it) should/could/might/have to/must be saved and queried seperately, see GameScreen.tsx implementation.
+    game_id, first_player, second_player
+    game_id, game_data
+
+                                             /
+* UNDO BUTTON and all the things it brings \/
+                                                                          /
+* UNIT MOVEMENT AND UNIT ADDITION SIDE EFFECT ON OPPONENT AND OWN LAND  \/
+    * Potential Merging of provinces.
+        When merged, fieldManager.provinces need to be updated accordingly
+        Their finances need to be merged as well!
+        As of this writing we are managing the finances with the Overlay class that we display on top
+
+                                                                                                       /
+* Potential splitting of opponent provinces that some of which might be of size 1 (hence no provice) \/
+                                                                                  /
+* BUG: When we are taking an opponent hex with a town, the town is not removed! \/
+                                                                                                                                                                 /
+* BUG: Cells that are left as a single cell after a split shouldn't contain a unit or an object in it.We simply need to remove it/them, make them provinceless \/ ->
+    This seems a bit more nuanced.
+                                                                                                                  \/
+    * We actually keep the units until the end of the turn, and only turn them into trees at the end of the turn. /\ -> 
+
+    FROM ACTUAL ANTIYOY GITHUB:
+     private void checkForAloneUnits() {
+        for (int i = unitList.size() - 1; i >= 0; i--) {
+            Unit unit = unitList.get(i);
+            if (isCurrentTurn(unit.getFraction()) && unit.currentHex.numberOfFriendlyHexesNearby() == 0) {
+                fieldManager.killUnitByStarvation(unit.currentHex);
+            }
+        }
+    }
+
+                                                                             \/
+    * If the object was a town, we left a tree there at the end of the turn. /\
+
+
+
+                                                                                                   /
+* BUG: Removing one hex of a province with two hexes leads to a province left with a single hex! \/

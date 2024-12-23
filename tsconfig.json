@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "esnext",
+        "jsx": "react-jsx",
+        "skipLibCheck": true,
+        "types": [
+            "node",
+            "jest"
+        ],
+        "strict": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+    },
+    "include": [
+        "src/*",
+        "data/*"
+    ],
+    "exclude": [
+        "tests/*"
+    ]
+}

@@ -1,0 +1,42 @@
+const fs = require('fs');
+const path = require('path');
+
+// Recursively walk through the directory to find all `.js` files
+const processDirectory = (dir) => {
+  fs.readdirSync(dir).forEach((file) => {
+    const fullPath = path.join(dir, file);
+
+    // If it's a directory, recursively process it
+    if (fs.lstatSync(fullPath).isDirectory()) {
+      processDirectory(fullPath);
+    } else if (file.endsWith('.js')) {
+      // If it's a `.js` file, process it
+      processFile(fullPath);
+    }
+  });
+};
+
+// Process each file, replacing the necessary import paths
+const processFile = (filePath) => {
+  const fileContent = fs.readFileSync(filePath, 'utf-8');
+
+  // Regex to match relative imports without extensions (e.g., `./queue`, `../something/queue`)
+  const importRegex = /from\s+['"](\..*?)['"]/g;
+
+  // Replace matched imports with `.js` appended
+  const updatedContent = fileContent.replace(importRegex, (match, importPath) => {
+    // Avoid double extensions (e.g., it will skip paths that already end with `.js`)
+    if (!importPath.endsWith('.js') && !importPath.endsWith('.json')) {
+      return `from '${importPath}.js'`;
+    }
+    return match;
+  });
+
+  // Write the updated content back to the file
+  fs.writeFileSync(filePath, updatedContent, 'utf-8');
+  console.log(`Processed ${filePath}`);
+};
+
+// Path to the directory with your transpiled `.js` files (e.g., './dist' or './build')
+const distDir = path.join(__dirname, 'out'); // Adjust this as needed
+processDirectory(distDir);
