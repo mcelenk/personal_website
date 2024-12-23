@@ -9,7 +9,9 @@ let XL_row_object = null;
 let progressVal = 0;
 let maxMatch = 0;
 let dataToSave = null;
-const colNames = ["first", "second"];
+const colNames = ["first", "second", "DEMOGRAF"];
+
+let itemsToRemove = null;
 
 button.onclick = ()=>{
 	input.click(); //if user click on the button then the input also clicked
@@ -49,23 +51,32 @@ goBtn.onclick = () => {
 		
 		let matchCountLimit = document.querySelector("#numColumn").value;
 		let keys = Object.keys(XL_row_object);
+		window.keys = keys;
+		window.xlro = XL_row_object;
 
 		maxMatch = 0;
 		dataToSave = [];
+		itemsToRemove = {};
 		toggleProgressVisibility(true).then(() => {
 			
 			performTask(XL_row_object, keys, function(rows, keys, index) {
 				let keyLeft = keys[index];
 				for (var j = index + 1; j < keys.length; j++) {
 					let keyRight = keys[j];
-					let mCount = countMatcingValues( XL_row_object[keyLeft], XL_row_object[keyRight] );
-					if (mCount >= matchCountLimit) {
-						let row = {};
-						row[colNames[0]] = keyLeft;
-						row[colNames[1]] = keyRight;
-						dataToSave.push(row);
+					// we will check the specific "DEMOGRAF" value to see if it is the same for both
+					if (XL_row_object[keyLeft]["DEMOGRAF"] === XL_row_object[keyRight]["DEMOGRAF"]) {
+						let mCount = countMatcingValues( XL_row_object[keyLeft], XL_row_object[keyRight] );
+						if (mCount - 1 >= matchCountLimit) {
+							let row = {};
+							row[colNames[0]] = keyLeft;
+							row[colNames[1]] = keyRight;
+							row[colNames[2]] = XL_row_object[keyLeft]["DEMOGRAF"];
+							dataToSave.push(row);
+							itemsToRemove[keyLeft] = 1;
+							itemsToRemove[keyRight] = 1;
+						}
+						maxMatch = Math.max(mCount, maxMatch);
 					}
-					maxMatch = Math.max(mCount, maxMatch);
 				}
 				
 			});
@@ -106,7 +117,8 @@ function performTask(rows, keys, processItem) {
 			progressVal = 100;
 			toggleProgressVisibility(false).then(() => {
 				console.log("maxMatch : ", maxMatch);
-				exportFile(colNames, dataToSave, "matches.xls");
+				// exportFile(colNames, dataToSave, "matches.xls");
+				exportReducedFile();
 			});
 		}
     }
@@ -119,6 +131,21 @@ function exportFile(headers, data, fileName) {
 	let wb = XLSX.utils.book_new();
 	XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 	XLSX.writeFile(wb, fileName, { bookType : "xls" });
+}
+
+function exportReducedFile() {
+	let data = [];
+	let headers = Object.keys(XL_row_object[0]);
+	for (let i = 0; i < XL_row_object.length; i++) {
+		if (!itemsToRemove.hasOwnProperty(i)) {
+			let row = JSON.parse(JSON.stringify(XL_row_object[i]));
+			data.push(row);
+		}
+	}
+	let ws = XLSX.utils.json_to_sheet(data, {header: headers});
+	let wb = XLSX.utils.book_new();
+	XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+	XLSX.writeFile(wb, "reduced.xls", { bookType : "xls" });
 }
 
 function processFile() {
