@@ -14,7 +14,6 @@ const GameList: React.FC = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
 
-    // const games: Array<any> = [{ id: "27th" }, { id: "26th" }, { id: "80f3a702-70bd-4b7b-936d-d5a9bcc0ae7a" }];
     useEffect(() => {
         const fetchGames = async () => {
             try {
@@ -43,9 +42,6 @@ const GameList: React.FC = () => {
     if (error) {
         return <div>{error}</div>;
     }
-
-
-
     return (
         <div className="game-list-container">
             <h2>Available Games</h2>

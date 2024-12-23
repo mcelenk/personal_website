@@ -22,7 +22,7 @@ const handler: Handler = async (event, context) => {
         const collection = database.collection('GameUsers');
 
         // Query the collection
-        const data = await collection.find({ firstUserId: event.queryStringParameters?.userId, status: 'ACTIVE' }).toArray();
+        const data = await collection.find({ firstPlayerId: event.queryStringParameters?.userId, status: 'ACTIVE' }).toArray();
 
         // Return the data as JSON
         return {
