@@ -7,7 +7,7 @@ const client = new MongoClient(uri);
 
 const handler: Handler = async (event, context) => {
     // Parse the item from the request body
-    const item = JSON.parse(event.body ?);
+    const item = JSON.parse(event.body!);
 
     if (!item || !item.userId) {
         return {
