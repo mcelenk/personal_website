@@ -18,12 +18,39 @@ const Login: React.FC = () => {
         }
     }, [navigate, setUser]);
 
-    const onSuccess = (response: CredentialResponse) => {
-        // You can also handle the ID token for backend verification
+    const onSuccess = async (response: CredentialResponse) => {
+
+        const addUser = async (item: { userId: string; name: string; email: string }): Promise<void> => {
+            try {
+                const response = await fetch('/.netlify/functions/addItem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(item),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Success:', data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
         if (response.credential) {
             const user = jwtDecode(response.credential);
             localStorage.setItem('user', JSON.stringify(user));
+            const obj = JSON.parse(localStorage.getItem('user')!);
             setUser(user);
+            await addUser({
+                userId: obj.sub,
+                name: obj.name,
+                email: obj.email
+            });
             navigate('/games');
         }
     };
