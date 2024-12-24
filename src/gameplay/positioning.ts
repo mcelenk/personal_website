@@ -18,7 +18,7 @@ export type Dimension = {
 */
 export class Positioning {
     public static readonly MENU_BUTTON_HORIZONTAL_ADJUSTMENT = 32;
-    public static readonly MENU_BUTTON_SIZE = 96;
+    public static readonly MENU_BUTTON_SIZE = 64;
     public static readonly MENU_BUTTON_TOTAL_ADJUSTMENT = Positioning.MENU_BUTTON_HORIZONTAL_ADJUSTMENT + Positioning.MENU_BUTTON_SIZE;
     public static readonly HEX_SIZE = 30;
     public static readonly HEX_HEIGHT = 23; // excluding overlapping borders

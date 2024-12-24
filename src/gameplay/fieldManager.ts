@@ -272,7 +272,7 @@ export class FieldManager implements SingleClickHandler {
 
         if (Positioning.isNextTurnClicked(origPosition, this.dimension)) {
             this.handleTreeSpawning();
-            this.transformGraves();
+            this.transformGraves(); // this needs to be before provinces.advance!
             this.provinces.advance();
             this.stopUnitAnimations();
             this.turnEnded = true;

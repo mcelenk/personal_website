@@ -164,7 +164,6 @@ export class Province implements Indexable, StateHolder {
         if (!this.overlay.advance()) {
             // balance is calculated to be negative but set to zero
             // we need to kill all units.
-            // TODO, handle existing graves' and trees' update and changes
             for (let hx of this.hexes) {
                 if (hx.getUnit() != null) {
                     hx.removeUnit();

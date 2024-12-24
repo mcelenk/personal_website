@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/GameList.css';
 import { useAuth } from './AuthContext';
+import '../styles/GameList.css';
 
 interface Game {
     gameId: string,
@@ -17,7 +17,6 @@ const GameList: React.FC = () => {
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const userId = "asdf";
                 const response = await fetch(`/.netlify/functions/getGameUsers?userId=${user.sub}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
