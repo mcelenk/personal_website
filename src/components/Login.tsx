@@ -23,8 +23,7 @@ const Login: React.FC = () => {
         if (response.credential) {
             const user = jwtDecode(response.credential);
             localStorage.setItem('user', JSON.stringify(user));
-            setUser(JSON.parse(localStorage.getItem('user')!));
-            (window as any).user = user;
+            setUser(user);
             navigate('/games');
         }
     };

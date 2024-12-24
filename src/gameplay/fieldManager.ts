@@ -118,10 +118,6 @@ export class FieldManager implements SingleClickHandler {
 
         this.history = new ActionHistory();
         this.spawnCheck = new SpawnCheck(this.getNeighbours.bind(this));
-
-        (window as any).fm = this;
-        (window as any).provinces = this.provinces;
-        (window as any).tt = this.hexesWithTowersOrTowns;
     }
 
     private initializeProvinces = (provinceBalances: Record<number, Record<number, number>> | undefined): Provinces => {

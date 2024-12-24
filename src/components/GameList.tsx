@@ -17,7 +17,7 @@ const GameList: React.FC = () => {
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const response = await fetch(`/.netlify/functions/getGameUsers?userId=${user.sub}`);
+                const response = await fetch(`/.netlify/functions/getCurrentUsersGames?userId=${user.sub}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
