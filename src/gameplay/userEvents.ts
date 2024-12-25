@@ -65,7 +65,7 @@ export class UserEvents {
         this.redrawCallback(this.transform);
     }
 
-    private pressEventHandler = (e: MouseEvent | TouchEvent) => {
+    private pressEventHandler = async (e: MouseEvent | TouchEvent) => {
         e.preventDefault();
         if ((e as TouchEvent).changedTouches &&
             (e as TouchEvent).touches.length > 1) {
@@ -77,7 +77,8 @@ export class UserEvents {
             this.singleClickHandler.updateMenuItemDisplay(0.5, "pointer");
             //single click or touch
             this.latestMousePos = this.determineEventLoc(e);
-            if (!this.singleClickHandler.handleSingleClick(this.latestMousePos)) {
+            const handled = await this.singleClickHandler.handleSingleClick(this.latestMousePos);
+            if (!handled) {
                 // unless the field can handle this click
                 // (either for selecting a unit or by moving an already selected unit or selecting a province)
                 // we should consider the panning case
