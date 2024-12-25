@@ -22,7 +22,7 @@ const Login: React.FC = () => {
 
         const addUser = async (item: { userId: string; name: string; email: string }): Promise<void> => {
             try {
-                const response = await fetch('/.netlify/functions/CheckAndInsertGameUser', {
+                const response = await fetch('/.netlify/functions/checkAndInsertGameUser', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
