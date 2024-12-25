@@ -14,18 +14,20 @@ const GameScreen: React.FC = () => {
     const [game, setGame] = useState<Game | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [gameData, setGameData] = useState<any | null>(null);
 
     useEffect(() => {
         const fetchGameData = async () => {
             try {
-                const url = `/data/${id}.json`;
-                const response = await fetch(url);
+                const response = await fetch(`/.netlify/functions/getGameState?gameId=${id}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const gameData = await response.json();
+                const data = await response.json();
+                const gameData = data.gameData;
                 if (gameData.players.includes(user.sub)) {
                     setIsAuthorized(true);
+                    setGameData(gameData);
                 } else {
                     setIsAuthorized(false);
                 }
@@ -43,12 +45,6 @@ const GameScreen: React.FC = () => {
         if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && !game) {
             const initializeGame = async () => {
                 try {
-                    const url = `/data/${id}.json`;
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const gameData = await response.json();
                     const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, gameData);
                     setGame(gameInstance);
                 } catch (err) {
@@ -58,7 +54,7 @@ const GameScreen: React.FC = () => {
 
             initializeGame();
         }
-    }, [isAuthorized, canvasBackRef, canvasFrontRef, id, game]);
+    }, [isAuthorized, canvasBackRef, canvasFrontRef, game]);
 
     if (isLoading) {
         return <div>Loading...</div>;
