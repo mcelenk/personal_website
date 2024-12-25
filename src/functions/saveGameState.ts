@@ -20,7 +20,7 @@ const handler: Handler = async (event, context) => {
 
         await collection.insertOne({
             gameId: gameData.id,
-            insertDt: Date(),
+            insertDt: new Date(),
             gameData: gameData,
         });
 
