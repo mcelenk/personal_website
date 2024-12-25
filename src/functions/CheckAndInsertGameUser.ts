@@ -1,9 +1,7 @@
 import { Handler } from '@netlify/functions';
 import { MongoClient } from 'mongodb';
 
-// Replace with your actual MongoDB connection URI
-const uri = 'your-mongodb-connection-uri';
-const client = new MongoClient(uri);
+const client = new MongoClient(process.env.MONGODB_URI!);
 
 const handler: Handler = async (event, context) => {
     // Parse the item from the request body
@@ -17,10 +15,7 @@ const handler: Handler = async (event, context) => {
     }
 
     try {
-        // Connect to the MongoDB cluster
         await client.connect();
-
-        // Access the database and collection
         const database = client.db('AntiyoyCloneDB');
         const collection = database.collection('GameUser');
 
