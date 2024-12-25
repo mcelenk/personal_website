@@ -36,7 +36,7 @@ const handler: Handler = async (event, context) => {
         const filter = { gameId: gameData.id, isActive: true };
         const update = { $set: { currentUserId: nextPlayerId } };
 
-        await collection.updateOne(filter, update, { upsert: true });
+        await gameTurnCollection.updateOne(filter, update, { upsert: true });
 
         return {
             statusCode: 201,
