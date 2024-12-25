@@ -275,7 +275,7 @@ export class FieldManager implements SingleClickHandler {
             this.provinces.advance();
             this.stopUnitAnimations();
             this.turnEnded = true;
-            await this.serializationHook();
+            this.serializationHook();
             return true;
         }
 
