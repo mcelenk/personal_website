@@ -77,8 +77,8 @@ export class UserEvents {
             this.singleClickHandler.updateMenuItemDisplay(0.5, "pointer");
             //single click or touch
             this.latestMousePos = this.determineEventLoc(e);
-            const handled = await this.singleClickHandler.handleSingleClick(this.latestMousePos);
-            if (!handled) {
+            
+            if (!this.singleClickHandler.handleSingleClick(this.latestMousePos)) {
                 // unless the field can handle this click
                 // (either for selecting a unit or by moving an already selected unit or selecting a province)
                 // we should consider the panning case

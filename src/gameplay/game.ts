@@ -16,10 +16,12 @@ export class Game {
     public readonly id: string;
     private players: Array<string>;
     private currentPlayerId: string;
+    private saveGameHook: (gameData: any) => void;
 
-    constructor(canvasBack: HTMLCanvasElement, canvasFront: HTMLCanvasElement, currentPlayerId: string, gameData: any) {
+    constructor(canvasBack: HTMLCanvasElement, canvasFront: HTMLCanvasElement, currentPlayerId: string, gameData: any, saveGame: (gameData: any) => void) {
         this.canvasBack = canvasBack;
         this.canvasFront = canvasFront;
+        this.saveGameHook = saveGame;
         this.start = performance.now();
 
         this.init();
@@ -35,34 +37,12 @@ export class Game {
         this.gameLoop();
     }
 
-    public saveGame = async (): Promise<void> => {
+    public saveGame = (): void => {
         let resultObj = this.fManager.serialize();
         resultObj.players = this.players;
         resultObj.lastModifiedBy = this.currentPlayerId;
         resultObj.id = this.id; // Important!
-
-        const saveGame = async (item: any): Promise<void> => {
-            try {
-                const response = await fetch('/.netlify/functions/saveGameState', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(resultObj),
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log('Success:', data);
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        await saveGame(resultObj);
+        this.saveGameHook(resultObj);
     }
 
     private init = () => {

@@ -36,7 +36,7 @@ type UnitHandlingParams = {
 };
 
 export interface SingleClickHandler {
-    handleSingleClick: (origPosition: Position) => Promise<boolean>;
+    handleSingleClick: (origPosition: Position) => boolean;
     updateMenuItemDisplay: (globalAlpha: number, cursor: string) => void;
 }
 
@@ -66,14 +66,14 @@ export class FieldManager implements SingleClickHandler {
     private globalAlphaForMenuButtons: number = 1;
     private cursorForMenuButtons: string = "default";
 
-    private serializationHook: () => Promise<void>;
+    private serializationHook: () => void;
 
     public updateMenuItemDisplay = (globalAlpha: number, cursor: string): void => {
         this.globalAlphaForMenuButtons = globalAlpha;
         this.cursorForMenuButtons = cursor;
     }
 
-    constructor(canvas: Dimension, resourceConfig: ResourceConfig, o: SerializedGame, serializationHook: () => Promise<void>) {
+    constructor(canvas: Dimension, resourceConfig: ResourceConfig, o: SerializedGame, serializationHook: () => void) {
         this.fWidth = o.fWidth ?? DEFAULT_WIDTH;
         this.fHeight = o.fHeight ?? DEFAULT_HEIGHT;
         this.activeFraction = o.activeFraction;
@@ -256,7 +256,7 @@ export class FieldManager implements SingleClickHandler {
         This method returns a boolean indicating whether the click corresponds to a selection
         The idea is that, the caller can determine to enable panning when there is no such selection
     */
-    public handleSingleClick = async (origPosition: Position): Promise<boolean> => {
+    public handleSingleClick = (origPosition: Position): boolean => {
 
         if (this.turnEnded) return false;
 

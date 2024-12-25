@@ -15,6 +15,7 @@ const GameScreen: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [gameData, setGameData] = useState<any | null>(null);
+    const [serializationData, setSerializationData] = useState<any | null>(null);
 
     useEffect(() => {
         const fetchGameData = async () => {
@@ -45,7 +46,9 @@ const GameScreen: React.FC = () => {
         if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && !game) {
             const initializeGame = async () => {
                 try {
-                    const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData);
+                    const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData, (data: any) => {
+                        setSerializationData(data);
+                    });
                     setGame(gameInstance);
                 } catch (err) {
                     console.error('Error initializing game:', err);
@@ -55,6 +58,32 @@ const GameScreen: React.FC = () => {
             initializeGame();
         }
     }, [isAuthorized, canvasBackRef, canvasFrontRef, game]);
+
+    useEffect(() => {
+        if (serializationData) {
+            const saveGame = async (item: any): Promise<void> => {
+                try {
+                    const response = await fetch('/.netlify/functions/saveGameState', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(item),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('Success:', data);
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+            saveGame(serializationData);
+        }
+    }, [serializationData]);
 
     if (isLoading) {
         return <div>Loading...</div>;
