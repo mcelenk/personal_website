@@ -23,6 +23,21 @@ const handler: Handler = async (event, context) => {
             insertDt: Date(),
             gameData: gameData,
         });
+
+        // pick the next userId from the players Array
+        const playerIds: Array<string> = gameData.players;
+        const currPlayerIndex = playerIds.indexOf(gameData.lastModifiedBy);
+        const nextPlayerIndex = (currPlayerIndex + 1) % playerIds.length;
+        const nextPlayerId = playerIds[nextPlayerIndex];
+
+        const gameTurnCollection = database.collection('GameTurn');
+
+        // Create the filter and update objects
+        const filter = { gameId: gameData.id, isActive: true };
+        const update = { $set: { currentUserId: nextPlayerId } };
+
+        await collection.updateOne(filter, update, { upsert: true });
+
         return {
             statusCode: 201,
             body: JSON.stringify({ message: "Game state saved" }),
