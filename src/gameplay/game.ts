@@ -39,8 +39,7 @@ export class Game {
         let resultObj = this.fManager.serialize();
         resultObj.players = this.players;
         resultObj.lastModifiedBy = this.currentPlayerId;
-        resultObj.gameId = this.id; // Important!
-        resultObj.gameData.id = this.id;
+        resultObj.id = this.id; // Important!
 
         const saveGame = async (item: any): Promise<void> => {
             try {
