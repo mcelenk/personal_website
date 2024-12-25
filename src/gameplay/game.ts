@@ -14,8 +14,10 @@ export class Game {
     private fManager: FieldManager;
     private start: number;
     public readonly id: string;
+    private players: Array<string>;
+    private currentPlayerId: string;
 
-    constructor(canvasBack: HTMLCanvasElement, canvasFront: HTMLCanvasElement, gameData: any) {
+    constructor(canvasBack: HTMLCanvasElement, canvasFront: HTMLCanvasElement, currentPlayerId: string, gameData: any) {
         this.canvasBack = canvasBack;
         this.canvasFront = canvasFront;
         this.start = performance.now();
@@ -25,11 +27,41 @@ export class Game {
 
         this.ctxBack = this.canvasBack.getContext("2d")!;
         this.ctxFront = this.canvasFront.getContext("2d")!;
-        this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), gameData);
+        this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), gameData, this.saveGame);
         new UserEvents(this.canvasFront, this.fManager, this.redraw);
         this.id = gameData.id;
+        this.players = gameData.players;
+        this.currentPlayerId = currentPlayerId;
         this.gameLoop();
+    }
 
+    public saveGame = async (): Promise<void> => {
+        let resultObj = this.fManager.serialize();
+        resultObj.players = this.players;
+        resultObj.lastModifiedBy = this.currentPlayerId;
+
+        const saveGame = async (item: any): Promise<void> => {
+            try {
+                const response = await fetch('/.netlify/functions/saveGameState', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(resultObj),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Success:', data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        await saveGame(resultObj);
     }
 
     private init = () => {

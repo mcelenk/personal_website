@@ -36,7 +36,7 @@ type UnitHandlingParams = {
 };
 
 export interface SingleClickHandler {
-    handleSingleClick: (origPosition: Position) => boolean;
+    handleSingleClick: (origPosition: Position) => Promise<boolean>;
     updateMenuItemDisplay: (globalAlpha: number, cursor: string) => void;
 }
 
@@ -66,17 +66,20 @@ export class FieldManager implements SingleClickHandler {
     private globalAlphaForMenuButtons: number = 1;
     private cursorForMenuButtons: string = "default";
 
+    private serializationHook: () => Promise<void>;
+
     public updateMenuItemDisplay = (globalAlpha: number, cursor: string): void => {
         this.globalAlphaForMenuButtons = globalAlpha;
         this.cursorForMenuButtons = cursor;
     }
 
-    constructor(canvas: Dimension, resourceConfig: ResourceConfig, o: SerializedGame) {
+    constructor(canvas: Dimension, resourceConfig: ResourceConfig, o: SerializedGame, serializationHook: () => Promise<void>) {
         this.fWidth = o.fWidth ?? DEFAULT_WIDTH;
         this.fHeight = o.fHeight ?? DEFAULT_HEIGHT;
         this.activeFraction = o.activeFraction;
         this.dimension = canvas;
         this.resourceConfig = resourceConfig;
+        this.serializationHook = serializationHook;
 
         this.hexesWithTowersOrTowns = new Set<Hex>();
         this.field = new Array<Array<Hex>>();
@@ -154,7 +157,7 @@ export class FieldManager implements SingleClickHandler {
         return this.provinces.getOverlay(this.activeFraction, this.activeProvinceIndex);
     }
 
-    public serialize = (): string => {
+    public serialize = (): any => {
         let resultObj: any = {};
         resultObj.fWidth = this.fWidth;
         resultObj.fHeight = this.fHeight;
@@ -190,7 +193,7 @@ export class FieldManager implements SingleClickHandler {
         // actionHistory
         resultObj.history = this.history.serialize();
         resultObj.id = GUID.generate();
-        return JSON.stringify(resultObj);
+        return resultObj;
     }
 
     public getLatestTransformMatrix = (): DOMMatrix | null => {
@@ -253,7 +256,7 @@ export class FieldManager implements SingleClickHandler {
         This method returns a boolean indicating whether the click corresponds to a selection
         The idea is that, the caller can determine to enable panning when there is no such selection
     */
-    public handleSingleClick = (origPosition: Position): boolean => {
+    public handleSingleClick = async (origPosition: Position): Promise<boolean> => {
 
         if (this.turnEnded) return false;
 
@@ -272,6 +275,7 @@ export class FieldManager implements SingleClickHandler {
             this.provinces.advance();
             this.stopUnitAnimations();
             this.turnEnded = true;
+            await this.serializationHook();
             return true;
         }
 

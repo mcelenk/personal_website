@@ -45,7 +45,7 @@ const GameScreen: React.FC = () => {
         if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && !game) {
             const initializeGame = async () => {
                 try {
-                    const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, gameData);
+                    const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData);
                     setGame(gameInstance);
                 } catch (err) {
                     console.error('Error initializing game:', err);

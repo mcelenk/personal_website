@@ -10,7 +10,7 @@ const handler: Handler = async (event, context) => {
     if (!item || !item.userId) {
         return {
             statusCode: 400,
-            body: JSON.stringify({ message: 'Missing item or item ID' }),
+            body: JSON.stringify({ message: 'Missing item or userId of the item' }),
         };
     }
 
@@ -44,7 +44,6 @@ const handler: Handler = async (event, context) => {
             body: JSON.stringify({ message: 'Internal Server Error' }),
         };
     } finally {
-        // Ensure the client is closed after the operation
         await client.close();
     }
 };
