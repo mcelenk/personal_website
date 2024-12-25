@@ -21,7 +21,7 @@ const handler: Handler = async (event, context) => {
 
         // Find and update the item, or insert if it doesn't exist
         const result = await collection.findOneAndUpdate(
-            { id: item.userId }, // Query to find the item
+            { userId: item.userId }, // Query to find the item
             { $setOnInsert: item }, // Update to apply if the item is not found
             { returnDocument: 'after', upsert: true } // Options: return the new document, upsert if not found
         );
