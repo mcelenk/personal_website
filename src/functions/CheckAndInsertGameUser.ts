@@ -21,8 +21,8 @@ const handler: Handler = async (event, context) => {
         await client.connect();
 
         // Access the database and collection
-        const database = client.db('your-database-name');
-        const collection = database.collection('your-collection-name');
+        const database = client.db('AntiyoyCloneDB');
+        const collection = database.collection('GameUser');
 
         // Find and update the item, or insert if it doesn't exist
         const result = await collection.findOneAndUpdate(
