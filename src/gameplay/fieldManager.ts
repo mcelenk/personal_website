@@ -13,9 +13,9 @@ import { StateHolder } from './state';
 import { SerializedGame } from './serialization';
 import { GUID } from './guid';
 import { SpawnCheck } from './spawnCheck';
+import { PROVINCELESS_INDEX } from './constants';
 
 const NEUTRAL_FRACTION_INDEX = 0;
-export const PROVINCELESS_INDEX = -1;
 
 const DEFAULT_WIDTH = 16;
 const DEFAULT_HEIGHT = 14;
@@ -273,6 +273,7 @@ export class FieldManager implements SingleClickHandler {
             this.handleTreeSpawning();
             this.transformGraves(); // this needs to be before provinces.advance!
             this.provinces.advance(this.activeFraction);
+            this.killProvincelessUnits();
             this.stopUnitAnimations();
             this.turnEnded = true;
             this.serializationHook();
@@ -452,6 +453,15 @@ export class FieldManager implements SingleClickHandler {
         this.field.forEach(row => {
             row.forEach(hx => {
                 hx.stopUnitAnimation();
+            });
+        });
+    }
+
+    private killProvincelessUnits = (): void => {
+        this.field.forEach(row => {
+            row.filter(hx => hx.getProvinceIndex() === PROVINCELESS_INDEX && hx.getUnit() != null).forEach(x => {
+                x.removeUnit();
+                this.spawnCheck.spawnTree(x);
             });
         });
     }

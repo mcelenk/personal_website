@@ -3,6 +3,7 @@ import { Obj } from "./object";
 import { Indexable, OrderedList } from "./orderedList";
 import { CalculationParams, Overlay } from "./overlay";
 import { StateHolder } from "./state";
+import { PROVINCELESS_INDEX } from './constants';
 
 type ProvinceHistory = {
     hexWithTown: Hex,
@@ -263,8 +264,8 @@ export class Provinces implements StateHolder {
                 // we should set the provinceIndex of this hex to -1 (provinceless) and NOT add it to any of the provinces
                 const singleHex = [...set][0];
                 singleHex.setObjectInside(Obj.NONE);
-                singleHex.removeUnit();
-                singleHex.setProvinceIndex(-1);
+                // singleHex.removeUnit(); // THIS NEEDS TO BE DONE in the advancing phase by turning that into a tree!
+                singleHex.setProvinceIndex(PROVINCELESS_INDEX);
             } else {
                 yield this.addHexes([...set], fraction, this.getNextId(fraction), i === 0 ? oldBalance : 0);
             }

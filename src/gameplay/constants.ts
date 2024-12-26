@@ -1,0 +1,1 @@
+export const PROVINCELESS_INDEX = -1;
