@@ -217,11 +217,12 @@ export class Provinces implements StateHolder {
         }
     }
 
-    public advance = (): void => {
-        for (let listOfProvinces of this.provinces) {
-            for (let province of listOfProvinces.getAll()) {
-                province?.advance();
-            }
+    public advance = (fraction: number): void => {
+        if (fraction <= 0 || fraction >= this.provinces.length) {
+            throw new Error(`Wrong fraction ${fraction}`);
+        }
+        for (const province of this.provinces[fraction - 1].getAll()) {
+            province.advance();
         }
     }
 

@@ -18,10 +18,10 @@ export class Game {
     private currentPlayerId: string;
     private saveGameHook: (gameData: any) => void;
 
-    constructor(canvasBack: HTMLCanvasElement, canvasFront: HTMLCanvasElement, currentPlayerId: string, gameData: any, saveGame: (gameData: any) => void) {
+    constructor(canvasBack: HTMLCanvasElement, canvasFront: HTMLCanvasElement, currentPlayerId: string, gameData: any, saveGameHook: (gameData: any) => void) {
         this.canvasBack = canvasBack;
         this.canvasFront = canvasFront;
-        this.saveGameHook = saveGame;
+        this.saveGameHook = saveGameHook;
         this.start = performance.now();
 
         this.init();
