@@ -264,10 +264,13 @@ export class Provinces implements StateHolder {
             if (set.size === 1) {
                 // we should set the provinceIndex of this hex to -1 (provinceless) and NOT add it to any of the provinces
                 const singleHex = [...set][0];
-                singleHex.setObjectInside(Obj.NONE);
-                console.log("NOT REMOVING THE UNIT!!!");
-                // singleHex.removeUnit(); // THIS NEEDS TO BE DONE in the advancing phase by turning that into a tree!
+                if (singleHex.getObjectInside() === Obj.TOWN) {
+                    singleHex.setObjectInside(Obj.PINE);
+                } else {
+                    singleHex.setObjectInside(Obj.NONE);
+                }
                 singleHex.setProvinceIndex(PROVINCELESS_INDEX);
+                // what if there is a unit? It will be handled by FieldManager.killProvincelessUnits() when the user ends the turn
             } else {
                 yield this.addHexes([...set], fraction, this.getNextId(fraction), !oldBalanceUsed ? oldBalance : 0);
                 oldBalanceUsed = true;

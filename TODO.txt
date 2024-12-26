@@ -33,8 +33,8 @@
                                                                                                                                                                  /
 * BUG: Cells that are left as a single cell after a split shouldn't contain a unit or an object in it.We simply need to remove it/them, make them provinceless \/ ->
     This seems a bit more nuanced.
-                                                                                                                  \/
-    * We actually keep the units until the end of the turn, and only turn them into trees at the end of the turn. /\ -> 
+                                                                                                                    /
+    * We actually keep the units until the end of the turn, and only turn them into trees at the end of the turn. \/ -> 
 
     FROM ACTUAL ANTIYOY GITHUB:
      private void checkForAloneUnits() {
@@ -46,10 +46,26 @@
         }
     }
 
-                                                                             \/
-    * If the object was a town, we left a tree there at the end of the turn. /\
+                                                                               /
+    * If the object was a town, we left a tree there at the end of the turn. \/
 
 
 
                                                                                                    /
 * BUG: Removing one hex of a province with two hexes leads to a province left with a single hex! \/
+
+              \/
+* GAME ENDING /\
+
+                      \/
+* STARTING A NEW GAME /\
+    * When a user has more than X active games, they can't create a new game! (throttling)
+    * Be able to select the map size
+    * be able to select an opponent (hopefully a list of opponents when we get to implementing this with more than two players)
+    * Given size, generating a random map
+                                                                                 \/
+* Fitting the overlay display in the screen, a responsive display so to speak :D /\
+
+                \/
+* Leaderboard?  /\
+

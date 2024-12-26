@@ -460,7 +460,6 @@ export class FieldManager implements SingleClickHandler {
     private killProvincelessUnits = (): void => {
         this.field.forEach(row => {
             row.filter(hx => hx.getProvinceIndex() === PROVINCELESS_INDEX && hx.getUnit() != null).forEach(x => {
-                console.log("This should run when next turn is clicked and when there is/are provinceless hexes with units");
                 x.removeUnit();
                 this.spawnCheck.spawnTree(x);
             });
