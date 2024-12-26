@@ -218,7 +218,7 @@ export class Provinces implements StateHolder {
     }
 
     public advance = (fraction: number): void => {
-        if (fraction <= 0 || fraction >= this.provinces.length) {
+        if (fraction <= 0 || fraction > this.provinces.length) {
             throw new Error(`Wrong fraction ${fraction}`);
         }
         for (const province of this.provinces[fraction - 1].getAll()) {
