@@ -257,6 +257,7 @@ export class Provinces implements StateHolder {
         const fraction = randomHex.getFraction();
         const listOfProvinces = this.provinces[fraction - 1];
         const oldBalance = listOfProvinces.get(oldProvIndex)?.overlay.getBalance() ?? 0;
+        let oldBalanceUsed = false;
         listOfProvinces.delete(oldProvIndex);
         for (let i = 0; i < listOfSetOfHexes.length; i++) {
             const set = listOfSetOfHexes[i];
@@ -264,10 +265,12 @@ export class Provinces implements StateHolder {
                 // we should set the provinceIndex of this hex to -1 (provinceless) and NOT add it to any of the provinces
                 const singleHex = [...set][0];
                 singleHex.setObjectInside(Obj.NONE);
+                console.log("NOT REMOVING THE UNIT!!!");
                 // singleHex.removeUnit(); // THIS NEEDS TO BE DONE in the advancing phase by turning that into a tree!
                 singleHex.setProvinceIndex(PROVINCELESS_INDEX);
             } else {
-                yield this.addHexes([...set], fraction, this.getNextId(fraction), i === 0 ? oldBalance : 0);
+                yield this.addHexes([...set], fraction, this.getNextId(fraction), !oldBalanceUsed ? oldBalance : 0);
+                oldBalanceUsed = true;
             }
         }
     }
