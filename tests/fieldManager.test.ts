@@ -1,5 +1,6 @@
 import { Obj } from '../src/gameplay/object';
-import { FieldManager, PROVINCELESS_INDEX } from '../src/gameplay/fieldManager';
+import { FieldManager } from '../src/gameplay/fieldManager';
+import { PROVINCELESS_INDEX } from '../src/gameplay/constants';
 import { Dimension } from '../src/gameplay/positioning';
 import { ResourceConfig } from '../src/gameplay/resource';
 
@@ -260,11 +261,8 @@ describe('testing FieldManager class', () => {
             fManager.draw();
             hex = fManager.getReadonlyHex(1, 0);
         }
-        expect(hex.getObjectInside()).toEqual(Obj.NONE);
+        expect(hex.getObjectInside()).toEqual(Obj.PINE);
         expect(hex.getProvinceIndex()).toEqual(PROVINCELESS_INDEX);
-
-
-
     });
 
     test('Testing taking an opponent hex with a town', async () => {

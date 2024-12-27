@@ -12,7 +12,7 @@ import { ActionHistory, Action, ActionType } from './action';
 import { StateHolder } from './state';
 import { SerializedGame } from './serialization';
 import { GUID } from './guid';
-import { SpawnCheck } from './spawnCheck';
+import { RandomGenerator, SpawnCheck } from './spawnCheck';
 import { PROVINCELESS_INDEX } from './constants';
 
 const NEUTRAL_FRACTION_INDEX = 0;
@@ -73,7 +73,7 @@ export class FieldManager implements SingleClickHandler {
         this.cursorForMenuButtons = cursor;
     }
 
-    constructor(canvas: Dimension, resourceConfig: ResourceConfig, o: SerializedGame, serializationHook: () => void) {
+    constructor(canvas: Dimension, resourceConfig: ResourceConfig, o: SerializedGame, serializationHook: () => void = () => { }) {
         this.fWidth = o.fWidth ?? DEFAULT_WIDTH;
         this.fHeight = o.fHeight ?? DEFAULT_HEIGHT;
         this.activeFraction = o.activeFraction;
@@ -120,7 +120,11 @@ export class FieldManager implements SingleClickHandler {
         }
 
         this.history = new ActionHistory();
-        this.spawnCheck = new SpawnCheck(this.getNeighbours.bind(this));
+        this.spawnCheck = new SpawnCheck(<RandomGenerator>{
+            random: () => {
+                return Math.random();
+            }
+        }, this.getNeighbours.bind(this));
     }
 
     private initializeProvinces = (provinceBalances: Record<number, Record<number, number>> | undefined): Provinces => {
@@ -271,7 +275,7 @@ export class FieldManager implements SingleClickHandler {
 
         if (Positioning.isNextTurnClicked(origPosition, this.dimension)) {
             this.handleTreeSpawning();
-            this.transformGraves(); // this needs to be before provinces.advance!
+            this.transformGraves(); // this needs to be before provinces.advance! Not good.
             this.provinces.advance(this.activeFraction);
             this.killProvincelessUnits();
             this.stopUnitAnimations();
