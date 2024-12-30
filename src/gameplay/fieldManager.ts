@@ -281,6 +281,11 @@ export class FieldManager implements SingleClickHandler {
             this.stopUnitAnimations();
             this.turnEnded = true;
             this.serializationHook();
+            if (this.provinces.areAllOpponentProvincesTaken()) {
+                alert("YOU WON! HURRAY!");
+                // TODO end the game
+                // possibly by setting the GameTurn.isActive = false and navigating to games
+            }
             return true;
         }
 

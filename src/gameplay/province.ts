@@ -339,4 +339,8 @@ export class Provinces implements StateHolder {
         const prov = this.provinces[fraction - 1].get(provinceIndex);
         prov?.removeHex(hex);
     }
+
+    public areAllOpponentProvincesTaken = (): boolean => {
+        return this.provinces.length < 2;
+    }
 }

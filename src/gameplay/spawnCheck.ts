@@ -4,6 +4,7 @@ import { Obj, TREES } from './object';
 /**
  * Used within FieldManager,
  * A seperate class just to keep FieldManager slimmer. It needs to get slimmed down, tbh.
+ * Dependency: fieldManager.getNeighbours()
  * Arguably easier to test.
  */
 
