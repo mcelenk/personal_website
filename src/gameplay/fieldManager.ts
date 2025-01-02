@@ -16,10 +16,6 @@ import { RandomGenerator, SpawnCheck } from './spawnCheck';
 import { PROVINCELESS_INDEX } from './constants';
 
 const NEUTRAL_FRACTION_INDEX = 0;
-
-const DEFAULT_WIDTH = 16;
-const DEFAULT_HEIGHT = 14;
-
 const INITIAL_BALANCE = 10;
 
 type HexWithDistance = {
@@ -73,10 +69,10 @@ export class FieldManager implements SingleClickHandler {
         this.cursorForMenuButtons = cursor;
     }
 
-    constructor(canvas: Dimension, resourceConfig: ResourceConfig, o: SerializedGame, serializationHook: () => void = () => { }) {
-        this.fWidth = o.fWidth ?? DEFAULT_WIDTH;
-        this.fHeight = o.fHeight ?? DEFAULT_HEIGHT;
-        this.activeFraction = o.activeFraction;
+    constructor(canvas: Dimension, resourceConfig: ResourceConfig, gameState: SerializedGame, serializationHook: () => void = () => { }) {
+        this.fWidth = gameState.fWidth;
+        this.fHeight = gameState.fHeight;
+        this.activeFraction = gameState.activeFraction;
         this.dimension = canvas;
         this.resourceConfig = resourceConfig;
         this.serializationHook = serializationHook;
@@ -89,16 +85,16 @@ export class FieldManager implements SingleClickHandler {
             for (let y = 0; y < this.fHeight; y++) {
                 const hex = new Hex(
                     y, x,
-                    o.field[x][y].active,
-                    o.field[x][y].fraction,
-                    o.field[x][y].objectInside,
-                    o.field[x][y].provinceIndex,
+                    gameState.field[x][y].active,
+                    gameState.field[x][y].fraction,
+                    gameState.field[x][y].objectInside,
+                    gameState.field[x][y].provinceIndex,
                     this.postHexUpdateRemovingFromTowersOrTowns,
                     this.postHexUpdateAddingToTowersOrTowns,
                 );
                 row.push(hex);
-                if (o.field[x][y].unit != null) {
-                    hex.setUnit(o.field[x][y].unit!.unitType, o.activeFraction == o.field[x][y].fraction);
+                if (gameState.field[x][y].unit != null) {
+                    hex.setUnit(gameState.field[x][y].unit!.unitType, gameState.activeFraction == gameState.field[x][y].fraction);
                 }
                 if (this.IsTownOrTower(hex.getObjectInside())) {
                     this.hexesWithTowersOrTowns.add(hex);
@@ -112,7 +108,7 @@ export class FieldManager implements SingleClickHandler {
         this.movingUnit = null;
         this.latestTransformMatrix = new DOMMatrix([2.7, 0, 0, 2.7, 150, 50]);
 
-        this.provinces = this.initializeProvinces(o.provinceBalances);
+        this.provinces = this.initializeProvinces(gameState.provinceBalances);
         for (let hexWithTown of this.provinces.getAllHexesWithTowns()) {
             if (hexWithTown) {
                 this.hexesWithTowersOrTowns.add(hexWithTown);
