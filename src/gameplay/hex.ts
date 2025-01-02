@@ -29,8 +29,8 @@ export class Hex implements StateHolder {
         active: boolean = true, fraction: number = 0,
         objInside: Obj = Obj.NONE,
         provinceIndex: number = 0,
-        removeUpdateCallback: (hex: Hex) => void,
-        addUpdateCallback: (hex: Hex) => void,) {
+        removeUpdateCallback: (hex: Hex) => void = () => { },
+        addUpdateCallback: (hex: Hex) => void = () => { }) {
 
         this.colIndex = col;
         this.rowIndex = row;
