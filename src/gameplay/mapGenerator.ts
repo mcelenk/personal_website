@@ -11,10 +11,10 @@ export enum MapSize {
 
 const MAP_SIZE_DEFAULTS: Record<MapSize, Dimension> = {
     [MapSize.SMALL]: { width: 13, height: 20 },
-    [MapSize.MEDIUM]: { width: 19, height: 24 },
+    [MapSize.MEDIUM]: { width: 26, height: 24 },
     [MapSize.LARGE]: { width: 13, height: 20 }
 };
-const SMOOTHING_COUNT = 3;
+const SMOOTHING_COUNT = 4;
 
 export type MapData = {
     width: number,
@@ -24,6 +24,8 @@ export type MapData = {
 
 export class MapGenerator {
     public static generateMap = (size: MapSize, fillPercent: number = 0.7, randomGenerator: RandomGenerator = Math): MapData => {
+
+        fillPercent = randomGenerator.random() * 0.1 + (fillPercent - 0.05);
 
         const dimension = MAP_SIZE_DEFAULTS[size];
         const initialGrid = new Array<Array<GridItem>>();
