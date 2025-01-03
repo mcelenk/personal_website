@@ -1,5 +1,4 @@
 import { Hex } from "../src/gameplay/hex";
-import { MapGenerator, MapSize } from "../src/gameplay/mapGen/mapGenerator";
 import { Obj } from "../src/gameplay/object";
 import { SpawnCheck } from "../src/gameplay/spawnCheck";
 import { RandomGenerator } from "../src/gameplay/randomGenerator";
