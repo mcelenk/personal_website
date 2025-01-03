@@ -290,6 +290,7 @@ export class Provinces implements StateHolder {
     }
 
     public getOverlay = (fraction: number, provinceIndex: number): Overlay | undefined => {
+        console.log("In getOverlay with fraction: " + fraction + " and provIndex: " + provinceIndex + " where this.provinces.length is : " + this.provinces.length);
         return this.provinces[fraction - 1].get(provinceIndex)?.overlay;
     }
 
