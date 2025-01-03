@@ -16,6 +16,16 @@ const MAP_SIZE_DEFAULTS: Record<MapSize, Dimension> = {
 };
 const SMOOTHING_COUNT = 5;
 
+/**
+ * export type SerializedHex = {
+     active: boolean,
+     fraction: number,
+     objectInside: number,
+     provinceIndex: number,
+     unit: SerializedUnit | null,
+ }
+ */
+
 export type MapData = {
     width: number,
     height: number,
