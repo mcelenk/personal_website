@@ -14,7 +14,7 @@ const MAP_SIZE_DEFAULTS: Record<MapSize, Dimension> = {
     [MapSize.MEDIUM]: { width: 19, height: 22 },
     [MapSize.LARGE]: { width: 13, height: 20 }
 };
-const SMOOTHING_COUNT = 5;
+const SMOOTHING_COUNT = 3;
 
 export type MapData = {
     width: number,
