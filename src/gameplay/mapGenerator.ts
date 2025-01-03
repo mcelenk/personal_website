@@ -100,6 +100,7 @@ export class MapGenerator {
             }
         }
 
+        // resize the grid
         const resultingGrid: Array<Array<SerializedHex>> = [];
         for (let col = minCol; col <= maxCol; col++) {
             const column: Array<SerializedHex> = [];
@@ -114,7 +115,7 @@ export class MapGenerator {
                     });
                 } else {
                     column.push({
-                        active: initialGrid[col][row].active,
+                        active: false,
                         fraction: NEUTRAL_FRACTION_INDEX,
                         objectInside: Obj.NONE,
                         provinceIndex: PROVINCELESS_INDEX,
@@ -123,6 +124,16 @@ export class MapGenerator {
                 }
             }
             resultingGrid.push(column);
+        }
+
+        // sprinkle some trees
+        const arr = [...bestSet];
+        const minTreeCount = 3;
+        const maxTreeCount = 10;
+        const actualTreeCount = minTreeCount + Math.floor((maxTreeCount - minTreeCount) * randomGenerator.random());
+        for (let i = 0; i < actualTreeCount; i++) {
+            const randomGridItem = arr[Math.floor(Math.random() * arr.length)];
+            resultingGrid[randomGridItem.colIndex][randomGridItem.rowIndex].objectInside = randomGenerator.random() < 0.46 ? Obj.PALM : Obj.PINE;
         }
 
         return {
