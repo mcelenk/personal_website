@@ -24,7 +24,7 @@ export type MapData = {
 };
 
 export class MapGenerator {
-    public static generateMap = (size: MapSize, fillPercent: number = 0.7, randomGenerator: RandomGenerator = Math): MapData => {
+    public static generateMap = (size: MapSize, fillPercent: number = 0.4, randomGenerator: RandomGenerator = Math): MapData => {
 
         fillPercent = randomGenerator.random() * 0.1 + (fillPercent - 0.05);
 
