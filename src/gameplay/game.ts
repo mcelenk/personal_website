@@ -2,6 +2,10 @@ import { UserEvents } from './userEvents';
 import { FieldManager } from './fieldManager';
 import { Transform } from './transform';
 import { ResourceConfig } from './resource';
+import { MapGenerator, MapSize } from './mapGenerator';
+import { Hex } from './hex';
+import { act } from 'react';
+import { Obj } from './object';
 
 export class Game {
     private canvasBack: HTMLCanvasElement;
@@ -29,6 +33,22 @@ export class Game {
 
         this.ctxBack = this.canvasBack.getContext("2d")!;
         this.ctxFront = this.canvasFront.getContext("2d")!;
+
+        // injecting!!
+        const mapData = MapGenerator.generateMap(MapSize.SMALL, 0.8);
+        gameData.fWidth = mapData.width;
+        gameData.fHeight = mapData.height;
+        gameData.field = [];
+        for (let x = 0; x < mapData.width; x++) {
+            const column: Array<Hex> = [];
+            for (let y = 0; y < mapData.height; y++) {
+                const active = mapData.grid[x][y];
+                column.push(new Hex(y, x, active, 0, Obj.NONE, -1));
+            }
+            gameData.field.push(column);
+        }
+        // end of injection
+
         this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), gameData, this.saveGame);
         new UserEvents(this.canvasFront, this.fManager, this.redraw);
         this.id = gameData.id;
