@@ -49,7 +49,6 @@ const GameList: React.FC = () => {
                     <li key={game.gameId} className="game-item" onClick={() => navigate(`/game/${game.gameId}`)}>
                         <div className="game-card">
                             <h3>Game ID: {game.gameId}</h3>
-                            {/* Add any other game details you want to display here */}
                         </div>
                     </li>
                 ))}
