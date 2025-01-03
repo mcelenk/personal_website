@@ -11,7 +11,7 @@ export enum MapSize {
 
 const MAP_SIZE_DEFAULTS: Record<MapSize, Dimension> = {
     [MapSize.SMALL]: { width: 13, height: 20 },
-    [MapSize.MEDIUM]: { width: 13, height: 20 },
+    [MapSize.MEDIUM]: { width: 19, height: 22 },
     [MapSize.LARGE]: { width: 13, height: 20 }
 };
 const SMOOTHING_COUNT = 5;
