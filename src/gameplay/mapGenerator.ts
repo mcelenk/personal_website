@@ -11,7 +11,7 @@ export enum MapSize {
 
 const MAP_SIZE_DEFAULTS: Record<MapSize, Dimension> = {
     [MapSize.SMALL]: { width: 13, height: 20 },
-    [MapSize.MEDIUM]: { width: 19, height: 22 },
+    [MapSize.MEDIUM]: { width: 19, height: 24 },
     [MapSize.LARGE]: { width: 13, height: 20 }
 };
 const SMOOTHING_COUNT = 3;
@@ -100,7 +100,11 @@ export class MapGenerator {
         for (let col = minCol; col <= maxCol; col++) {
             const column: Array<boolean> = [];
             for (let row = minRow; row <= maxRow; row++) {
-                column.push(initialGrid[col][row].active);
+                if (bestSet.has(initialGrid[col][row])) {
+                    column.push(initialGrid[col][row].active);
+                } else {
+                    column.push(false);
+                }
             }
             resultingGrid.push(column);
         }

@@ -4,7 +4,6 @@ import { Transform } from './transform';
 import { ResourceConfig } from './resource';
 import { MapGenerator, MapSize } from './mapGenerator';
 import { Hex } from './hex';
-import { act } from 'react';
 import { Obj } from './object';
 
 export class Game {
