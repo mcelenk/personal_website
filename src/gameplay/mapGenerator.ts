@@ -73,10 +73,11 @@ export class MapGenerator {
                     let currMaxCol = -1;
 
                     q.enqueue(initialGrid[x][y]);
+                    visited.add(initialGrid[x][y]);
 
                     while (!q.isEmpty()) {
                         const item = q.dequeue()!;
-                        visited.add(item);
+
                         currMinRow = item.rowIndex < currMinRow ? item.rowIndex : currMinRow;
                         currMaxRow = item.rowIndex > currMaxRow ? item.rowIndex : currMaxRow;
                         currMinCol = item.colIndex < currMinCol ? item.colIndex : currMinCol;
@@ -85,6 +86,7 @@ export class MapGenerator {
                         for (const neighbour of NeighbourExplorer.getNeighbours(initialGrid, dimension, item)) {
                             if (!visited.has(neighbour)) {
                                 q.enqueue(neighbour);
+                                visited.add(neighbour);
                             }
                         }
                     }
