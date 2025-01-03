@@ -14,6 +14,7 @@ const MAP_SIZE_DEFAULTS: Record<MapSize, Dimension> = {
     [MapSize.MEDIUM]: { width: 26, height: 24 },
     [MapSize.LARGE]: { width: 13, height: 20 }
 };
+
 const SMOOTHING_COUNT = 5;
 
 /**
@@ -131,9 +132,9 @@ export class MapGenerator {
         for (let col = 0; col < mapDimension.width; col++) {
             for (let row = 0; row < mapDimension.height; row++) {
                 const neighbouringWallCount = this.getSurroundingWallCount(mapDimension, grid, row, col);
-                if (neighbouringWallCount > 4) {
+                if (neighbouringWallCount < 3) {
                     grid[col][row].active = true;
-                } else if (neighbouringWallCount < 4) {
+                } else if (neighbouringWallCount > 3) {
                     grid[col][row].active = false;
                 }
             }
