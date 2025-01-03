@@ -128,8 +128,8 @@ export class FieldManager implements SingleClickHandler {
     private initializeProvinces = (provinceBalances: Record<number, Record<number, number>> | undefined): Provinces => {
         const mapping = new Map<number, Map<number, Array<Hex>>>();
 
-        this.field.forEach(row => {
-            row.forEach(hx => {
+        this.field.forEach(column => {
+            column.forEach(hx => {
                 const provinceIndex = hx.getProvinceIndex();
                 if (provinceIndex == PROVINCELESS_INDEX) return;
 

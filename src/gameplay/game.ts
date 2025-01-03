@@ -42,7 +42,7 @@ export class Game {
             const column: Array<Hex> = [];
             for (let y = 0; y < mapData.height; y++) {
                 const active = mapData.grid[x][y];
-                column.push(new Hex(y, x, active, 2, Obj.NONE, 0));
+                column.push(new Hex(y, x, active, 0, Obj.NONE, -1));
             }
             gameData.field.push(column);
         }
