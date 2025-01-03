@@ -14,10 +14,9 @@ import { SerializedGame } from './serialization';
 import { GUID } from './guid';
 import { SpawnCheck } from './spawnCheck';
 import { RandomGenerator } from './randomGenerator';
-import { PROVINCELESS_INDEX } from './constants';
+import { NEUTRAL_FRACTION_INDEX, PROVINCELESS_INDEX } from './constants';
 import { NeighbourExplorer } from './neighbouring';
 
-const NEUTRAL_FRACTION_INDEX = 0;
 const INITIAL_BALANCE = 10;
 
 type HexWithDistance = {

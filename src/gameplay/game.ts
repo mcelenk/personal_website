@@ -41,8 +41,8 @@ export class Game {
         for (let x = 0; x < mapData.width; x++) {
             const column: Array<Hex> = [];
             for (let y = 0; y < mapData.height; y++) {
-                const active = mapData.grid[x][y];
-                column.push(new Hex(y, x, active, 0, Obj.NONE, -1));
+                const serializedHex = mapData.grid[x][y];
+                column.push(new Hex(y, x, serializedHex.active, serializedHex.fraction, serializedHex.objectInside, serializedHex.provinceIndex));
             }
             gameData.field.push(column);
         }

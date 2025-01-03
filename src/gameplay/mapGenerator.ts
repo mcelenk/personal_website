@@ -2,6 +2,9 @@ import { Dimension } from "./positioning"
 import { RandomGenerator } from "./randomGenerator";
 import { GridItem, NeighbourExplorer } from "./neighbouring";
 import { Queue } from "./queue";
+import { SerializedHex } from "./serialization";
+import { NEUTRAL_FRACTION_INDEX, PROVINCELESS_INDEX } from "./constants";
+import { Obj } from "./object";
 
 export enum MapSize {
     SMALL = 0,
@@ -15,23 +18,13 @@ const MAP_SIZE_DEFAULTS: Record<MapSize, Dimension> = {
     [MapSize.LARGE]: { width: 13, height: 20 }
 };
 
-const SMOOTHING_COUNT = 3;
-
-/**
- * export type SerializedHex = {
-     active: boolean,
-     fraction: number,
-     objectInside: number,
-     provinceIndex: number,
-     unit: SerializedUnit | null,
- }
- */
+const SMOOTHING_COUNT = 7;
 
 export type MapData = {
     width: number,
     height: number,
     numHexes: number,
-    grid: Array<Array<boolean>>
+    grid: Array<Array<SerializedHex>>
 };
 
 export class MapGenerator {
@@ -107,14 +100,26 @@ export class MapGenerator {
             }
         }
 
-        const resultingGrid: Array<Array<boolean>> = [];
+        const resultingGrid: Array<Array<SerializedHex>> = [];
         for (let col = minCol; col <= maxCol; col++) {
-            const column: Array<boolean> = [];
+            const column: Array<SerializedHex> = [];
             for (let row = minRow; row <= maxRow; row++) {
                 if (bestSet.has(initialGrid[col][row])) {
-                    column.push(initialGrid[col][row].active);
+                    column.push({
+                        active: initialGrid[col][row].active,
+                        fraction: NEUTRAL_FRACTION_INDEX,
+                        objectInside: Obj.NONE,
+                        provinceIndex: PROVINCELESS_INDEX,
+                        unit: null
+                    });
                 } else {
-                    column.push(false);
+                    column.push({
+                        active: initialGrid[col][row].active,
+                        fraction: NEUTRAL_FRACTION_INDEX,
+                        objectInside: Obj.NONE,
+                        provinceIndex: PROVINCELESS_INDEX,
+                        unit: null
+                    });
                 }
             }
             resultingGrid.push(column);
