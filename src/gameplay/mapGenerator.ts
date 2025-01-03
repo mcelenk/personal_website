@@ -121,9 +121,9 @@ export class MapGenerator {
         for (let col = 0; col < mapDimension.width; col++) {
             for (let row = 0; row < mapDimension.height; row++) {
                 const neighbouringWallCount = this.getSurroundingWallCount(mapDimension, grid, row, col);
-                if (neighbouringWallCount > 3) {
+                if (neighbouringWallCount > 4) {
                     grid[col][row].active = true;
-                } else if (neighbouringWallCount < 3) {
+                } else if (neighbouringWallCount < 4) {
                     grid[col][row].active = false;
                 }
             }
