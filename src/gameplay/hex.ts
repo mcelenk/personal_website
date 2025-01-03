@@ -2,6 +2,7 @@ import { Obj, TOWN_OR_TOWER } from "./object";
 import { Positioning } from "./positioning";
 import { StateHolder } from "./state";
 import { Unit, UnitType } from "./unit";
+import { GridItem } from "./neighbouring";
 
 type HexHistory = {
     fraction: number,
@@ -10,7 +11,7 @@ type HexHistory = {
     objectInside: Obj,
 };
 
-export class Hex implements StateHolder {
+export class Hex implements StateHolder, GridItem {
     public readonly colIndex: number;
     public readonly rowIndex: number;
     public readonly active: boolean;

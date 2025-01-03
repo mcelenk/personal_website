@@ -12,8 +12,10 @@ import { ActionHistory, Action, ActionType } from './action';
 import { StateHolder } from './state';
 import { SerializedGame } from './serialization';
 import { GUID } from './guid';
-import { RandomGenerator, SpawnCheck } from './spawnCheck';
+import { SpawnCheck } from './spawnCheck';
+import { RandomGenerator } from './randomGenerator';
 import { PROVINCELESS_INDEX } from './constants';
+import { NeighbourExplorer } from './neighbouring';
 
 const NEUTRAL_FRACTION_INDEX = 0;
 const INITIAL_BALANCE = 10;
@@ -620,41 +622,44 @@ export class FieldManager implements SingleClickHandler {
     }
 
     private *getNeighbours(hex: Hex): Generator<Hex> {
-        if (hex.rowIndex > 0 && this.field[hex.colIndex][hex.rowIndex - 1].active) {
-            yield this.field[hex.colIndex][hex.rowIndex - 1];
+        for (const neighbour of NeighbourExplorer.getNeighbours(this.field, { width: this.fWidth, height: this.fHeight }, hex)) {
+            yield neighbour as Hex;
         }
-        if (hex.rowIndex < this.fHeight - 1 && this.field[hex.colIndex][hex.rowIndex + 1].active) {
-            yield this.field[hex.colIndex][hex.rowIndex + 1];
-        }
-        if (hex.colIndex > 0) {
-            if (this.field[hex.colIndex - 1][hex.rowIndex].active) {
-                yield this.field[hex.colIndex - 1][hex.rowIndex];
-            }
-            if (hex.colIndex % 2 == 1) {
-                if (hex.rowIndex < this.fHeight - 1 && this.field[hex.colIndex - 1][hex.rowIndex + 1].active) {
-                    yield this.field[hex.colIndex - 1][hex.rowIndex + 1];
-                }
-            }
-            else {
-                if (hex.rowIndex > 0 && this.field[hex.colIndex - 1][hex.rowIndex - 1].active) {
-                    yield this.field[hex.colIndex - 1][hex.rowIndex - 1];
-                }
-            }
-        }
-        if (hex.colIndex < this.fWidth - 1) {
-            if (this.field[hex.colIndex + 1][hex.rowIndex].active) {
-                yield this.field[hex.colIndex + 1][hex.rowIndex];
-            }
-            if (hex.colIndex % 2 == 1) {
-                if (hex.rowIndex < this.fHeight - 1 && this.field[hex.colIndex + 1][hex.rowIndex + 1].active) {
-                    yield this.field[hex.colIndex + 1][hex.rowIndex + 1];
-                }
-            } else {
-                if (hex.rowIndex > 0 && this.field[hex.colIndex + 1][hex.rowIndex - 1].active) {
-                    yield this.field[hex.colIndex + 1][hex.rowIndex - 1];
-                }
-            }
-        }
+        // if (hex.rowIndex > 0 && this.field[hex.colIndex][hex.rowIndex - 1].active) {
+        //     yield this.field[hex.colIndex][hex.rowIndex - 1];
+        // }
+        // if (hex.rowIndex < this.fHeight - 1 && this.field[hex.colIndex][hex.rowIndex + 1].active) {
+        //     yield this.field[hex.colIndex][hex.rowIndex + 1];
+        // }
+        // if (hex.colIndex > 0) {
+        //     if (this.field[hex.colIndex - 1][hex.rowIndex].active) {
+        //         yield this.field[hex.colIndex - 1][hex.rowIndex];
+        //     }
+        //     if (hex.colIndex % 2 == 1) {
+        //         if (hex.rowIndex < this.fHeight - 1 && this.field[hex.colIndex - 1][hex.rowIndex + 1].active) {
+        //             yield this.field[hex.colIndex - 1][hex.rowIndex + 1];
+        //         }
+        //     }
+        //     else {
+        //         if (hex.rowIndex > 0 && this.field[hex.colIndex - 1][hex.rowIndex - 1].active) {
+        //             yield this.field[hex.colIndex - 1][hex.rowIndex - 1];
+        //         }
+        //     }
+        // }
+        // if (hex.colIndex < this.fWidth - 1) {
+        //     if (this.field[hex.colIndex + 1][hex.rowIndex].active) {
+        //         yield this.field[hex.colIndex + 1][hex.rowIndex];
+        //     }
+        //     if (hex.colIndex % 2 == 1) {
+        //         if (hex.rowIndex < this.fHeight - 1 && this.field[hex.colIndex + 1][hex.rowIndex + 1].active) {
+        //             yield this.field[hex.colIndex + 1][hex.rowIndex + 1];
+        //         }
+        //     } else {
+        //         if (hex.rowIndex > 0 && this.field[hex.colIndex + 1][hex.rowIndex - 1].active) {
+        //             yield this.field[hex.colIndex + 1][hex.rowIndex - 1];
+        //         }
+        //     }
+        // }
     }
 
     public draw = (ctxBack: CanvasRenderingContext2D | null = null, ctxFront: CanvasRenderingContext2D | null = null, transform: Transform | null = null): void => {

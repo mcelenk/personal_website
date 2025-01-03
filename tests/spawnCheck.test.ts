@@ -1,6 +1,8 @@
 import { Hex } from "../src/gameplay/hex";
+import { MapGenerator, MapSize } from "../src/gameplay/mapGen/mapGenerator";
 import { Obj } from "../src/gameplay/object";
-import { RandomGenerator, SpawnCheck } from "../src/gameplay/spawnCheck";
+import { SpawnCheck } from "../src/gameplay/spawnCheck";
+import { RandomGenerator } from "../src/gameplay/randomGenerator";
 
 describe('testing SpawnCheck class', () => {
     test('SpawnTree sets a Palm on the target hex when it is near "water"', () => {

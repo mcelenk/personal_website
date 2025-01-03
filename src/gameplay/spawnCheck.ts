@@ -1,5 +1,6 @@
 import { Hex } from './hex';
 import { Obj, TREES } from './object';
+import { RandomGenerator } from './randomGenerator';
 
 /**
  * Used within FieldManager,
@@ -7,10 +8,6 @@ import { Obj, TREES } from './object';
  * Dependency: fieldManager.getNeighbours()
  * Arguably easier to test.
  */
-
-export interface RandomGenerator {
-    random: () => number;
-}
 export class SpawnCheck {
     private getNeighbours: (arg: Hex) => Generator<Hex>;
     private randomGenerator: RandomGenerator;

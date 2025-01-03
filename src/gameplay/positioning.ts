@@ -6,8 +6,8 @@ export type Position = {
 }
 
 export type Dimension = {
-    width: number,
-    height: number,
+    readonly width: number,
+    readonly height: number,
 }
 
 /*
