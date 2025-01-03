@@ -14,11 +14,12 @@ const MAP_SIZE_DEFAULTS: Record<MapSize, Dimension> = {
     [MapSize.MEDIUM]: { width: 26, height: 24 },
     [MapSize.LARGE]: { width: 13, height: 20 }
 };
-const SMOOTHING_COUNT = 4;
+const SMOOTHING_COUNT = 2;
 
 export type MapData = {
     width: number,
     height: number,
+    numHexes: number,
     grid: Array<Array<boolean>>
 };
 
@@ -85,14 +86,11 @@ export class MapGenerator {
                     }
 
                     if (visited.size > bestSet.size) {
-                        console.log("Visited size: " + visited.size + " and bestCount: " + bestSet.size + ", hence REPLACING!");
                         bestSet = visited;
                         minRow = currMinRow;
                         minCol = currMinCol;
                         maxRow = currMaxRow;
                         maxCol = currMaxCol;
-                    } else {
-                        console.log("Visited size: " + visited.size + " and bestCount: " + bestSet.size);
                     }
                 }
             }
@@ -114,6 +112,7 @@ export class MapGenerator {
         return {
             width: maxCol - minCol + 1,
             height: maxRow - minRow + 1,
+            numHexes: bestSet.size,
             grid: resultingGrid
         };
     }
