@@ -133,7 +133,9 @@ export class MapGenerator {
         const actualTreeCount = minTreeCount + Math.floor((maxTreeCount - minTreeCount) * randomGenerator.random());
         for (let i = 0; i < actualTreeCount; i++) {
             const randomGridItem = arr[Math.floor(Math.random() * arr.length)];
-            resultingGrid[randomGridItem.colIndex][randomGridItem.rowIndex].objectInside = randomGenerator.random() < 0.46 ? Obj.PALM : Obj.PINE;
+            // randomGridItem is indexed with the old grid
+            const destItem = resultingGrid[randomGridItem.colIndex - minCol][randomGridItem.rowIndex - minRow];
+            destItem.objectInside = randomGenerator.random() < 0.46 ? Obj.PALM : Obj.PINE;
         }
 
         return {
