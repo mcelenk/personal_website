@@ -162,23 +162,24 @@ export class MapGenerator {
         for (let provinceIndex = 0; provinceIndex < provinceCountPerFraction; provinceIndex++) {
             const randomGridItem = arr[Math.floor(Math.random() * arr.length)];
             const provinceItems: Set<GridItem> = new Set<GridItem>();
-            provinceItems.add(randomGridItem);
 
             const q = new Queue<GridItem>();
             q.enqueue(randomGridItem);
 
             while (!q.isEmpty() && provinceItems.size < STARTING_PROVINCE_SIZE) {
                 const item = q.dequeue()!;
+                if (!bestSet.has(item)) continue;
+
                 for (const neighbour of NeighbourExplorer.getNeighbours(initialGrid, dimension, item)) {
                     if (provinceItems.has(neighbour)) continue;
-                    if (neighbour.active) continue;
+                    if (!neighbour.active) continue;
 
                     const hex = resultingGrid[neighbour.colIndex - minCol][neighbour.rowIndex - minRow];
-                    if (hex.provinceIndex == PROVINCELESS_INDEX) {
-                        q.enqueue(neighbour);
-                        provinceItems.add(neighbour);
-                    }
+                    if (hex.provinceIndex !== PROVINCELESS_INDEX) continue;
+
+                    q.enqueue(neighbour);
                 }
+                provinceItems.add(item);
             }
 
             if (provinceItems.size < STARTING_PROVINCE_SIZE) {
@@ -209,7 +210,6 @@ export class MapGenerator {
             //     hex.provinceIndex = provinceIndex;
             // });
         }
-
 
         return {
             width: maxCol - minCol + 1,
