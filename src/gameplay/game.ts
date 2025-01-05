@@ -34,7 +34,7 @@ export class Game {
         this.ctxFront = this.canvasFront.getContext("2d")!;
 
         // injecting!!
-        const mapData = MapGenerator.generateMap(MapSize.MEDIUM, 0.66);
+        const mapData = MapGenerator.generateMap(MapSize.LARGE, 0.66);
         gameData.fWidth = mapData.width;
         gameData.fHeight = mapData.height;
         gameData.field = [];
