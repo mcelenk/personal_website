@@ -12,10 +12,24 @@ export enum MapSize {
     LARGE = 2
 };
 
-const MAP_SIZE_DEFAULTS: Record<MapSize, Dimension> = {
-    [MapSize.SMALL]: { width: 13, height: 20 },
-    [MapSize.MEDIUM]: { width: 26, height: 24 },
-    [MapSize.LARGE]: { width: 13, height: 20 }
+type MapProperties = {
+    dimension: Dimension,
+    treeCount: number,
+};
+
+const MAP_SIZE_DEFAULTS: Record<MapSize, MapProperties> = {
+    [MapSize.SMALL]: {
+        dimension: { width: 13, height: 20 },
+        treeCount: 3 + Math.floor(7 * Math.random()),
+    },
+    [MapSize.MEDIUM]: {
+        dimension: { width: 26, height: 24 },
+        treeCount: 7 + Math.floor(21 * Math.random()),
+    },
+    [MapSize.LARGE]: {
+        dimension: { width: 24, height: 37 },
+        treeCount: 10 + Math.floor(30 * Math.random()),
+    }
 };
 
 const SMOOTHING_COUNT = 3;
@@ -32,7 +46,7 @@ export class MapGenerator {
 
         fillPercent = randomGenerator.random() * 0.1 + (fillPercent - 0.05);
 
-        const dimension = MAP_SIZE_DEFAULTS[size];
+        const { dimension, treeCount } = MAP_SIZE_DEFAULTS[size];
         const initialGrid = new Array<Array<GridItem>>();
         for (let x = 0; x < dimension.width; x++) {
             const column: Array<GridItem> = [];
@@ -130,12 +144,8 @@ export class MapGenerator {
 
         // sprinkle some trees
         const arr = [...bestSet];
-        const minTreeCount = 3;
-        const maxTreeCount = 10;
-        const actualTreeCount = minTreeCount + Math.floor((maxTreeCount - minTreeCount) * randomGenerator.random());
-        for (let i = 0; i < actualTreeCount; i++) {
+        for (let i = 0; i < treeCount; i++) {
             const randomGridItem = arr[Math.floor(Math.random() * arr.length)];
-            // randomGridItem is indexed with the old grid
             const destItem = resultingGrid[randomGridItem.colIndex - minCol][randomGridItem.rowIndex - minRow];
             destItem.objectInside = randomGenerator.random() < 0.46 ? Obj.PALM : Obj.PINE;
         }
