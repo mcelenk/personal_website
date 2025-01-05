@@ -47,7 +47,7 @@ export class MapGenerator {
         }
 
         for (let i = 0; i < SMOOTHING_COUNT; i++) {
-            this.smoothMap(dimension, initialGrid);
+            this.smoothMap(dimension, initialGrid, randomGenerator);
         }
 
         // BFS from each active cell, keep track of the gridItems visited in a set. Consume the whole grid
@@ -148,12 +148,12 @@ export class MapGenerator {
         };
     }
 
-    private static smoothMap = (mapDimension: Dimension, grid: Array<Array<GridItem>>): void => {
+    private static smoothMap = (mapDimension: Dimension, grid: Array<Array<GridItem>>, randomGenerator: RandomGenerator): void => {
         for (let col = 0; col < mapDimension.width; col++) {
             for (let row = 0; row < mapDimension.height; row++) {
                 const neighbouringWallCount = this.getSurroundingWallCount(mapDimension, grid, row, col);
                 if (neighbouringWallCount > 3) {
-                    grid[col][row].active = true;
+                    grid[col][row].active = randomGenerator.random() < 0.9;
                 } else if (neighbouringWallCount < 3) {
                     grid[col][row].active = false;
                 }
