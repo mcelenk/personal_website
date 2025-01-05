@@ -12,23 +12,30 @@ export enum MapSize {
     LARGE = 2
 };
 
+const STARTING_PROVINCE_SIZE = 4;
+const RETRY_COUNT = 3;
+
 type MapProperties = {
     dimension: Dimension,
     treeCount: number,
+    provinceCountPerFraction: number,
 };
 
 const MAP_SIZE_DEFAULTS: Record<MapSize, MapProperties> = {
     [MapSize.SMALL]: {
         dimension: { width: 13, height: 20 },
         treeCount: 3 + Math.floor(7 * Math.random()),
+        provinceCountPerFraction: 1,
     },
     [MapSize.MEDIUM]: {
         dimension: { width: 26, height: 24 },
         treeCount: 7 + Math.floor(21 * Math.random()),
+        provinceCountPerFraction: 2,
     },
     [MapSize.LARGE]: {
         dimension: { width: 24, height: 37 },
         treeCount: 10 + Math.floor(30 * Math.random()),
+        provinceCountPerFraction: 3,
     }
 };
 
@@ -46,7 +53,7 @@ export class MapGenerator {
 
         fillPercent = randomGenerator.random() * 0.1 + (fillPercent - 0.05);
 
-        const { dimension, treeCount } = MAP_SIZE_DEFAULTS[size];
+        const { dimension, treeCount, provinceCountPerFraction } = MAP_SIZE_DEFAULTS[size];
         const initialGrid = new Array<Array<GridItem>>();
         for (let x = 0; x < dimension.width; x++) {
             const column: Array<GridItem> = [];
@@ -149,6 +156,60 @@ export class MapGenerator {
             const destItem = resultingGrid[randomGridItem.colIndex - minCol][randomGridItem.rowIndex - minRow];
             destItem.objectInside = randomGenerator.random() < 0.46 ? Obj.PALM : Obj.PINE;
         }
+
+        // assign fractions
+        let retries = 0;
+        for (let provinceIndex = 0; provinceIndex < provinceCountPerFraction; provinceIndex++) {
+            const randomGridItem = arr[Math.floor(Math.random() * arr.length)];
+            const provinceItems: Set<GridItem> = new Set<GridItem>();
+            provinceItems.add(randomGridItem);
+
+            const q = new Queue<GridItem>();
+            q.enqueue(randomGridItem);
+
+            while (!q.isEmpty() && provinceItems.size < STARTING_PROVINCE_SIZE) {
+                const item = q.dequeue()!;
+                for (const neighbour of NeighbourExplorer.getNeighbours(initialGrid, dimension, item)) {
+                    if (provinceItems.has(neighbour)) continue;
+                    if (neighbour.active) continue;
+
+                    const hex = resultingGrid[neighbour.colIndex - minCol][neighbour.rowIndex - minRow];
+                    if (hex.provinceIndex == PROVINCELESS_INDEX) {
+                        q.enqueue(neighbour);
+                        provinceItems.add(neighbour);
+                    }
+                }
+            }
+
+            if (provinceItems.size < STARTING_PROVINCE_SIZE) {
+                if (retries < RETRY_COUNT) {
+                    provinceIndex--; // RETRYING
+                    retries++;
+                    continue;
+                } else {
+                    console.error("Failed creating the map");
+                    throw new Error("FAILED CREATING THE MAP");
+                }
+            } else {
+                retries = 0;
+            }
+
+            provinceItems.forEach(item => {
+                const hex = resultingGrid[item.colIndex - minCol][item.rowIndex - minRow];
+                hex.fraction = 1;
+                hex.provinceIndex = provinceIndex;
+            });
+
+            // // somehow determine the hexes
+            // provinceItems.clear();
+
+            // provinceItems.forEach(item => {
+            //     const hex = resultingGrid[item.colIndex - minCol][item.rowIndex - minRow];
+            //     hex.fraction = 2;
+            //     hex.provinceIndex = provinceIndex;
+            // });
+        }
+
 
         return {
             width: maxCol - minCol + 1,
