@@ -155,7 +155,7 @@ export class MapGenerator {
                 if (neighbouringWallCount > 3) {
                     grid[col][row].active = randomGenerator.random() < 0.9;
                 } else if (neighbouringWallCount < 3) {
-                    grid[col][row].active = false;
+                    grid[col][row].active = randomGenerator.random() < 0.9;
                 }
             }
         }
