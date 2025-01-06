@@ -166,7 +166,7 @@ export class MapGenerator {
 
                 let randomGridItem = arr[Math.floor(Math.random() * arr.length)];
 
-                while (unionOfAlreadySelectedPlaces.has(randomGridItem)) {
+                while (unionOfAlreadySelectedPlaces.has(randomGridItem) || !bestSet.has(randomGridItem)) {
                     randomGridItem = arr[Math.floor(Math.random() * arr.length)];
                 }
 

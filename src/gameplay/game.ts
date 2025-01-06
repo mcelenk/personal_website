@@ -39,7 +39,7 @@ export class Game {
         let seed = new Date().getMilliseconds();
         seed = 69;
         (window as any).seed = seed;
-        const mapData = MapGenerator.generateMap(MapSize.SMALL, 0.66, new SeadableRandom(seed));
+        const mapData = MapGenerator.generateMap(MapSize.MEDIUM, 0.66, new SeadableRandom(seed));
         gameData.fWidth = mapData.width;
         gameData.fHeight = mapData.height;
         gameData.field = [];
