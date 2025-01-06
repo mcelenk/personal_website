@@ -12,7 +12,7 @@ export enum MapSize {
     LARGE = 2
 };
 
-const STARTING_PROVINCE_SIZE = 4;
+const STARTING_PROVINCE_SIZE = 9;
 const RETRY_COUNT = 3;
 
 type MapProperties = {
@@ -49,7 +49,7 @@ export type MapData = {
 };
 
 export class MapGenerator {
-    public static generateMap = (size: MapSize, fillPercent: number, randomGenerator: RandomGenerator = Math): MapData => {
+    public static generateMap = (size: MapSize, fillPercent: number, randomGenerator: RandomGenerator = Math, fractionCount: number = 2): MapData => {
 
         fillPercent = randomGenerator.random() * 0.1 + (fillPercent - 0.05);
 
@@ -158,57 +158,61 @@ export class MapGenerator {
         }
 
         // assign fractions
-        let retries = 0;
-        for (let provinceIndex = 0; provinceIndex < provinceCountPerFraction; provinceIndex++) {
-            const randomGridItem = arr[Math.floor(Math.random() * arr.length)];
-            const provinceItems: Set<GridItem> = new Set<GridItem>();
+        const unionOfAlreadySelectedPlaces = new Set<GridItem>();
+        for (let fraction = 1; fraction <= fractionCount; fraction++) {
+            let retries = 0;
 
-            const q = new Queue<GridItem>();
-            q.enqueue(randomGridItem);
+            for (let provinceIndex = 0; provinceIndex < provinceCountPerFraction; provinceIndex++) {
 
-            while (!q.isEmpty() && provinceItems.size < STARTING_PROVINCE_SIZE) {
-                const item = q.dequeue()!;
-                if (!bestSet.has(item)) continue;
+                let randomGridItem = arr[Math.floor(Math.random() * arr.length)];
 
-                for (const neighbour of NeighbourExplorer.getNeighbours(initialGrid, dimension, item)) {
-                    if (provinceItems.has(neighbour)) continue;
-                    if (!neighbour.active) continue;
-
-                    const hex = resultingGrid[neighbour.colIndex - minCol][neighbour.rowIndex - minRow];
-                    if (hex.provinceIndex !== PROVINCELESS_INDEX) continue;
-
-                    q.enqueue(neighbour);
+                while (unionOfAlreadySelectedPlaces.has(randomGridItem)) {
+                    randomGridItem = arr[Math.floor(Math.random() * arr.length)];
                 }
-                provinceItems.add(item);
-            }
 
-            if (provinceItems.size < STARTING_PROVINCE_SIZE) {
-                if (retries < RETRY_COUNT) {
-                    provinceIndex--; // RETRYING
-                    retries++;
-                    continue;
+                const provinceItems: Set<GridItem> = new Set<GridItem>();
+                const q = new Queue<GridItem>();
+                q.enqueue(randomGridItem);
+
+                while (!q.isEmpty() && provinceItems.size < STARTING_PROVINCE_SIZE) {
+                    const item = q.dequeue()!;
+                    if (!bestSet.has(item)) continue;
+
+                    for (const neighbour of NeighbourExplorer.getNeighbours(initialGrid, dimension, item)) {
+                        if (provinceItems.has(neighbour)) continue;
+                        if (!neighbour.active) continue;
+                        if (unionOfAlreadySelectedPlaces.has(neighbour)) continue;
+
+                        const hex = resultingGrid[neighbour.colIndex - minCol][neighbour.rowIndex - minRow];
+                        if (hex.provinceIndex !== PROVINCELESS_INDEX) continue;
+
+                        q.enqueue(neighbour);
+                    }
+                    provinceItems.add(item);
+                }
+
+                if (provinceItems.size < STARTING_PROVINCE_SIZE) {
+                    if (retries < RETRY_COUNT) {
+                        provinceIndex--; // RETRYING
+                        retries++;
+                        continue;
+                    } else {
+                        console.error("Failed creating the map");
+                        throw new Error("FAILED CREATING THE MAP");
+                    }
                 } else {
-                    console.error("Failed creating the map");
-                    throw new Error("FAILED CREATING THE MAP");
+                    retries = 0;
                 }
-            } else {
-                retries = 0;
+
+                provinceItems.forEach(item => {
+                    const hex = resultingGrid[item.colIndex - minCol][item.rowIndex - minRow];
+                    hex.fraction = fraction;
+                    hex.provinceIndex = provinceIndex;
+                });
+
+                provinceItems.forEach(x => unionOfAlreadySelectedPlaces.add(x));
             }
 
-            provinceItems.forEach(item => {
-                const hex = resultingGrid[item.colIndex - minCol][item.rowIndex - minRow];
-                hex.fraction = 1;
-                hex.provinceIndex = provinceIndex;
-            });
-
-            // // somehow determine the hexes
-            // provinceItems.clear();
-
-            // provinceItems.forEach(item => {
-            //     const hex = resultingGrid[item.colIndex - minCol][item.rowIndex - minRow];
-            //     hex.fraction = 2;
-            //     hex.provinceIndex = provinceIndex;
-            // });
         }
 
         return {
