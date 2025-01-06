@@ -4,13 +4,13 @@ import { RandomGenerator } from "./randomGenerator";
  * Resource: https://github.com/bryc/code/blob/master/jshash/PRNGs.md#splitmix32
  */
 export class SeadableRandom implements RandomGenerator {
-    private hook: () => number;
+    private hook: (() => number) | undefined;
     constructor(seed: number) {
         this.splitmix32(seed);
     }
 
     public random = (): number => {
-        return this.hook();
+        return this.hook ? this.hook() : 0;
     }
 
     private splitmix32 = (a: number): void => {
