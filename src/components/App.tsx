@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './Login';
 import GameList from './GameList';
 import GameScreen from './GameScreen';
+import GameCreate from './GameCreate';
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -20,6 +21,10 @@ const App: React.FC = () => {
                     <Route
                         path="/game/:id"
                         element={<ProtectedRoute element={<GameScreen />} />}
+                    />
+                    <Route
+                        path="/create"
+                        element={<ProtectedRoute element={<GameCreate />} />}
                     />
                 </Routes>
             </Router>

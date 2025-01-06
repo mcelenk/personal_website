@@ -42,18 +42,21 @@ const GameList: React.FC = () => {
         return <div>{error}</div>;
     }
     return (
-        <div className="game-list-container">
-            <h2>Available Games</h2>
-            <ul className="game-list">
-                {games.map(game => (
-                    <li key={game.gameId} className="game-item" onClick={() => navigate(`/game/${game.gameId}`)}>
-                        <div className="game-card">
-                            <h3>Game ID: {game.gameId}</h3>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <>
+            <button onClick={() => navigate('/create')}>Create a new game</button>
+            <div className="game-list-container">
+                <h2>Available Games</h2>
+                <ul className="game-list">
+                    {games.map(game => (
+                        <li key={game.gameId} className="game-item" onClick={() => navigate(`/game/${game.gameId}`)}>
+                            <div className="game-card">
+                                <h3>Game ID: {game.gameId}</h3>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </>
     );
 };
 
