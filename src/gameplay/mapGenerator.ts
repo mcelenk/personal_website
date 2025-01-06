@@ -51,7 +51,7 @@ export type MapData = {
 export class MapGenerator {
     public static generateMap = (size: MapSize, fillPercent: number, randomGenerator: RandomGenerator = Math, fractionCount: number = 2): MapData => {
 
-        fillPercent = randomGenerator.random() * 0.1 + (fillPercent - 0.05);
+        fillPercent = randomGenerator.random() * 0.18 + (fillPercent - 0.09);
 
         const { dimension, treeCount, provinceCountPerFraction } = MAP_SIZE_DEFAULTS[size];
         const initialGrid = new Array<Array<GridItem>>();
