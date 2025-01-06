@@ -3,7 +3,7 @@ export class Transform {
     public y: number;
     public scale: number;
 
-    constructor(x: number = 150, y: number = 50, scale: number = 1.7) {
+    constructor(x: number = 150, y: number = 50, scale: number = 1.2) {
         this.x = x;
         this.y = y;
         this.scale = scale;
