@@ -36,7 +36,8 @@ export class Game {
         this.ctxFront = this.canvasFront.getContext("2d")!;
 
         // injecting!!
-        const seed = new Date().getMilliseconds();
+        let seed = new Date().getMilliseconds();
+        seed = 341;
         (window as any).seed = seed;
         const mapData = MapGenerator.generateMap(MapSize.LARGE, 0.66, new SeadableRandom(seed));
         gameData.fWidth = mapData.width;
