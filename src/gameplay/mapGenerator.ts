@@ -23,17 +23,17 @@ type MapProperties = {
 
 const MAP_SIZE_DEFAULTS: Record<MapSize, MapProperties> = {
     [MapSize.SMALL]: {
-        dimension: { width: 13, height: 20 },
+        dimension: { width: 14, height: 20 },
         treeCount: 3 + Math.floor(7 * Math.random()),
         provinceCountPerFraction: 1,
     },
     [MapSize.MEDIUM]: {
-        dimension: { width: 26, height: 24 },
+        dimension: { width: 27, height: 24 },
         treeCount: 7 + Math.floor(21 * Math.random()),
         provinceCountPerFraction: 2,
     },
     [MapSize.LARGE]: {
-        dimension: { width: 24, height: 37 },
+        dimension: { width: 26, height: 37 },
         treeCount: 10 + Math.floor(30 * Math.random()),
         provinceCountPerFraction: 3,
     }
@@ -58,7 +58,7 @@ export class MapGenerator {
         for (let x = 0; x < dimension.width; x++) {
             const column: Array<GridItem> = [];
             for (let y = 0; y < dimension.height; y++) {
-                if (y === 0 || y === dimension.height - 1 || x === 0 || x === dimension.width - 1) {
+                if (y === 0 || y === dimension.height - 1 || x === 0 || x === 1 || x === dimension.width - 1) {
                     column.push({ rowIndex: y, colIndex: x, active: false });
                 } else {
                     column.push({ rowIndex: y, colIndex: x, active: randomGenerator.random() < fillPercent });
@@ -107,10 +107,6 @@ export class MapGenerator {
                         for (const neighbour of NeighbourExplorer.getNeighbours(initialGrid, dimension, item)) {
                             if (!visited.has(neighbour)) {
                                 q.enqueue(neighbour);
-                                if (neighbour.colIndex == 21 && neighbour.rowIndex == 22) {
-                                    console.log("BURADA!");
-                                    minCol = minRow;
-                                }
                                 visited.add(neighbour);
                             }
                         }
