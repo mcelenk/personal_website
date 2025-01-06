@@ -4,7 +4,9 @@ import { Transform } from './transform';
 import { ResourceConfig } from './resource';
 import { MapGenerator, MapSize } from './mapGenerator';
 import { Hex } from './hex';
-import { Obj } from './object';
+// import { Obj } from './object';
+// import { RandomGenerator } from './randomGenerator';
+import { SeadableRandom } from './seedableRandom';
 
 export class Game {
     private canvasBack: HTMLCanvasElement;
@@ -34,7 +36,9 @@ export class Game {
         this.ctxFront = this.canvasFront.getContext("2d")!;
 
         // injecting!!
-        const mapData = MapGenerator.generateMap(MapSize.LARGE, 0.66);
+        const seed = new Date().getMilliseconds();
+        (window as any).seed = seed;
+        const mapData = MapGenerator.generateMap(MapSize.LARGE, 0.66, new SeadableRandom(seed));
         gameData.fWidth = mapData.width;
         gameData.fHeight = mapData.height;
         gameData.field = [];
