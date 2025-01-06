@@ -169,11 +169,16 @@ export class MapGenerator {
                 while (unionOfAlreadySelectedPlaces.has(randomGridItem) || !bestSet.has(randomGridItem)) {
                     randomGridItem = arr[Math.floor(Math.random() * arr.length)];
                 }
+                let breakFlag = false;
                 for (let n of NeighbourExplorer.getNeighbours(initialGrid, dimension, randomGridItem)) {
                     if (unionOfAlreadySelectedPlaces.has(n)) {
-                        provinceIndex--;
-                        continue;
+                        breakFlag = true;
+                        break;
                     }
+                }
+                if (breakFlag) {
+                    provinceIndex--;
+                    continue;
                 }
 
                 const provinceItems: Set<GridItem> = new Set<GridItem>();
