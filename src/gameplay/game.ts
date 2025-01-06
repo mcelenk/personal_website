@@ -37,7 +37,6 @@ export class Game {
 
         // injecting!!
         let seed = new Date().getMilliseconds();
-        seed = 69;
         (window as any).seed = seed;
         const mapData = MapGenerator.generateMap(MapSize.MEDIUM, 0.66, new SeadableRandom(seed));
         gameData.fWidth = mapData.width;

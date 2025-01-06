@@ -169,6 +169,12 @@ export class MapGenerator {
                 while (unionOfAlreadySelectedPlaces.has(randomGridItem) || !bestSet.has(randomGridItem)) {
                     randomGridItem = arr[Math.floor(Math.random() * arr.length)];
                 }
+                for (let n of NeighbourExplorer.getNeighbours(initialGrid, dimension, randomGridItem)) {
+                    if (unionOfAlreadySelectedPlaces.has(n)) {
+                        provinceIndex--;
+                        continue;
+                    }
+                }
 
                 const provinceItems: Set<GridItem> = new Set<GridItem>();
                 const q = new Queue<GridItem>();
@@ -182,6 +188,7 @@ export class MapGenerator {
                         if (provinceItems.has(neighbour)) continue;
                         if (!neighbour.active) continue;
                         if (unionOfAlreadySelectedPlaces.has(neighbour)) continue;
+                        if (!bestSet.has(neighbour)) continue;
 
                         const hex = resultingGrid[neighbour.colIndex - minCol][neighbour.rowIndex - minRow];
                         if (hex.provinceIndex !== PROVINCELESS_INDEX) continue;
