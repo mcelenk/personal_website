@@ -107,6 +107,10 @@ export class MapGenerator {
                         for (const neighbour of NeighbourExplorer.getNeighbours(initialGrid, dimension, item)) {
                             if (!visited.has(neighbour)) {
                                 q.enqueue(neighbour);
+                                if (neighbour.colIndex == 21 && neighbour.rowIndex == 22) {
+                                    console.log("BURADA!");
+                                    minCol = minRow;
+                                }
                                 visited.add(neighbour);
                             }
                         }
