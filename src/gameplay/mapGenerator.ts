@@ -12,7 +12,7 @@ export enum MapSize {
     LARGE = 2
 };
 
-const STARTING_PROVINCE_SIZE = 9;
+const STARTING_PROVINCE_SIZE = 5;
 const RETRY_COUNT = 3;
 
 type MapProperties = {
