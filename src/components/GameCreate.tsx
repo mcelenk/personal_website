@@ -7,7 +7,7 @@ import '../styles/GameCreate.css';
 
 
 interface Player {
-    id: string;
+    userId: string;
     name: string;
 }
 
@@ -25,17 +25,30 @@ const mapTypes: MapType[] = [
 const GameCreate: React.FC = () => {
     const [players, setPlayers] = useState<Player[]>([]);
     const [selectedPlayer, setSelectedPlayer] = useState<string>('');
-    const [selectedMapSize, setSelectedMapSize] = useState<string>('small');
+    const [selectedMapSize, setSelectedMapSize] = useState<MapSize>(MapSize.SMALL);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
     const { user } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        setPlayers([
-            { id: "asdsadasd", name: "Yanni yanni yannn" },
-            { id: "asdfad331", name: "Yunnu yunnu yun" },
-            { id: "asdasee12", name: "Etszgy etgyyy etsy" },
-            { id: "115640007776032459832", name: "Mustafa Celebioglu" },
-        ].filter(x => x.id != user.sub));
+
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch(`/.netlify/functions/getAllUsers?userId=${user.sub}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setPlayers(data);
+            } catch (err) {
+                setError('Error fetching game data');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUsers();
     }, [user]);
 
     const handleCreateGame = () => {
@@ -69,6 +82,14 @@ const GameCreate: React.FC = () => {
         });
     };
 
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     return (
         <div>
             <h2>Create a New Game</h2>
@@ -81,7 +102,7 @@ const GameCreate: React.FC = () => {
                 >
                     <option value="">Select a player</option>
                     {players.map(player => (
-                        <option key={player.id} value={player.id}>
+                        <option key={player.userId} value={player.userId}>
                             {player.name}
                         </option>
                     ))}
@@ -92,7 +113,7 @@ const GameCreate: React.FC = () => {
                 Choose Map Type:
                 <select
                     value={selectedMapSize}
-                    onChange={e => setSelectedMapSize(e.target.value)}
+                    onChange={e => setSelectedMapSize(parseInt(e.target.value))}
                 >
                     {mapTypes.map(map => (
                         <option key={map.key} value={map.key}>
@@ -102,7 +123,7 @@ const GameCreate: React.FC = () => {
                 </select>
             </label>
 
-            <button className="back-button" onClick={handleCreateGame} disabled={!selectedPlayer}>Create Game</button>
+            <button className="common-button" onClick={handleCreateGame} disabled={!selectedPlayer}>Create Game</button>
         </div>
     );
 };

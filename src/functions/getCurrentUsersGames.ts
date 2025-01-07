@@ -5,7 +5,6 @@ const client = new MongoClient(process.env.MONGODB_URI!);
 
 const handler: Handler = async (event, _context) => {
     const userId = event.queryStringParameters?.userId;
-
     if (!userId) {
         return {
             statusCode: 400,
@@ -14,17 +13,12 @@ const handler: Handler = async (event, _context) => {
     }
 
     try {
-        // Connect to the MongoDB cluster
         await client.connect();
 
-        // Access the database and collection
         const database = client.db('AntiyoyCloneDB');
         const collection = database.collection('GameTurn');
+        const data = await collection.find({ currentUserId: userId, isActive: true }).toArray();
 
-        // Query the collection
-        const data = await collection.find({ currentUserId: event.queryStringParameters?.userId, isActive: true }).toArray();
-
-        // Return the data as JSON
         return {
             statusCode: 200,
             body: JSON.stringify(data),
