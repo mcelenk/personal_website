@@ -1,0 +1,16 @@
+.game-create label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.game-create select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

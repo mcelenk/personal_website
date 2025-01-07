@@ -1,4 +1,4 @@
-.back-button {
+.common-button {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -12,6 +12,7 @@
     z-index: 10;
 }
 
-.back-button:hover {
+.common-button:hover {
     background-color: #0056b3;
+    margin-top: 10px;
 }

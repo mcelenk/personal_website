@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import '../styles/GameList.css';
+import '../styles/Common.css';
 
 interface Game {
     gameId: string,
@@ -43,7 +44,7 @@ const GameList: React.FC = () => {
     }
     return (
         <>
-            <button onClick={() => navigate('/create')}>Create a new game</button>
+            <button className="common-button" onClick={() => navigate('/create')}>Create a new game</button>
             <div className="game-list-container">
                 <h2>Available Games</h2>
                 <ul className="game-list">

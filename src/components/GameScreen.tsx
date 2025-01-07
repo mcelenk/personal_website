@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { Game } from '../gameplay/game';
-import '../styles/GameScreen.css';
+import '../styles/Common.css';
 
 const GameScreen: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -94,7 +94,7 @@ const GameScreen: React.FC = () => {
     }
     return (
         <div>
-            <button className="back-button" onClick={() => navigate('/games')}>Back to Game List</button>
+            <button className="common-button" onClick={() => navigate('/games')}>Back to Game List</button>
             <canvas ref={canvasBackRef} id="back" width={window.innerWidth} height={window.innerHeight}></canvas>
             <canvas ref={canvasFrontRef} id="front" width={window.innerWidth} height={window.innerHeight}></canvas>
         </div>
