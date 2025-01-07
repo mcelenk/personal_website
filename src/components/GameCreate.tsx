@@ -31,6 +31,7 @@ const GameCreate: React.FC = () => {
             { id: "asdsadasd", name: "Yanni yanni yannn" },
             { id: "asdfad331", name: "Yunnu yunnu yun" },
             { id: "asdasee12", name: "Etszgy etgyyy etsy" },
+            { id: "115640007776032459832", name: "Mustafa Celebioglu" },
         ].filter(x => x.id != user.sub));
 
         // // Fetch the list of players from your server or API
