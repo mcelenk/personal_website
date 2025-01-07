@@ -17,7 +17,7 @@ const handler: Handler = async (event, _context) => {
         const database = client.db('AntiyoyCloneDB');
         const collection = database.collection('GameUser');
 
-        const projection = { userId: 1, name: 1, _id: 0, email: 0 };
+        const projection = { userId: 1, name: 1, _id: 0 };
         const records = await collection.find({ userId: { $ne: userId } }, { projection }).toArray();
 
         return {
