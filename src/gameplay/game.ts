@@ -4,8 +4,6 @@ import { Transform } from './transform';
 import { ResourceConfig } from './resource';
 import { MapGenerator, MapSize } from './mapGenerator';
 import { Hex } from './hex';
-// import { Obj } from './object';
-// import { RandomGenerator } from './randomGenerator';
 import { SeadableRandom } from './seedableRandom';
 
 export class Game {
@@ -35,7 +33,19 @@ export class Game {
         this.ctxBack = this.canvasBack.getContext("2d")!;
         this.ctxFront = this.canvasFront.getContext("2d")!;
 
-        // injecting!!
+        // // injecting!!
+        // this.randomMapDataInjectionGoodForTesting(gameData);
+        // // end of injection
+
+        this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), gameData, this.saveGame);
+        new UserEvents(this.canvasFront, this.fManager, this.redraw);
+        this.id = gameData.id;
+        this.players = gameData.players;
+        this.currentPlayerId = currentPlayerId;
+        this.gameLoop();
+    }
+
+    private randomMapDataInjectionGoodForTesting = (gameData: any): void => {
         let seed = new Date().getMilliseconds();
         (window as any).seed = seed;
         const mapData = MapGenerator.generateMap(MapSize.SMALL, 0.66, new SeadableRandom(seed));
@@ -50,21 +60,13 @@ export class Game {
             }
             gameData.field.push(column);
         }
-        // end of injection
-
-        this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), gameData, this.saveGame);
-        new UserEvents(this.canvasFront, this.fManager, this.redraw);
-        this.id = gameData.id;
-        this.players = gameData.players;
-        this.currentPlayerId = currentPlayerId;
-        this.gameLoop();
     }
 
     public saveGame = (): void => {
         let resultObj = this.fManager.serialize();
         resultObj.players = this.players;
         resultObj.lastModifiedBy = this.currentPlayerId;
-        resultObj.id = this.id; // Important!
+        resultObj.id = this.id; // Important! But shouldn't be, fix it
         this.saveGameHook(resultObj);
     }
 

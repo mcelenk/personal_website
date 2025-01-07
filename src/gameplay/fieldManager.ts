@@ -107,7 +107,7 @@ export class FieldManager implements SingleClickHandler {
         this.selectedHex = null;
         this.borderHighlightedHexes = null;
         this.movingUnit = null;
-        this.latestTransformMatrix = new DOMMatrix([1.2, 0, 0, 1.2, 150, 50]);
+        this.latestTransformMatrix = new DOMMatrix([2.7, 0, 0, 2.7, 150, 50]);
 
         this.provinces = this.initializeProvinces(gameState.provinceBalances);
         for (let hexWithTown of this.provinces.getAllHexesWithTowns()) {
