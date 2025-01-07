@@ -123,7 +123,8 @@ const GameCreate: React.FC = () => {
                 </select>
             </label>
 
-            <button className="common-button" onClick={handleCreateGame} disabled={!selectedPlayer}>Create Game</button>
+            <button className="relative-button" onClick={handleCreateGame} disabled={!selectedPlayer}>Create Game</button>
+            <button className="relative-button" onClick={() => navigate('/games')}>Back to Game List</button>
         </div>
     );
 };
