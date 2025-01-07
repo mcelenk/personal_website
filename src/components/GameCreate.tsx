@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { MapSize } from '../gameplay/mapGenerator';
 
 interface Player {
     id: string;
@@ -13,9 +14,9 @@ interface MapType {
 }
 
 const mapTypes: MapType[] = [
-    { key: 'small', label: 'Small' },
-    { key: 'medium', label: 'Medium' },
-    { key: 'large', label: 'Large' },
+    { key: "" + MapSize.SMALL, label: 'Small' },
+    { key: "" + MapSize.MEDIUM, label: 'Medium' },
+    { key: "" + MapSize.LARGE, label: 'Large' },
 ];
 
 const GameCreate: React.FC = () => {
@@ -96,7 +97,7 @@ const GameCreate: React.FC = () => {
         createGame({
             userId: user.sub,
             opponentId: selectedPlayer,
-            mapSize: selectedMapType,
+            mapSize: parseInt(selectedMapType),
         });
     };
 
