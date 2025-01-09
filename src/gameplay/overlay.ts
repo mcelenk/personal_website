@@ -80,7 +80,9 @@ export class Overlay implements StateHolder {
     }
 
     public advance = (): boolean => {
+        console.log(`In advance of overlay with balance: ${this.balance} and income: ${this.income}`);
         this.balance += this.income;
+        console.log(`After increase with balance: ${this.balance} and income: ${this.income}`);
         if (this.balance < 0) {
             this.balance = 0;
             return false;
