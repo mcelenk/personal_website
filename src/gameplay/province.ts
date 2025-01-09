@@ -160,8 +160,6 @@ export class Province implements Indexable, StateHolder {
     }
 
     public advance = (): void => {
-        //  NO NEED TO KEEP HISTORY, THIS IS THE END OF THE TURN for the player
-
         if (!this.overlay.advance()) {
             // balance is calculated to be negative but set to zero
             // we need to kill all units.
@@ -172,7 +170,7 @@ export class Province implements Indexable, StateHolder {
                 }
             }
             // This might look unsafe, what would happen to the history of the overlay?
-            // No worries about it, since this `advance` is called when user clicks NEXT
+            // No worries about it, since this `advance` is called for the actie fraction when the game is loaded
             this._overlay = new Overlay(this.getIncomeCalculationParams(this.hexes), 0);
         }
     }

@@ -122,6 +122,8 @@ export class FieldManager implements SingleClickHandler {
                 return Math.random();
             }
         }, this.getNeighbours.bind(this));
+
+        this.provinces.advance(this.activeFraction);
     }
 
     private initializeProvinces = (provinceBalances: Record<number, Record<number, number>> | undefined): Provinces => {
@@ -273,7 +275,7 @@ export class FieldManager implements SingleClickHandler {
         if (Positioning.isNextTurnClicked(origPosition, this.dimension)) {
             this.handleTreeSpawning();
             this.transformGraves(); // this needs to be before provinces.advance! Not good.
-            this.provinces.advance(this.activeFraction);
+            //this.provinces.advance(this.activeFraction);
             this.killProvincelessUnits();
             this.stopUnitAnimations();
             this.turnEnded = true;
