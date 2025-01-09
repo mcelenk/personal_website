@@ -16,6 +16,7 @@ import { SpawnCheck } from './spawnCheck';
 import { RandomGenerator } from './randomGenerator';
 import { NEUTRAL_FRACTION_INDEX, PROVINCELESS_INDEX } from './constants';
 import { NeighbourExplorer } from './neighbouring';
+import { IncomeCalculation } from './incomeCalculation';
 
 const INITIAL_BALANCE = 10;
 
@@ -149,7 +150,8 @@ export class FieldManager implements SingleClickHandler {
         const result = new Provinces(mapping.size);
         mapping.forEach((value: Map<number, Array<Hex>>, fraction: number) => {
             value.forEach((arr: Array<Hex>, provinceIndex: number) => {
-                const balance: number = provinceBalances ? provinceBalances![fraction][provinceIndex] ?? INITIAL_BALANCE : INITIAL_BALANCE;
+                const incomeAmount = IncomeCalculation.calculateIncomeFromHexes(arr);
+                const balance: number = provinceBalances ? provinceBalances![fraction][provinceIndex] ?? INITIAL_BALANCE - incomeAmount : INITIAL_BALANCE - incomeAmount;
                 result.addHexes(arr, fraction, provinceIndex, balance);
             });
         });

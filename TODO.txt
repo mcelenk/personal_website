@@ -10,8 +10,8 @@
 
 
 
-
-* The rest seems to be done on the server side first
+                                                       /
+* The rest seems to be done on the server side first \/
     * Retrieving list of games (we can start with those that awaits our action [our turn])
     * Updating serialization, the game data and turn info (whose turn is it) should/could/might/have to/must be saved and queried seperately, see GameScreen.tsx implementation.
     game_id, first_player, second_player
@@ -54,18 +54,25 @@
                                                                                                    /
 * BUG: Removing one hex of a province with two hexes leads to a province left with a single hex! \/
 
+                                                                                                                  /
+* When a split happens, we were assigning the olb balance of the provicne to the first suitable new province.   \/
+We now changed it to a province where the income is also the highest. This is the behaviour of the original game.
+
               \/
 * GAME ENDING /\
 
                       \/
-* STARTING A NEW GAME /\
-    * When a user has more than X active games, they can't create a new game! (throttling)
-    * Be able to select the map size
-    * be able to select an opponent (hopefully a list of opponents when we get to implementing this with more than two players)
-    * Given size, generating a random map
+* STARTING A NEW GAME /\                                                                   \/
+    * When a user has more than X active games, they can't create a new game! (throttling) /\
+                                       /
+    * Be able to select the map size \/
+                                                                                                                                  /
+    * be able to select an opponent (hopefully a list of opponents when we get to implementing this with more than two players) \/
+                                            /
+    * Given size, generating a random map \/
+
                                                                                  \/
 * Fitting the overlay display in the screen, a responsive display so to speak :D /\
 
                 \/
 * Leaderboard?  /\
-

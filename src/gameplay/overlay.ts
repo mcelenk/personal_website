@@ -4,17 +4,14 @@ import { ADDABLE_BUILDINGS, TREES, Obj } from "./object";
 import { Positioning } from "./positioning";
 import { StateHolder } from "./state";
 import { UnitType } from "./unit";
+import { CalculationParams, FARM_INCOME, IncomeCalculation, TOWER_EXPENSES, UNIT_WAGES } from './incomeCalculation';
 
 const DURATION = 350;
 const MAX_DELTA = 100;
 
-const UNIT_WAGES = [2, 6, 18, 36];
-const TOWER_EXPENSES = [2, 6];
-
 const TOWER_ADDITION_COSTS = [15, 35];
 
 const FARM_COST_INCREASE = 2;
-const FARM_INCOME = 4;
 const INITIAL_FARM_COST = 12;
 
 /*
@@ -38,15 +35,6 @@ const MERGING_COST: ReadonlyArray<ReadonlyArray<number>> = [
     [-2 - 6 + 18, -6 - 6 + 36, 0],
     [-2 - 18 + 36, 0, 0],
 ];
-
-export type CalculationParams = {
-    numHexes?: number,
-    numTreesAndGraves?: number,
-    numFarms?: number,
-    numUnits?: Array<number>,
-    numTowers?: Array<number>,
-    additionalBalance?: number,
-}
 
 type OverlayHistory = {
     balance: number;
@@ -78,7 +66,7 @@ export class Overlay implements StateHolder {
         if (calculationParams?.additionalBalance) {
             this.balance += calculationParams.additionalBalance;
         }
-        this.income = this.calculateIncome(calculationParams);
+        this.income = IncomeCalculation.calculateIncome(calculationParams);
         this.displayedText = this.toString();
 
         this.animStart = 0;
@@ -126,24 +114,8 @@ export class Overlay implements StateHolder {
         }
     }
 
-    private calculateIncome = (calculationParams: CalculationParams | null): number => {
-        if (!calculationParams) return 0;
-
-        let result = (calculationParams.numHexes ?? 0)
-            + (calculationParams.numFarms ?? 0) * FARM_INCOME
-            - (calculationParams.numTreesAndGraves ?? 0);
-
-        calculationParams.numUnits?.forEach((numUnit, i) => {
-            result -= UNIT_WAGES[i] * numUnit;
-        });
-        calculationParams.numTowers?.forEach((numTower, i) => {
-            result -= TOWER_EXPENSES[i] * numTower;
-        });
-        return result;
-    }
-
     public updateWith = (params: CalculationParams): void => {
-        this.income += this.calculateIncome(params);
+        this.income += IncomeCalculation.calculateIncome(params);
         if (params.additionalBalance) {
             this.balance += params.additionalBalance;
         }

@@ -1,9 +1,10 @@
 import { Hex } from "./hex";
 import { Obj } from "./object";
 import { Indexable, OrderedList } from "./orderedList";
-import { CalculationParams, Overlay } from "./overlay";
+import { Overlay } from "./overlay";
 import { StateHolder } from "./state";
 import { PROVINCELESS_INDEX } from './constants';
+import { IncomeCalculation, CalculationParams } from "./incomeCalculation";
 
 type ProvinceHistory = {
     hexWithTown: Hex,
@@ -34,7 +35,7 @@ export class Province implements Indexable, StateHolder {
         for (let hex of this.hexes) {
             hex.setProvinceIndex(id);
         }
-        this._overlay = new Overlay(this.getIncomeCalculationParams(this.hexes), balance);
+        this._overlay = new Overlay(IncomeCalculation.getIncomeCalculationParams(this.hexes), balance);
         this._hexWithTown = this.assignHexWithTown(hexWithTown);
         this.history = [];
     }
@@ -109,54 +110,13 @@ export class Province implements Indexable, StateHolder {
             hex.setProvinceIndex(this.index);
             this.hexes.add(hex);
         });
-        const params = this.getIncomeCalculationParams(hexes, additionalBalance);
+        const params = IncomeCalculation.getIncomeCalculationParams(hexes, additionalBalance);
         this.overlay.updateWith(params);
     }
 
     public removeHex = (hex: Hex): void => {
         this.hexes.delete(hex);
         this.overlay.updateWithHexRemoval(hex);
-    }
-
-
-    private getIncomeCalculationParams = (hexes: Set<Hex> | Array<Hex>, additionalBalance?: number): CalculationParams => {
-        let numTreesAndGraves = 0;
-        let numUnits = [0, 0, 0, 0];
-        let numFarms = 0;
-        let numTowers = [0, 0];
-        let numHexes = 0;
-
-        hexes.forEach(h => {
-            if (!h.active) {
-                return;
-            }
-            numHexes += 1;
-            switch (h.getObjectInside()) {
-                case Obj.TOWER:
-                    numTowers[0] += 1; break;
-                case Obj.STRONG_TOWER:
-                    numTowers[1] += 1; break;
-                case Obj.FARM:
-                    numFarms += 1; break;
-                case Obj.PALM:
-                case Obj.PINE:
-                case Obj.GRAVE:
-                    numTreesAndGraves += 1; break;
-                default:
-                    break;
-            }
-            if (h.getUnit() != null) {
-                numUnits[h.getUnit()!.getType() - 1] += 1;
-            }
-        });
-        return {
-            numHexes: numHexes,
-            numTreesAndGraves: numTreesAndGraves,
-            numFarms: numFarms,
-            numUnits: numUnits,
-            numTowers: numTowers,
-            additionalBalance: additionalBalance,
-        };
     }
 
     public advance = (): void => {
@@ -171,7 +131,7 @@ export class Province implements Indexable, StateHolder {
             }
             // This might look unsafe, what would happen to the history of the overlay?
             // No worries about it, since this `advance` is called for the actie fraction when the game is loaded
-            this._overlay = new Overlay(this.getIncomeCalculationParams(this.hexes), 0);
+            this._overlay = new Overlay(IncomeCalculation.getIncomeCalculationParams(this.hexes), 0);
         }
     }
 }
@@ -250,13 +210,15 @@ export class Provinces implements StateHolder {
     }
 
     public *split(listOfSetOfHexes: Array<Set<Hex>>): Generator<Province | undefined> {
+
         const randomHex = [...listOfSetOfHexes[0]][0];
         const oldProvIndex = randomHex.getProvinceIndex();
         const fraction = randomHex.getFraction();
         const listOfProvinces = this.provinces[fraction - 1];
         const oldBalance = listOfProvinces.get(oldProvIndex)?.overlay.getBalance() ?? 0;
-        let oldBalanceUsed = false;
         listOfProvinces.delete(oldProvIndex);
+        const bestIncomeIndice = this.getBestIncomeIndice(listOfSetOfHexes);
+
         for (let i = 0; i < listOfSetOfHexes.length; i++) {
             const set = listOfSetOfHexes[i];
             if (set.size === 1) {
@@ -270,10 +232,22 @@ export class Provinces implements StateHolder {
                 singleHex.setProvinceIndex(PROVINCELESS_INDEX);
                 // what if there is a unit? It will be handled by FieldManager.killProvincelessUnits() when the user ends the turn
             } else {
-                yield this.addHexes([...set], fraction, this.getNextId(fraction), !oldBalanceUsed ? oldBalance : 0);
-                oldBalanceUsed = true;
+                yield this.addHexes([...set], fraction, this.getNextId(fraction), bestIncomeIndice === i ? oldBalance : 0);
             }
         }
+    }
+
+    private getBestIncomeIndice = (listOfSetOfHexes: Array<Set<Hex>>): number => {
+        let bestIncome = 0;
+        let result = 0;
+        listOfSetOfHexes.forEach((set: Set<Hex>, index: number) => {
+            const income = IncomeCalculation.calculateIncomeFromHexes(set);
+            if (income > bestIncome) {
+                bestIncome = income;
+                result = index;
+            }
+        });
+        return result;
     }
 
     public merge = (fraction: number, first: number, second: number, postMergeCallback: (hex: Hex) => void): void => {
