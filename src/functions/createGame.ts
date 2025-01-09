@@ -48,11 +48,17 @@ const handler: Handler = async (event, context) => {
 
         const gameTurnCollection = database.collection('GameTurn');
 
-        // Create the filter and update objects
-        const filter = { gameId: gameData.id, isActive: true };
-        const update = { $set: { currentUserId: opponentId } };
-
-        await gameTurnCollection.updateOne(filter, update, { upsert: true });
+        await gameTurnCollection.insertMany([{
+            gameId: gameData.id,
+            userId: userId,
+            isActive: true,
+            isCurrent: false,
+        }, {
+            gameId: gameData.id,
+            userId: opponentId,
+            isActive: true,
+            isCurrent: true,
+        }]);
 
         return {
             statusCode: 201,

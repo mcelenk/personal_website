@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions';
-import { MongoClient } from 'mongodb';
+import { MongoClient, TransactionOptions } from 'mongodb';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 
@@ -15,28 +15,47 @@ const handler: Handler = async (event, context) => {
 
     try {
         await client.connect();
-        const database = client.db('AntiyoyCloneDB');
-        const collection = database.collection('GameState');
+        const session = client.startSession();
 
-        await collection.insertOne({
-            gameId: gameData.id,
-            insertDt: new Date(),
-            gameData: gameData,
-        });
+        const transactionOptions: TransactionOptions = {
+            readPreference: 'primary',
+            readConcern: {
+                level: 'local'
+            },
+            writeConcern: {
+                w: 'majority'
+            },
+        };
 
-        // pick the next userId from the players Array
-        const playerIds: Array<string> = gameData.players;
-        const currPlayerIndex = playerIds.indexOf(gameData.lastModifiedBy);
-        const nextPlayerIndex = (currPlayerIndex + 1) % playerIds.length;
-        const nextPlayerId = playerIds[nextPlayerIndex];
+        const transactionResults = await session.withTransaction(async () => {
+            const database = client.db('AntiyoyCloneDB');
+            const collection = database.collection('GameState');
+            await collection.insertOne({
+                gameId: gameData.id,
+                insertDt: new Date(),
+                gameData: gameData,
+            });
 
-        const gameTurnCollection = database.collection('GameTurn');
+            // pick the next userId from the players Array
+            const playerIds: Array<string> = gameData.players;
+            const currPlayerIndex = playerIds.indexOf(gameData.lastModifiedBy);
+            const nextPlayerIndex = (currPlayerIndex + 1) % playerIds.length;
+            const nextPlayerId = playerIds[nextPlayerIndex];
 
-        // Create the filter and update objects
-        const filter = { gameId: gameData.id, isActive: true };
-        const update = { $set: { currentUserId: nextPlayerId } };
+            // two updates, one to false, other to true for the field isCurrent
+            const gameTurnCollection = database.collection('GameTurn');
+            await gameTurnCollection.updateOne(
+                { gameId: gameData.id, userId: gameData.lastModifiedBy, isActive: true },
+                { $set: { isCurrent: false } },
+                { session }
+            );
 
-        await gameTurnCollection.updateOne(filter, update, { upsert: true });
+            await gameTurnCollection.updateOne(
+                { gameId: gameData.id, userId: nextPlayerId, isActive: true },
+                { $set: { isCurrent: true } },
+                { session }
+            );
+        }, transactionOptions);
 
         return {
             statusCode: 201,
@@ -50,7 +69,6 @@ const handler: Handler = async (event, context) => {
             body: JSON.stringify({ message: 'Internal Server Error' }),
         };
     } finally {
-        // Ensure the client is closed after the operation
         await client.close();
     }
 };

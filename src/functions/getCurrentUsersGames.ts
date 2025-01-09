@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions';
-import { MongoClient } from 'mongodb';
+import { MongoClient, SortDirection } from 'mongodb';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 
@@ -17,11 +17,14 @@ const handler: Handler = async (event, _context) => {
 
         const database = client.db('AntiyoyCloneDB');
         const collection = database.collection('GameTurn');
-        const data = await collection.find({ currentUserId: userId, isActive: true }).toArray();
+
+        const query = { userId: userId, isActive: true };
+        const sort: { [key: string]: SortDirection } = { isCurrent: -1 }; // -1 for descending order, 1 for ascending order 
+        const records = await collection.find(query).sort(sort).toArray();
 
         return {
             statusCode: 200,
-            body: JSON.stringify(data),
+            body: JSON.stringify(records),
         };
     } catch (error) {
         console.error('Error connecting to MongoDB', error);
