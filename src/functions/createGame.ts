@@ -40,6 +40,10 @@ const handler: Handler = async (event, context) => {
         const database = client.db('AntiyoyCloneDB');
         const collection = database.collection('GameState');
 
+        const result = await collection.deleteMany();
+        const turnCollection = database.collection('GamTurn');
+        await turnCollection.deleteMany();
+
         await collection.insertOne({
             gameId: gameData.id,
             insertDt: new Date(),
