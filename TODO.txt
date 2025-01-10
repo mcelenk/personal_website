@@ -8,8 +8,8 @@
     * User interaction blocking \/\
                                                                                                                     \/
     * Need to communicate this to the user better, when they click next, it should show 'Awaiting your opponent(s)' /\
-                                                                                             \/
-        This can and should be the case when a user opens a game where it is not their turn. /\
+                                                                                               /
+        This can and should be the case when a user opens a game where it is not their turn. \/
 
                                                           /
     * Displaying a link to go back to the list of games \/
@@ -68,8 +68,10 @@ We now changed it to a province where the income is also the highest. This is th
                       \/
 * STARTING A NEW GAME /\                                                                   \/
     * When a user has more than X active games, they can't create a new game! (throttling) /\
-                                                                                                                                                 \/
-    * Riht now, when creating a game, when the user clicks Create Game button, it continues to allow user to click it multiple times by mistake. /\
+                                                                                                                                                  \/
+    * Right now, when creating a game, when the user clicks Create Game button, it continues to allow user to click it multiple times by mistake. /\
+                                                  /
+    * Giving games a human readable random name \/
                                        /
     * Be able to select the map size \/
                                                                                                                                   /
