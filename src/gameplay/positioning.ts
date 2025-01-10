@@ -29,7 +29,7 @@ export class Positioning {
     public static readonly UNIT_ADDITION_SIZE = 150;
     public static readonly UNIT_ADDITION_LABEL_DELTA = { x: Positioning.UNIT_ADDITION_SIZE / 4 + 10, y: Positioning.UNIT_ADDITION_SIZE + 20 };
     public static readonly SELECTION_VERTICAL_ADJUSTMENT = 115;
-    public static readonly ADDITION_VERTICAL_ADJUSTMENT = 225;
+    public static readonly ADDITION_VERTICAL_ADJUSTMENT = 250;
 
     public static getDrawingLocation = (hex: Hex): Position => {
         return {
