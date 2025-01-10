@@ -363,11 +363,12 @@ export class Overlay implements StateHolder {
         getObjImg: (objType: Obj) => (HTMLImageElement | null),
         delta: number): void => {
         if (coinImg != null) {
-            const textMaxWidth = ctx.canvas.width / 2;
-            const text = this.balance.toString() + (this.income > 0 ? "+" : "") + this.income.toString();
-            // Adjust space between balance and income based on the max width
-            const spaces = Math.max(0, textMaxWidth - text.length);
-            const displayText = this.balance.toString() + " ".repeat(spaces) + (this.income > 0 ? "+" : "") + this.income.toString();
+            const spaceCharWidth = ctx.measureText(" ").width;
+            const baseText = this.balance.toString() + (this.income > 0 ? "+" : "") + this.income.toString();
+            const baseTextWidth = ctx.measureText(baseText).width;
+            const availableWidth = ctx.canvas.width / 2 - baseTextWidth;
+            const numberOfSpaces = Math.floor(availableWidth / spaceCharWidth);
+            const displayText = this.balance.toString() + " ".repeat(Math.max(numberOfSpaces, 0)) + (this.income > 0 ? "+" : "") + this.income.toString();
 
             // Calculate dynamic position for the image and text
             const imgX = ctx.canvas.width / 4;
