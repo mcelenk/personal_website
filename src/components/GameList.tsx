@@ -34,7 +34,7 @@ const GameList: React.FC = () => {
         };
 
         fetchGames();
-    }, []);
+    }, [user]);
 
     if (loading) {
         return <div>Loading...</div>;
