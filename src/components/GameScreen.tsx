@@ -57,7 +57,7 @@ const GameScreen: React.FC = () => {
 
             initializeGame();
         }
-    }, [isAuthorized, canvasBackRef, canvasFrontRef, game]);
+    }, [isAuthorized, canvasBackRef, canvasFrontRef, gameData]);
 
     useEffect(() => {
         if (serializationData) {
