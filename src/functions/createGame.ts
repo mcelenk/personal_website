@@ -4,6 +4,7 @@ import { MongoClient, TransactionOptions } from 'mongodb';
 import { MapGenerator, MapSize } from '../gameplay/mapGenerator';
 import { Hex } from '../gameplay/hex';
 import { GUID } from '../gameplay/guid';
+import { Naming } from '../gameplay/naming';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 const handler: Handler = async (event, _context) => {
@@ -56,6 +57,7 @@ const handler: Handler = async (event, _context) => {
 
             await collection.insertOne({
                 gameId: gameData.id,
+                gameName: Naming.generate(),
                 insertDt: new Date(),
                 gameData: gameData,
             });
@@ -74,6 +76,7 @@ const handler: Handler = async (event, _context) => {
                 isCurrent: true,
             }]);
         }, transactionOptions);
+        (window as any).rng = Naming.generate;
 
         return {
             statusCode: 201,
