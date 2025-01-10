@@ -43,7 +43,7 @@ const GameScreen: React.FC = () => {
     }, [id, user]);
 
     useEffect(() => {
-        if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && !game) {
+        if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData && !game) {
             const initializeGame = async () => {
                 try {
                     const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData, (data: any) => {
@@ -57,7 +57,7 @@ const GameScreen: React.FC = () => {
 
             initializeGame();
         }
-    }, [isAuthorized, canvasBackRef, canvasFrontRef, gameData]);
+    }, [isAuthorized, canvasBackRef, canvasFrontRef, gameData, game]);
 
     useEffect(() => {
         if (serializationData) {
