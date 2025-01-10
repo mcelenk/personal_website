@@ -21,7 +21,15 @@ export class Game {
     private currentPlayerId: string;
     private saveGameHook: (gameData: any) => void;
 
-    constructor(canvasBack: HTMLCanvasElement, canvasFront: HTMLCanvasElement, currentPlayerId: string, gameData: any, turnEnded: boolean, saveGameHook: (gameData: any) => void) {
+    constructor(
+        canvasBack: HTMLCanvasElement,
+        canvasFront: HTMLCanvasElement,
+        currentPlayerId: string,
+        gameData: any,
+        turnEnded: boolean,
+        saveGameHook: (gameData: any) => void,
+        awaitStateChangedHook: (arg: boolean) => void
+    ) {
         this.canvasBack = canvasBack;
         this.canvasFront = canvasFront;
         this.saveGameHook = saveGameHook;
@@ -37,7 +45,7 @@ export class Game {
         // this.randomMapDataInjectionGoodForTesting(gameData);
         // // end of injection
 
-        this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), gameData, turnEnded, this.saveGame);
+        this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), gameData, turnEnded, this.saveGame, awaitStateChangedHook);
         new UserEvents(this.canvasFront, this.fManager, this.redraw);
         this.id = gameData.id;
         this.players = gameData.players;

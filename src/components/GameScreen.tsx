@@ -52,6 +52,8 @@ const GameScreen: React.FC = () => {
                 try {
                     const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData, isAwaiting, (data: any) => {
                         setSerializationData(data);
+                    }, (state: boolean) => {
+                        setIsAwaiting(state);
                     });
                     setGame(gameInstance);
                 } catch (err) {

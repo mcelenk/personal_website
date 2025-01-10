@@ -65,19 +65,28 @@ export class FieldManager implements SingleClickHandler {
     private cursorForMenuButtons: string = "default";
 
     private serializationHook: () => void;
+    private awaitStateChangedHook: (arg: boolean) => void;
 
     public updateMenuItemDisplay = (globalAlpha: number, cursor: string): void => {
         this.globalAlphaForMenuButtons = globalAlpha;
         this.cursorForMenuButtons = cursor;
     }
 
-    constructor(canvas: Dimension, resourceConfig: ResourceConfig, gameState: SerializedGame, turnEnded: boolean = false, serializationHook: () => void = () => { }) {
+    constructor(
+        dimension: Dimension,
+        resourceConfig: ResourceConfig,
+        gameState: SerializedGame,
+        turnEnded: boolean = false,
+        serializationHook: () => void = () => { },
+        awaitStateChangedHook: (state: boolean) => void = (arg0: boolean) => { }
+    ) {
         this.fWidth = gameState.fWidth;
         this.fHeight = gameState.fHeight;
         this.activeFraction = gameState.activeFraction;
-        this.dimension = canvas;
+        this.dimension = dimension;
         this.resourceConfig = resourceConfig;
         this.serializationHook = serializationHook;
+        this.awaitStateChangedHook = awaitStateChangedHook;
 
         this.hexesWithTowersOrTowns = new Set<Hex>();
         this.field = new Array<Array<Hex>>();
@@ -282,6 +291,7 @@ export class FieldManager implements SingleClickHandler {
             this.killProvincelessUnits();
             this.stopUnitAnimations();
             this.turnEnded = true;
+            this.awaitStateChangedHook(true);
             this.serializationHook();
             if (this.provinces.areAllOpponentProvincesTaken()) {
                 alert("YOU WON! HURRAY!");

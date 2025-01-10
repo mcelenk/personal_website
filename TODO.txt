@@ -6,8 +6,8 @@
     * Tree spawning \/
                                  \/
     * User interaction blocking \/\
-                                                                                                                    \/
-    * Need to communicate this to the user better, when they click next, it should show 'Awaiting your opponent(s)' /\
+                                                                                                                      /
+    * Need to communicate this to the user better, when they click next, it should show 'Awaiting your opponent(s)' \/  (such trust in yourself :)
                                                                                                /
         This can and should be the case when a user opens a game where it is not their turn. \/
 
@@ -79,8 +79,8 @@ We now changed it to a province where the income is also the highest. This is th
                                             /
     * Given size, generating a random map \/
 
-                                                                                 \/
-* Fitting the overlay display in the screen, a responsive display so to speak :D /\
+                                                                                   /
+* Fitting the overlay display in the screen, a responsive display so to speak :D \/
 
                 \/
 * Leaderboard?  /\
