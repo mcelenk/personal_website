@@ -6,7 +6,8 @@ import '../styles/Common.css';
 
 interface Game {
     gameId: string,
-    isCurrent: boolean
+    gameName: string,
+    isCurrent: boolean,
 }
 
 const GameList: React.FC = () => {
@@ -52,7 +53,7 @@ const GameList: React.FC = () => {
                     {games.map(game => (
                         <li key={game.gameId} className="game-item" onClick={() => navigate(`/game/${game.gameId}`)}>
                             <div className={`game-card ${game.isCurrent ? '' : 'inactive'}`}>
-                                <h3>Game ID: {game.gameId}</h3>
+                                <h3>Game Name: {game.gameName ? game.gameName : game.gameId}</h3>
                             </div>
                         </li>
                     ))}
