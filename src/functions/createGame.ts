@@ -1,12 +1,12 @@
 import { Handler } from '@netlify/functions';
-import { MongoClient } from 'mongodb';
+import { MongoClient, TransactionOptions } from 'mongodb';
 
 import { MapGenerator, MapSize } from '../gameplay/mapGenerator';
 import { Hex } from '../gameplay/hex';
 import { GUID } from '../gameplay/guid';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
-const handler: Handler = async (event, context) => {
+const handler: Handler = async (event, _context) => {
     const { userId, opponentId, mapSize = MapSize.SMALL } = JSON.parse(event.body!);
 
     if (!userId || !opponentId) {
@@ -37,28 +37,42 @@ const handler: Handler = async (event, context) => {
 
     try {
         await client.connect();
-        const database = client.db('AntiyoyCloneDB');
-        const collection = database.collection('GameState');
 
-        await collection.insertOne({
-            gameId: gameData.id,
-            insertDt: new Date(),
-            gameData: gameData,
-        });
+        const session = client.startSession();
+        const transactionOptions: TransactionOptions = {
+            readPreference: 'primary',
+            readConcern: {
+                level: 'local'
+            },
+            writeConcern: {
+                w: 'majority'
+            },
+        };
 
-        const gameTurnCollection = database.collection('GameTurn');
+        await session.withTransaction(async () => {
+            const database = client.db('AntiyoyCloneDB');
+            const collection = database.collection('GameState');
 
-        await gameTurnCollection.insertMany([{
-            gameId: gameData.id,
-            userId: userId,
-            isActive: true,
-            isCurrent: false,
-        }, {
-            gameId: gameData.id,
-            userId: opponentId,
-            isActive: true,
-            isCurrent: true,
-        }]);
+            await collection.insertOne({
+                gameId: gameData.id,
+                insertDt: new Date(),
+                gameData: gameData,
+            });
+
+            const gameTurnCollection = database.collection('GameTurn');
+
+            await gameTurnCollection.insertMany([{
+                gameId: gameData.id,
+                userId: userId,
+                isActive: true,
+                isCurrent: false,
+            }, {
+                gameId: gameData.id,
+                userId: opponentId,
+                isActive: true,
+                isCurrent: true,
+            }]);
+        }, transactionOptions);
 
         return {
             statusCode: 201,
@@ -72,7 +86,6 @@ const handler: Handler = async (event, context) => {
             body: JSON.stringify({ message: 'Internal Server Error' }),
         };
     } finally {
-        // Ensure the client is closed after the operation
         await client.close();
     }
 };

@@ -3,7 +3,7 @@ import { MongoClient, TransactionOptions } from 'mongodb';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 
-const handler: Handler = async (event, context) => {
+const handler: Handler = async (event, _context) => {
     const gameData = JSON.parse(event.body!);
 
     if (!gameData || !gameData.id) {
@@ -27,7 +27,7 @@ const handler: Handler = async (event, context) => {
             },
         };
 
-        const transactionResults = await session.withTransaction(async () => {
+        await session.withTransaction(async () => {
             const database = client.db('AntiyoyCloneDB');
             const collection = database.collection('GameState');
             await collection.insertOne({
