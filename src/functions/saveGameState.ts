@@ -30,17 +30,19 @@ const handler: Handler = async (event, _context) => {
         await session.withTransaction(async () => {
             const database = client.db('AntiyoyCloneDB');
             const collection = database.collection('GameState');
-            await collection.insertOne({
-                gameId: gameData.id,
-                insertDt: new Date(),
-                gameData: gameData,
-            });
 
             // pick the next userId from the players Array
             const playerIds: Array<string> = gameData.players;
             const currPlayerIndex = playerIds.indexOf(gameData.lastModifiedBy);
             const nextPlayerIndex = (currPlayerIndex + 1) % playerIds.length;
             const nextPlayerId = playerIds[nextPlayerIndex];
+            gameData.currentUserId = nextPlayerId;
+
+            await collection.insertOne({
+                gameId: gameData.id,
+                insertDt: new Date(),
+                gameData: gameData,
+            });
 
             // two updates, one to false, other to true for the field isCurrent
             const gameTurnCollection = database.collection('GameTurn');

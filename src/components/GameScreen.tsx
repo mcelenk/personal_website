@@ -3,6 +3,7 @@ import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { Game } from '../gameplay/game';
 import '../styles/Common.css';
+import '../styles/GameScreen.css';
 
 const GameScreen: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -17,6 +18,8 @@ const GameScreen: React.FC = () => {
     const [gameData, setGameData] = useState<any | null>(null);
     const [serializationData, setSerializationData] = useState<any | null>(null);
 
+    const [isAwaiting, setIsAwaiting] = useState(false);
+
     useEffect(() => {
         const fetchGameData = async () => {
             try {
@@ -29,6 +32,7 @@ const GameScreen: React.FC = () => {
                 if (gameData.players.includes(user.sub)) {
                     setIsAuthorized(true);
                     setGameData(gameData);
+                    setIsAwaiting(gameData.currentUserId !== user.sub);
                 } else {
                     setIsAuthorized(false);
                 }
@@ -97,6 +101,7 @@ const GameScreen: React.FC = () => {
             <button className="common-button" onClick={() => navigate('/games')}>Back to Game List</button>
             <canvas ref={canvasBackRef} id="back" width={window.innerWidth} height={window.innerHeight}></canvas>
             <canvas ref={canvasFrontRef} id="front" width={window.innerWidth} height={window.innerHeight}></canvas>
+            {isAwaiting && (<div className="awaiting-message show"> Awaiting your opponent(s) </div>)}
         </div>
     );
 };

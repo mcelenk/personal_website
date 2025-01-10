@@ -33,6 +33,7 @@ const handler: Handler = async (event, _context) => {
     gameData.id = GUID.generate();
     gameData.players = [userId, opponentId];
     gameData.lastModifiedBy = userId;
+    gameData.currentUserId = opponentId;
     gameData.activeFraction = 1;
 
     try {
