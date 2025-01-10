@@ -71,7 +71,7 @@ export class FieldManager implements SingleClickHandler {
         this.cursorForMenuButtons = cursor;
     }
 
-    constructor(canvas: Dimension, resourceConfig: ResourceConfig, gameState: SerializedGame, turnEnded: boolean, serializationHook: () => void = () => { }) {
+    constructor(canvas: Dimension, resourceConfig: ResourceConfig, gameState: SerializedGame, turnEnded: boolean = false, serializationHook: () => void = () => { }) {
         this.fWidth = gameState.fWidth;
         this.fHeight = gameState.fHeight;
         this.activeFraction = gameState.activeFraction;

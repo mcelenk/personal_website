@@ -45,7 +45,7 @@ type OverlayHistory = {
 export class Overlay implements StateHolder {
     private balance: number;
     private income: number;
-    private displayedText: string;
+    // private displayedText: string;
 
     private skipStateSave: boolean;
 
@@ -67,7 +67,7 @@ export class Overlay implements StateHolder {
             this.balance += calculationParams.additionalBalance;
         }
         this.income = IncomeCalculation.calculateIncome(calculationParams);
-        this.displayedText = this.toString();
+        // this.displayedText = this.toString();
 
         this.animStart = 0;
         this.isAnimating = false;
@@ -83,10 +83,10 @@ export class Overlay implements StateHolder {
         this.balance += this.income;
         if (this.balance < 0) {
             this.balance = 0;
-            this.displayedText = this.toString();
+            // this.displayedText = this.toString();
             return false;
         }
-        this.displayedText = this.toString();
+        // this.displayedText = this.toString();
         return true;
     }
 
@@ -112,7 +112,7 @@ export class Overlay implements StateHolder {
             this.balance = state.balance;
             this.income = state.income;
             this.nextFarmCost = state.nextFarmCost;
-            this.displayedText = this.toString();
+            // this.displayedText = this.toString();
         }
     }
 
@@ -122,7 +122,7 @@ export class Overlay implements StateHolder {
             this.balance += params.additionalBalance;
         }
         this.updateFarmCost(params.numFarms);
-        this.displayedText = this.toString();
+        // this.displayedText = this.toString();
     }
 
     public updateWithHexRemoval = (hex: Hex): void => {
@@ -147,12 +147,12 @@ export class Overlay implements StateHolder {
                 break;
         }
         this.income -= 1;
-        this.displayedText = this.toString();
+        // this.displayedText = this.toString();
     }
 
     public updateWithMerging = (firstUnitType: UnitType, secondUnitType: UnitType): void => {
         this.income -= MERGING_COST[firstUnitType - 1][secondUnitType - 1];
-        this.displayedText = this.toString();
+        // this.displayedText = this.toString();
     }
 
     public updateWithTownOverride = (hex: Hex): void => {
@@ -179,7 +179,7 @@ export class Overlay implements StateHolder {
                 default: break;
             }
         }
-        this.displayedText = this.toString();
+        // this.displayedText = this.toString();
     }
 
     public updateWithObjRemoval = (obj: Obj): void => {
@@ -187,7 +187,7 @@ export class Overlay implements StateHolder {
         if (TREES.includes(obj)) {
             this.balance += 3;
         }
-        this.displayedText = this.toString();
+        // this.displayedText = this.toString();
     }
 
     public updateWithNewUnitAddition = (): boolean => {
@@ -198,7 +198,7 @@ export class Overlay implements StateHolder {
             this.balance -= cost;
             this.income -= this.getUnitWage(this.unitToBeAdded);
 
-            this.displayedText = this.toString();
+            // this.displayedText = this.toString();
             return true;
         }
         return false;
@@ -223,7 +223,7 @@ export class Overlay implements StateHolder {
                     break;
             }
 
-            this.displayedText = this.toString();
+            // this.displayedText = this.toString();
             return true;
         }
         return false;
@@ -363,8 +363,18 @@ export class Overlay implements StateHolder {
         getObjImg: (objType: Obj) => (HTMLImageElement | null),
         delta: number): void => {
         if (coinImg != null) {
-            ctx.drawImage(coinImg, ctx.canvas.width / 4, 20 - delta);
-            ctx.fillText(this.displayedText, ctx.canvas.width / 4 + coinImg!.width, 72 - delta);
+            const textMaxWidth = ctx.canvas.width / 2;
+            const text = this.balance.toString() + (this.income > 0 ? "+" : "") + this.income.toString();
+            // Adjust space between balance and income based on the max width
+            const spaces = Math.max(0, textMaxWidth - text.length);
+            const displayText = this.balance.toString() + " ".repeat(spaces) + (this.income > 0 ? "+" : "") + this.income.toString();
+
+            // Calculate dynamic position for the image and text
+            const imgX = ctx.canvas.width / 4;
+            const textX = imgX + coinImg.width;
+
+            ctx.drawImage(coinImg, imgX, 20 - delta);
+            ctx.fillText(displayText, textX, 72 - delta);
         }
         const houseImg = getObjImg(Obj.FARM);
         if (houseImg != null) {
