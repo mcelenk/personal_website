@@ -629,41 +629,6 @@ export class FieldManager implements SingleClickHandler {
         for (const neighbour of NeighbourExplorer.getNeighbours(this.field, { width: this.fWidth, height: this.fHeight }, hex)) {
             yield neighbour as Hex;
         }
-        // if (hex.rowIndex > 0 && this.field[hex.colIndex][hex.rowIndex - 1].active) {
-        //     yield this.field[hex.colIndex][hex.rowIndex - 1];
-        // }
-        // if (hex.rowIndex < this.fHeight - 1 && this.field[hex.colIndex][hex.rowIndex + 1].active) {
-        //     yield this.field[hex.colIndex][hex.rowIndex + 1];
-        // }
-        // if (hex.colIndex > 0) {
-        //     if (this.field[hex.colIndex - 1][hex.rowIndex].active) {
-        //         yield this.field[hex.colIndex - 1][hex.rowIndex];
-        //     }
-        //     if (hex.colIndex % 2 == 1) {
-        //         if (hex.rowIndex < this.fHeight - 1 && this.field[hex.colIndex - 1][hex.rowIndex + 1].active) {
-        //             yield this.field[hex.colIndex - 1][hex.rowIndex + 1];
-        //         }
-        //     }
-        //     else {
-        //         if (hex.rowIndex > 0 && this.field[hex.colIndex - 1][hex.rowIndex - 1].active) {
-        //             yield this.field[hex.colIndex - 1][hex.rowIndex - 1];
-        //         }
-        //     }
-        // }
-        // if (hex.colIndex < this.fWidth - 1) {
-        //     if (this.field[hex.colIndex + 1][hex.rowIndex].active) {
-        //         yield this.field[hex.colIndex + 1][hex.rowIndex];
-        //     }
-        //     if (hex.colIndex % 2 == 1) {
-        //         if (hex.rowIndex < this.fHeight - 1 && this.field[hex.colIndex + 1][hex.rowIndex + 1].active) {
-        //             yield this.field[hex.colIndex + 1][hex.rowIndex + 1];
-        //         }
-        //     } else {
-        //         if (hex.rowIndex > 0 && this.field[hex.colIndex + 1][hex.rowIndex - 1].active) {
-        //             yield this.field[hex.colIndex + 1][hex.rowIndex - 1];
-        //         }
-        //     }
-        // }
     }
 
     public draw = (ctxBack: CanvasRenderingContext2D | null = null, ctxFront: CanvasRenderingContext2D | null = null, transform: Transform | null = null): void => {
