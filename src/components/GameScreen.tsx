@@ -50,7 +50,7 @@ const GameScreen: React.FC = () => {
         if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData && !game) {
             const initializeGame = async () => {
                 try {
-                    const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData, (data: any) => {
+                    const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData, isAwaiting, (data: any) => {
                         setSerializationData(data);
                     });
                     setGame(gameInstance);

@@ -71,7 +71,7 @@ export class FieldManager implements SingleClickHandler {
         this.cursorForMenuButtons = cursor;
     }
 
-    constructor(canvas: Dimension, resourceConfig: ResourceConfig, gameState: SerializedGame, serializationHook: () => void = () => { }) {
+    constructor(canvas: Dimension, resourceConfig: ResourceConfig, gameState: SerializedGame, turnEnded: boolean, serializationHook: () => void = () => { }) {
         this.fWidth = gameState.fWidth;
         this.fHeight = gameState.fHeight;
         this.activeFraction = gameState.activeFraction;
@@ -125,6 +125,7 @@ export class FieldManager implements SingleClickHandler {
         }, this.getNeighbours.bind(this));
 
         this.provinces.advance(this.activeFraction);
+        this.turnEnded = turnEnded;
     }
 
     private initializeProvinces = (provinceBalances: Record<number, Record<number, number>> | undefined): Provinces => {
