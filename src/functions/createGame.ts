@@ -76,7 +76,6 @@ const handler: Handler = async (event, _context) => {
                 isCurrent: true,
             }]);
         }, transactionOptions);
-        (window as any).rng = Naming.generate;
 
         return {
             statusCode: 201,
