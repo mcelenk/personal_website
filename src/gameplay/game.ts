@@ -14,43 +14,54 @@ export class Game {
     private ctxFront: CanvasRenderingContext2D;
 
     private latestTransform: Transform;
-    private fManager: FieldManager;
+    private fManager: FieldManager | null = null;
     private start: number;
-    public readonly id: string;
-    private players: Array<string>;
     private currentPlayerId: string;
     private saveGameHook: (gameData: any) => void;
 
-    constructor(
-        canvasBack: HTMLCanvasElement,
+    private gameData: any;
+
+    constructor(canvasBack: HTMLCanvasElement,
         canvasFront: HTMLCanvasElement,
         currentPlayerId: string,
         gameData: any,
-        turnEnded: boolean,
         saveGameHook: (gameData: any) => void,
-        awaitStateChangedHook: (arg: boolean) => void
     ) {
         this.canvasBack = canvasBack;
         this.canvasFront = canvasFront;
-        this.saveGameHook = saveGameHook;
-        this.start = performance.now();
-
-        this.init();
-        this.latestTransform = new Transform();
-
         this.ctxBack = this.canvasBack.getContext("2d")!;
         this.ctxFront = this.canvasFront.getContext("2d")!;
+
+        this.latestTransform = new Transform();
+        this.start = performance.now();
+
+        this.currentPlayerId = currentPlayerId;
+        this.saveGameHook = saveGameHook;
+
+        const observer = new ResizeObserver(() => {
+            this.canvasBack.width = this.canvasBack.clientWidth;
+            this.canvasBack.height = this.canvasBack.clientHeight;
+            this.canvasFront.width = this.canvasBack.clientWidth;
+            this.canvasFront.height = this.canvasBack.clientHeight;
+            this.gameLoop();
+        });
+        observer.observe(this.canvasBack!);
 
         // // injecting!!
         // this.randomMapDataInjectionGoodForTesting(gameData);
         // // end of injection
 
-        this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), gameData, turnEnded, this.saveGame, awaitStateChangedHook);
+        this.gameData = gameData;
+    }
+
+    public initialize = async (
+        turnEnded: boolean,
+        awaitStateChangedHook: (arg: boolean) => void
+    ): Promise<void> => {
+        const resourceConfig = new ResourceConfig();
+        await resourceConfig.loadResources();
+        this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), this.gameData, turnEnded, this.saveGame, awaitStateChangedHook);
         new UserEvents(this.canvasFront, this.fManager, this.redraw);
-        this.id = gameData.id;
-        this.players = gameData.players;
-        this.currentPlayerId = currentPlayerId;
-        this.gameLoop();
     }
 
     private randomMapDataInjectionGoodForTesting = (gameData: any): void => {
@@ -71,22 +82,11 @@ export class Game {
     }
 
     public saveGame = (): void => {
-        let resultObj = this.fManager.serialize();
-        resultObj.players = this.players;
+        let resultObj = this.fManager?.serialize();
+        resultObj.players = this.gameData.players;
         resultObj.lastModifiedBy = this.currentPlayerId;
-        resultObj.id = this.id; // Important! But shouldn't be, fix it
+        resultObj.id = this.gameData.id; // Important! But shouldn't be, fix it
         this.saveGameHook(resultObj);
-    }
-
-    private init = () => {
-        const observer = new ResizeObserver(() => {
-            this.canvasBack.width = this.canvasBack.clientWidth;
-            this.canvasBack.height = this.canvasBack.clientHeight;
-            this.canvasFront.width = this.canvasBack.clientWidth;
-            this.canvasFront.height = this.canvasBack.clientHeight;
-            this.gameLoop();
-        });
-        observer.observe(this.canvasBack);
     }
 
     private redraw = (transform: Transform) => {
@@ -94,15 +94,15 @@ export class Game {
         this.gameLoop();
     }
 
-    private gameLoop = () => {
+    public gameLoop = () => {
         requestAnimationFrame(this.gameLoop);
 
         const diff = performance.now() - this.start;
-        if (diff > 16 && this.fManager instanceof FieldManager) {
+        if (diff > 16 && (this.fManager ?? null) instanceof FieldManager) {
             this.ctxBack.fillStyle = "black";
             this.ctxBack.fillRect(0, 0, this.canvasBack.width, this.canvasBack.height);
             this.ctxFront.clearRect(0, 0, this.canvasBack.width, this.canvasBack.height);
-            this.fManager.draw(this.ctxBack, this.ctxFront, this.latestTransform);
+            this.fManager?.draw(this.ctxBack, this.ctxFront, this.latestTransform);
             this.start = performance.now();
         }
     }

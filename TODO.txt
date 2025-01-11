@@ -58,23 +58,9 @@
 
                                                                                                    /
 * BUG: Removing one hex of a province with two hexes leads to a province left with a single hex! \/
-                                                                                                                  /
-* When a split happens, we were assigning the old balance of the province to the first suitable new province.   \/
-We now changed it to a province where the income is also the highest. This is the behaviour of the original game.
 
-              \/
-* GAME ENDING /\
-
-             \/
-* GIVING UP! /\
-
-                      \/
-* STARTING A NEW GAME /\                                                                   \/
-    * When a user has more than X active games, they can't create a new game! (throttling) /\
-                                                                                                                                                  \/
-    * Right now, when creating a game, when the user clicks Create Game button, it continues to allow user to click it multiple times by mistake. /\
-                                                  /
-    * Giving games a human readable random name \/
+                        /
+* STARTING A NEW GAME \/
                                        /
     * Be able to select the map size \/
                                                                                                                                   /
@@ -82,8 +68,33 @@ We now changed it to a province where the income is also the highest. This is th
                                             /
     * Given size, generating a random map \/
 
+                                              /
+* Giving games a human readable random name \/
+                                                                                                                  /
+* When a split happens, we were assigning the old balance of the province to the first suitable new province.   \/
+We now changed it to a province where the income is also the highest. This is the behaviour of the original game.
                                                                                    /
 * Fitting the overlay display in the screen, a responsive display so to speak :D \/
+                                                                                                                                                                                     /
+* Resource loading chain completely async so that we can start the game only after all the necessary resources are loaded. (No more `COULDn't find image for unit of type` errors) \/
 
-                \/
-* Leaderboard?  /\
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+              \/
+* GAME ENDING /\
+
+             \/
+* GIVING UP! /\
+
+                  \/
+Starting Game Ext /\                                                                         
+                                                                                           \/
+    * When a user has more than X active games, they can't create a new game! (throttling) /\
+                                                                                                                                                  \/
+    * Right now, when creating a game, when the user clicks Create Game button, it continues to allow user to click it multiple times by mistake. /\
+
+                                                                                                                                          \/
+* !!! BOTH GAME LIST AND GAME SCREEN CAN POOL, or utilize websockets, new and necessary topic, in order to make games sort of interactive /\
+
+               \/
+* Leaderboard? /\

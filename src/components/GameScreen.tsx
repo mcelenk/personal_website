@@ -13,7 +13,7 @@ const GameScreen: React.FC = () => {
     const canvasFrontRef = useRef<HTMLCanvasElement>(null);
     const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
     const [game, setGame] = useState<Game | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [_error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [gameData, setGameData] = useState<any | null>(null);
     const [serializationData, setSerializationData] = useState<any | null>(null);
@@ -50,12 +50,15 @@ const GameScreen: React.FC = () => {
         if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData && !game) {
             const initializeGame = async () => {
                 try {
-                    const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData, isAwaiting, (data: any) => {
+                    const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData, (data: any) => {
                         setSerializationData(data);
-                    }, (state: boolean) => {
-                        setIsAwaiting(state);
                     });
-                    setGame(gameInstance);
+                    gameInstance.initialize(isAwaiting, (state: boolean) => {
+                        setIsAwaiting(state);
+                    }).then(() => {
+                        setGame(gameInstance);
+                        gameInstance.gameLoop();
+                    });
                 } catch (err) {
                     console.error('Error initializing game:', err);
                 }
