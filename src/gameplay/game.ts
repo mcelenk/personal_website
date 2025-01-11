@@ -59,9 +59,10 @@ export class Game {
         awaitStateChangedHook: (arg: boolean) => void
     ): Promise<void> => {
         const resourceConfig = new ResourceConfig();
-        await resourceConfig.loadResources();
-        this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), this.gameData, turnEnded, this.saveGame, awaitStateChangedHook);
-        new UserEvents(this.canvasFront, this.fManager, this.redraw);
+        await resourceConfig.loadResources().then(() => {
+            this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), this.gameData, turnEnded, this.saveGame, awaitStateChangedHook);
+            new UserEvents(this.canvasFront, this.fManager, this.redraw);
+        });
     }
 
     private randomMapDataInjectionGoodForTesting = (gameData: any): void => {

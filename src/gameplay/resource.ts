@@ -12,7 +12,7 @@ export class ResourceConfig {
     constructor() {
     }
 
-    public async loadResources(): Promise<void> {
+    public loadResources = async (): Promise<void> => {
         this.hexTypeList = await ResourceManager.loadHexAssets();
         this.unitTypeList = await ResourceManager.loadUnitAssets();
         this.objTypeList = await ResourceManager.loadObjectAssets();
@@ -27,7 +27,7 @@ export class ResourceConfig {
 class ResourceManager {
     private static resources: Record<string, HTMLImageElement | null> = {};
 
-    public static load(key: string): Promise<HTMLImageElement | null> {
+    public static load = async (key: string): Promise<HTMLImageElement | null> => {
         return new Promise((resolve, reject) => {
             if (ResourceManager.resources[key]) {
                 resolve(ResourceManager.resources[key]);
