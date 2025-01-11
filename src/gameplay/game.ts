@@ -60,7 +60,7 @@ export class Game {
     ): Promise<void> => {
         const resourceConfig = new ResourceConfig();
         await resourceConfig.loadResources().then(() => {
-            this.fManager = new FieldManager(this.canvasFront, new ResourceConfig(), this.gameData, turnEnded, this.saveGame, awaitStateChangedHook);
+            this.fManager = new FieldManager(this.canvasFront, resourceConfig, this.gameData, turnEnded, this.saveGame, awaitStateChangedHook);
             new UserEvents(this.canvasFront, this.fManager, this.redraw);
         });
     }

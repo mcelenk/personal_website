@@ -67,19 +67,19 @@ class ResourceManager {
         'strong_tower',
     ];
 
-    public static loadObjectAssets = (): Promise<ReadonlyArray<HTMLImageElement | null>> => {
+    public static loadObjectAssets = async (): Promise<ReadonlyArray<HTMLImageElement | null>> => {
         return this.loadAll(this.OBJECT_ASSETS);
     }
 
-    public static loadUnitAssets = (): Promise<ReadonlyArray<HTMLImageElement | null>> => {
+    public static loadUnitAssets = async (): Promise<ReadonlyArray<HTMLImageElement | null>> => {
         return this.loadAll(this.UNIT_ASSETS);
     }
 
-    public static loadHexAssets = (): Promise<ReadonlyArray<HTMLImageElement | null>> => {
+    public static loadHexAssets = async (): Promise<ReadonlyArray<HTMLImageElement | null>> => {
         return this.loadAll(this.HEX_ASSETS);
     }
 
-    private static loadAll = (keys: ReadonlyArray<string>): Promise<ReadonlyArray<HTMLImageElement | null>> => {
+    private static loadAll = async (keys: ReadonlyArray<string>): Promise<ReadonlyArray<HTMLImageElement | null>> => {
         const loadPromises = keys.map(key => ResourceManager.load(key));
         return Promise.all(loadPromises);
     }
