@@ -579,9 +579,8 @@ export class FieldManager implements SingleClickHandler {
             // we have to check both the objects and units at and around the hex
             const origUnitType = origHex.getUnit()!.getType();
             const unitType = this.getStrongestUnitAround(hwd.hex);
-            if (unitType != null) {
-                return origUnitType == UnitType.KNIGHT || origUnitType > unitType;
-            }
+            if ((unitType ?? UnitType.NONE) >= origUnitType) return false;
+
             const neighbourObj = this.getStrongestObjAround(hwd.hex);
             switch (neighbourObj) {
                 case Obj.NONE:
