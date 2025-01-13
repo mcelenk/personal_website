@@ -78,10 +78,10 @@ We now changed it to a province where the income is also the highest. This is th
                                                                                                                                                                                      /
 * Resource loading chain completely async so that we can start the game only after all the necessary resources are loaded. (No more `COULDn't find image for unit of type` errors) \/
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                     /
+* Bug: WARRIOR IS ABLE TO TAKE STRONG_TOWER. howw? \/
 
-                                            \/
-WARRIOR IS ABLE TO TAKE STRONG_TOWER. howw? /\
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
               \/
 * GAME ENDING /\

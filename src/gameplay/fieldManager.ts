@@ -286,17 +286,14 @@ export class FieldManager implements SingleClickHandler {
 
         if (Positioning.isNextTurnClicked(origPosition, this.dimension)) {
             this.handleTreeSpawning();
-            this.transformGraves(); // this needs to be before provinces.advance! Not good.
-            //this.provinces.advance(this.activeFraction);
+            this.transformGraves();
             this.killProvincelessUnits();
             this.stopUnitAnimations();
             this.turnEnded = true;
             this.awaitStateChangedHook(true);
             this.serializationHook();
-            if (this.provinces.areAllOpponentProvincesTaken()) {
+            if (this.provinces.areAllOpponentProvincesTaken(this.activeFraction)) {
                 alert("YOU WON! HURRAY!");
-                // TODO end the game
-                // possibly by setting the GameTurn.isActive = false and navigating to games
             }
             return true;
         }

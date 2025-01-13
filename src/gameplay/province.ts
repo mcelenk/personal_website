@@ -313,7 +313,14 @@ export class Provinces implements StateHolder {
         prov?.removeHex(hex);
     }
 
-    public areAllOpponentProvincesTaken = (): boolean => {
-        return this.provinces.length < 2;
+    public areAllOpponentProvincesTaken = (fraction: number): boolean => {
+        let result = true;
+        this.provinces.filter((_, index) => index != fraction - 1).forEach(x => {
+            if (x.getCount() > 0) {
+                result = false;
+                return;
+            }
+        });
+        return result;
     }
 }
