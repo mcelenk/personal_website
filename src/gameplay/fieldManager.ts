@@ -157,9 +157,17 @@ export class FieldManager implements SingleClickHandler {
         });
         mapping.delete(NEUTRAL_FRACTION_INDEX);
 
-        const result = new Provinces(mapping.size);
+        let maxFractionValue = 0;
+        for (let key of mapping.keys()) {
+            if (key > maxFractionValue) {
+                maxFractionValue = key;
+            }
+        }
+
+        const result = new Provinces(maxFractionValue);
         mapping.forEach((value: Map<number, Array<Hex>>, fraction: number) => {
             value.forEach((arr: Array<Hex>, provinceIndex: number) => {
+                //hacky hacky hack! Because we are "advancing" the provinces of the active user at the begining of the game.
                 const incomeAmount = IncomeCalculation.calculateIncomeFromHexes(arr);
                 const balance: number = provinceBalances ? provinceBalances![fraction][provinceIndex] ?? INITIAL_BALANCE - incomeAmount : INITIAL_BALANCE - incomeAmount;
                 result.addHexes(arr, fraction, provinceIndex, balance);
@@ -176,12 +184,12 @@ export class FieldManager implements SingleClickHandler {
         let resultObj: any = {};
         resultObj.fWidth = this.fWidth;
         resultObj.fHeight = this.fHeight;
-        resultObj.activeFraction = this.activeFraction == 1 ? 2 : 1; // TODO More than 2 players??
+        resultObj.activeFraction = this.provinces.getNextFraction(this.activeFraction);
         resultObj.field = Array<Array<Object>>();
         for (let i = 0; i < this.fWidth; i++) {
-            const row = new Array<Object>();
+            const column = new Array<Object>();
             for (let j = 0; j < this.fHeight; j++) {
-                row.push(JSON.parse(JSON.stringify(this.field[i][j], (key, value) => {
+                column.push(JSON.parse(JSON.stringify(this.field[i][j], (key, value) => {
                     switch (key) {
                         case 'history':
                         case 'withHighlightedUnit':
@@ -192,7 +200,7 @@ export class FieldManager implements SingleClickHandler {
                     }
                 })));
             }
-            resultObj.field.push(row);
+            resultObj.field.push(column);
         }
 
         // provinceBalances
@@ -293,7 +301,7 @@ export class FieldManager implements SingleClickHandler {
             this.awaitStateChangedHook(true);
             this.serializationHook();
             if (this.provinces.areAllOpponentProvincesTaken(this.activeFraction)) {
-                alert("YOU WON! HURRAY!");
+                this.endGame();
             }
             return true;
         }
@@ -457,6 +465,10 @@ export class FieldManager implements SingleClickHandler {
         } else {
             return this.tryHighlight(hex);
         }
+    }
+
+    private endGame = (): void => {
+
     }
 
     private postHexUpdateRemovingFromTowersOrTowns = (hex: Hex): void => {

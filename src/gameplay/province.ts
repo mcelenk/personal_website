@@ -148,6 +148,20 @@ export class Provinces implements StateHolder {
         this.history = [];
     }
 
+    public getNextFraction = (fraction: number): number => {
+        for (let i = fraction; i < this.provinces.length; i++) {
+            if (this.provinces[i].getCount() > 0) {
+                return i + 1;
+            }
+        }
+        for (let i = 0; i < fraction; i++) {
+            if (this.provinces[i].getCount() > 0) {
+                return i + 1;
+            }
+        }
+        throw new Error("Couldn't locate the next fraction!");
+    }
+
     public saveState = (): void => {
         const state: Array<Province> = [];
         this.provinces.forEach(fraction => {

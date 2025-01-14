@@ -42,7 +42,7 @@ const handler: Handler = async (event, _context) => {
                 gameId: gameData.id,
                 insertDt: new Date(),
                 gameData: gameData,
-            });
+            }, { session });
 
             // two updates, one to false, other to true for the field isCurrent
             const gameTurnCollection = database.collection('GameTurn');
