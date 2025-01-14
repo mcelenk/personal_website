@@ -68,21 +68,26 @@ const GameList: React.FC = () => {
                     setError('Error fetching notifications data');
                     console.error(err);
                 } finally {
-                    setLoading(false);
+                    // setLoading(false);
                 }
             }
         };
 
         const markNotificationsAsRead = async (notificationIds: Array<ObjectId>) => {
-            console.log('Mark notification as read is called with this array: ');
-            notificationIds.forEach(x => console.log(x.toString()));
-            // await fetch('/api/notifications/read', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({ notificationIds }),
-            // });
+            try {
+                await fetch('/.netlify/functions/markNotificationsRead', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ notificationIds }),
+                });
+            } catch (err) {
+                setError('Error updating notifications data');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            };
         };
         fetchNotifications();
     }, [user, gamesLoaded]);
