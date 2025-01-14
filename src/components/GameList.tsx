@@ -57,6 +57,7 @@ const GameList: React.FC = () => {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     const data = await response.json();
+                    (window as any).nd = data;
                     setNotifications(data);
 
                     const notificationIds = notifications.map((x: Notification) => x._id);
