@@ -17,13 +17,13 @@ const handler: Handler = async (event, _context) => {
         const database = client.db('AntiyoyCloneDB');
         const collection = database.collection('GameNotification');
 
-        collection.insertMany(notifications.map((x: { userId: string; message: string; }) => {
-            return {
-                userId: x.userId,
-                isRead: false,
-                message: x.message,
-            };
+        const items = notifications.map((x: { userId: string; message: string; }) => ({
+            userId: x.userId,
+            isRead: false,
+            message: x.message,
         }));
+
+        await collection.insertMany(items);
 
         return {
             statusCode: 201,
