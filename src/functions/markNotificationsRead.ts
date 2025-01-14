@@ -1,5 +1,5 @@
 import { Handler } from '@netlify/functions';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 
@@ -18,7 +18,7 @@ const handler: Handler = async (event, _context) => {
         await client.connect();
         const database = client.db('AntiyoyCloneDB');
         const collection = database.collection('GameNotification');
-        await collection.updateMany({ _id: { $in: notificationIds } }, { $set: { isRead: true } });
+        await collection.updateMany({ _id: { $in: notificationIds.map(id => new ObjectId(id)) } }, { $set: { isRead: true } });
 
         return {
             statusCode: 201,
