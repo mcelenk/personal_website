@@ -9,8 +9,10 @@ const GameScreen: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const { user } = useAuth();
     const navigate = useNavigate();
+
     const canvasBackRef = useRef<HTMLCanvasElement>(null);
     const canvasFrontRef = useRef<HTMLCanvasElement>(null);
+
     const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
     const [game, setGame] = useState<Game | null>(null);
     const [_error, setError] = useState<string | null>(null);
@@ -68,7 +70,7 @@ const GameScreen: React.FC = () => {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(notifications),
+                        body: JSON.stringify({ notifications: notifications, gameId: gameData.gameId }),
                     });
 
                     if (!response.ok) {
@@ -113,7 +115,6 @@ const GameScreen: React.FC = () => {
                     console.error('Error initializing game:', err);
                 }
             };
-
             initializeGame();
         }
     }, [isAuthorized, canvasBackRef, canvasFrontRef, gameData, game]);
