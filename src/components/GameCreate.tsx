@@ -53,7 +53,7 @@ const GameCreate: React.FC = () => {
         fetchUsers();
     }, [user]);
 
-    const handleCreateGame = () => {
+    const handleCreateGame = async () => {
 
         const createGame = async (item: any): Promise<void> => {
             try {
@@ -77,7 +77,7 @@ const GameCreate: React.FC = () => {
                 console.error('Error:', error);
             }
         };
-        createGame({
+        await createGame({
             userId: user.sub,
             opponentId: selectedPlayer,
             mapSize: selectedMapSize,
