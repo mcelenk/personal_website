@@ -56,12 +56,12 @@ const GameList: React.FC = () => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                    const data = await response.json();
+                    const data: Array<Notification> = await response.json();
                     (window as any).nd = data;
                     setNotifications(data);
 
-                    const notificationIds = notifications.map((x: Notification) => x._id);
-                    notifications.forEach((notification) => { toast(notification.message, { autoClose: 5000 }); });
+                    const notificationIds = data.map((x: Notification) => x._id);
+                    data.forEach((notification) => { toast(notification.message, { autoClose: 5000 }); });
                     markNotificationsAsRead(notificationIds);
 
                 } catch (err) {
@@ -74,8 +74,8 @@ const GameList: React.FC = () => {
         };
 
         const markNotificationsAsRead = async (notificationIds: Array<ObjectId>) => {
-            console.log('Mark notification as read is called with this array : ');
-            notificationIds.forEach(x => console.log(x));
+            console.log('Mark notification as read is called with this array: ');
+            notificationIds.forEach(x => console.log(x.toString()));
             // await fetch('/api/notifications/read', {
             //     method: 'POST',
             //     headers: {
