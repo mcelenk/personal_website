@@ -96,8 +96,8 @@ It is due to us not keeping the game name in the state except when we are first 
 
                   \/
 Starting Game Ext /\                                                                         
-                                                                                           \/
-    * When a user has more than X active games, they can't create a new game! (throttling) /\
+                                                                                             /
+    * When a user has more than X active games, they can't create a new game! (throttling) \/
                                                                                                                                                   \/
     * Right now, when creating a game, when the user clicks Create Game button, it continues to allow user to click it multiple times by mistake. /\
 

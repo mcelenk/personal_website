@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import '../styles/GameList.css';
 import '../styles/Common.css';
 import { ObjectId } from 'mongodb';
+import { ACTIVE_ALLOWED_GAME_COUNT } from '../gameplay/constants';
 
 interface Game {
     gameId: string,
@@ -102,7 +103,7 @@ const GameList: React.FC = () => {
     }
     return (
         <>
-            <button className="common-button" onClick={() => navigate('/create')}>Create a new game</button>
+            {games.length < ACTIVE_ALLOWED_GAME_COUNT && (<button className="common-button" onClick={() => navigate('/create')}>Create a new game</button>)}
             <div className="game-list-container">
                 <h2>Available Games</h2>
                 <ul className="game-list">
