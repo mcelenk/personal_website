@@ -77,8 +77,6 @@ const GameCreate: React.FC = () => {
                 console.error('Error:', error);
             }
         };
-
-        setCreateGameButtonDisabled(false);
         createGame({
             userId: user.sub,
             opponentId: selectedPlayer,
@@ -126,7 +124,7 @@ const GameCreate: React.FC = () => {
                 </select>
             </label>
 
-            <button className="relative-button" onClick={handleCreateGame} disabled={createGameButtonDisabled}>Create Game</button>
+            <button className="relative-button" onClick={() => { setCreateGameButtonDisabled(false); handleCreateGame(); }} disabled={createGameButtonDisabled}>Create Game</button>
             <button className="relative-button" onClick={() => navigate('/games')}>Back to Game List</button>
         </div>
     );
