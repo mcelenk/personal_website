@@ -36,6 +36,7 @@ const handler: Handler = async (event, _context) => {
     gameData.lastModifiedBy = userId;
     gameData.currentUserId = opponentId;
     gameData.activeFraction = 1;
+    gameData.gameName = Naming.generate();
 
     try {
         await client.connect();
@@ -55,11 +56,8 @@ const handler: Handler = async (event, _context) => {
             const database = client.db('AntiyoyCloneDB');
             const collection = database.collection('GameState');
 
-            const gameName = Naming.generate();
-
             await collection.insertOne({
                 gameId: gameData.id,
-                gameName: gameName,
                 insertDt: new Date(),
                 gameData: gameData,
             });
@@ -69,13 +67,13 @@ const handler: Handler = async (event, _context) => {
             await gameTurnCollection.insertMany([{
                 gameId: gameData.id,
                 userId: userId,
-                gameName: gameName,
+                gameName: gameData.gameName,
                 isActive: true,
                 isCurrent: false,
             }, {
                 gameId: gameData.id,
                 userId: opponentId,
-                gameName: gameName,
+                gameName: gameData.gameName,
                 isActive: true,
                 isCurrent: true,
             }]);
