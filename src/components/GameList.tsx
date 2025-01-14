@@ -57,7 +57,7 @@ const GameList: React.FC = () => {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     const data = await response.json();
-                    setNotifications(data.notifications);
+                    setNotifications(data);
 
                     const notificationIds = notifications.map((x: Notification) => x._id);
                     notifications.forEach((notification) => { toast(notification.message, { autoClose: 5000 }); });
