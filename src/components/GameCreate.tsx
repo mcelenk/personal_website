@@ -31,6 +31,8 @@ const GameCreate: React.FC = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
+    const [createGameButtonDisabled, setCreateGameButtonDisabled] = useState<boolean>(true);
+
     useEffect(() => {
 
         const fetchUsers = async () => {
@@ -75,6 +77,8 @@ const GameCreate: React.FC = () => {
                 console.error('Error:', error);
             }
         };
+
+        setCreateGameButtonDisabled(false);
         createGame({
             userId: user.sub,
             opponentId: selectedPlayer,
@@ -98,8 +102,7 @@ const GameCreate: React.FC = () => {
                 Choose Opponent:
                 <select
                     value={selectedPlayer}
-                    onChange={e => setSelectedPlayer(e.target.value)}
-                >
+                    onChange={e => { setSelectedPlayer(e.target.value); setCreateGameButtonDisabled(false); }}>
                     <option value="">Select a player</option>
                     {players.map(player => (
                         <option key={player.userId} value={player.userId}>
@@ -123,7 +126,7 @@ const GameCreate: React.FC = () => {
                 </select>
             </label>
 
-            <button className="relative-button" onClick={handleCreateGame} disabled={!selectedPlayer}>Create Game</button>
+            <button className="relative-button" onClick={handleCreateGame} disabled={createGameButtonDisabled}>Create Game</button>
             <button className="relative-button" onClick={() => navigate('/games')}>Back to Game List</button>
         </div>
     );

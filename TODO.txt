@@ -91,19 +91,14 @@ It is due to us not keeping the game name in the state except when we are first 
                                                                                           /
 * We need to update (and even remove perhaps) the gameTurn records `isCurrent: false`   \/
 
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                  \/
-Starting Game Ext /\                                                                         
+                    /
+Starting Game Ext \/
                                                                                              /
     * When a user has more than X active games, they can't create a new game! (throttling) \/
-                                                                                                                                                  \/
-    * Right now, when creating a game, when the user clicks Create Game button, it continues to allow user to click it multiple times by mistake. /\
+                                                                                                                                                    /
+    * Right now, when creating a game, when the user clicks Create Game button, it continues to allow user to click it multiple times by mistake. \/
 
-                                                                                                                                                \/
-* Bug: I don't know how to repeat this. Here how it goes: see how we are initializing a new game. During province initialization, specifically. /\
-The second player's province somehow ended up starting with a balance of 9, because a tree grew up.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
              \/
 * GIVING UP! /\
