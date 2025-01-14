@@ -86,6 +86,15 @@ We now changed it to a province where the income is also the highest. This is th
               \/
 * GAME ENDING /\
 
+* Most of the things done. What are left:
+                                                             \/
+* We can't retrieve the gameName to display in the toasters, /\
+It is due to us not keeping the game name in the state except when we are first creating it.
+                                                                                        \/
+* We need to update (and even remove perhaps) the gameTurn records `isCurrent: false`   /\
+
+
+
              \/
 * GIVING UP! /\
 
