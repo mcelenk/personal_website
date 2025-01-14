@@ -102,7 +102,7 @@ export class Game {
     }
 
     private endGame = (): void => {
-        this.endGameHook(this.currentPlayerId, this.gameData.players.filter((x: string) => x != this.currentPlayerId).first());
+        this.endGameHook(this.currentPlayerId, this.gameData.players.filter((x: string) => x != this.currentPlayerId)[0]);
     }
 
     private redraw = (transform: Transform) => {
