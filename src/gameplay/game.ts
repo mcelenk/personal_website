@@ -98,6 +98,7 @@ export class Game {
         resultObj.players = this.gameData.players;
         resultObj.lastModifiedBy = this.currentPlayerId;
         resultObj.id = this.gameData.id; // Important! But shouldn't be, fix it
+        resultObj.gameName = this.gameData.gameName;
         this.saveGameHook(resultObj);
     }
 
