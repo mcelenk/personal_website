@@ -70,7 +70,7 @@ const GameScreen: React.FC = () => {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ notifications: notifications, gameId: gameData.gameId }),
+                        body: JSON.stringify({ notifications: notifications, gameId: gameData.id }),
                     });
 
                     if (!response.ok) {
