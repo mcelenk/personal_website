@@ -66,6 +66,7 @@ export class FieldManager implements SingleClickHandler {
 
     private serializationHook: () => void;
     private awaitStateChangedHook: (arg: boolean) => void;
+    private endGameHook: () => void;
 
     public updateMenuItemDisplay = (globalAlpha: number, cursor: string): void => {
         this.globalAlphaForMenuButtons = globalAlpha;
@@ -78,7 +79,8 @@ export class FieldManager implements SingleClickHandler {
         gameState: SerializedGame,
         turnEnded: boolean = false,
         serializationHook: () => void = () => { },
-        awaitStateChangedHook: (state: boolean) => void = (arg0: boolean) => { }
+        awaitStateChangedHook: (state: boolean) => void = (arg0: boolean) => { },
+        endGameHook: () => void = () => { },
     ) {
         this.fWidth = gameState.fWidth;
         this.fHeight = gameState.fHeight;
@@ -87,6 +89,7 @@ export class FieldManager implements SingleClickHandler {
         this.resourceConfig = resourceConfig;
         this.serializationHook = serializationHook;
         this.awaitStateChangedHook = awaitStateChangedHook;
+        this.endGameHook = endGameHook;
 
         this.hexesWithTowersOrTowns = new Set<Hex>();
         this.field = new Array<Array<Hex>>();
@@ -468,7 +471,7 @@ export class FieldManager implements SingleClickHandler {
     }
 
     private endGame = (): void => {
-
+        this.endGameHook();
     }
 
     private postHexUpdateRemovingFromTowersOrTowns = (hex: Hex): void => {

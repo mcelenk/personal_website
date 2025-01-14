@@ -48,11 +48,61 @@ const GameScreen: React.FC = () => {
 
     useEffect(() => {
         if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData && !game) {
+
+            const createNotifications = async (winnerPlayerId: string, losingPlayerId: string): Promise<void> => {
+                const gameName = gameData.gameName;
+                const winnerMessage = `Congratulations, you won the game ${gameName}`;
+                const loserMessage = `You've lost the game ${gameName}, better luck next time!`;
+
+                const notifications = [{
+                    userId: winnerPlayerId,
+                    message: winnerMessage,
+                }, {
+                    userId: losingPlayerId,
+                    message: loserMessage,
+                }];
+
+                try {
+                    const response = await fetch('/.netlify/functions/createGameNotification', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(notifications),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    console.log('Success:', data);
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            };
+
+            const endGameHook = async (winnerPlayerId: string, losingPlayerId: string): Promise<void> => {
+                createNotifications(winnerPlayerId, losingPlayerId);
+                setTimeout(() => {
+                    navigate('/games')
+                }, 1000);
+            };
+
+            const saveGameHook = (data: any) => {
+                setSerializationData(data);
+            };
+
             const initializeGame = async () => {
                 try {
-                    const gameInstance = new Game(canvasBackRef.current!, canvasFrontRef.current!, user.sub, gameData, (data: any) => {
-                        setSerializationData(data);
-                    });
+                    const gameInstance = new Game(
+                        canvasBackRef.current!,
+                        canvasFrontRef.current!,
+                        user.sub,
+                        gameData,
+                        saveGameHook,
+                        endGameHook
+                    );
+
                     gameInstance.initialize(isAwaiting, (state: boolean) => {
                         setIsAwaiting(state);
                     }).then(() => {

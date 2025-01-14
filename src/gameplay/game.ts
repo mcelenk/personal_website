@@ -18,6 +18,7 @@ export class Game {
     private start: number;
     private currentPlayerId: string;
     private saveGameHook: (gameData: any) => void;
+    private endGameHook: (winnerId: string, loserId: string) => void;
 
     private gameData: any;
 
@@ -26,6 +27,7 @@ export class Game {
         currentPlayerId: string,
         gameData: any,
         saveGameHook: (gameData: any) => void,
+        endGameHook: (winnerId: string, loserId: string) => void,
     ) {
         this.canvasBack = canvasBack;
         this.canvasFront = canvasFront;
@@ -37,6 +39,7 @@ export class Game {
 
         this.currentPlayerId = currentPlayerId;
         this.saveGameHook = saveGameHook;
+        this.endGameHook = endGameHook;
 
         const observer = new ResizeObserver(() => {
             this.canvasBack.width = this.canvasBack.clientWidth;
@@ -56,11 +59,19 @@ export class Game {
 
     public initialize = async (
         turnEnded: boolean,
-        awaitStateChangedHook: (arg: boolean) => void
+        awaitStateChangedHook: (arg: boolean) => void,
     ): Promise<void> => {
         const resourceConfig = new ResourceConfig();
         await resourceConfig.loadResources().then(() => {
-            this.fManager = new FieldManager(this.canvasFront, resourceConfig, this.gameData, turnEnded, this.saveGame, awaitStateChangedHook);
+            this.fManager = new FieldManager(
+                this.canvasFront,
+                resourceConfig,
+                this.gameData,
+                turnEnded,
+                this.saveGame,
+                awaitStateChangedHook,
+                this.endGame
+            );
             new UserEvents(this.canvasFront, this.fManager, this.redraw);
         });
     }
@@ -82,12 +93,16 @@ export class Game {
         }
     }
 
-    public saveGame = (): void => {
+    private saveGame = (): void => {
         let resultObj = this.fManager?.serialize();
         resultObj.players = this.gameData.players;
         resultObj.lastModifiedBy = this.currentPlayerId;
         resultObj.id = this.gameData.id; // Important! But shouldn't be, fix it
         this.saveGameHook(resultObj);
+    }
+
+    private endGame = (): void => {
+        this.endGameHook(this.currentPlayerId, this.gameData.players.filter((x: string) => x != this.currentPlayerId).first());
     }
 
     private redraw = (transform: Transform) => {
