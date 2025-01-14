@@ -18,7 +18,7 @@ const handler: Handler = async (event, _context) => {
         await client.connect();
         const database = client.db('AntiyoyCloneDB');
         const collection = database.collection('GameNotification');
-        await collection.updateMany({ notificationId: { $in: notificationIds } }, { $set: { isRead: true } });
+        await collection.updateMany({ _id: { $in: notificationIds } }, { $set: { isRead: true } });
 
         return {
             statusCode: 201,
