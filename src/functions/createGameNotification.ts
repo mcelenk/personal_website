@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
 const handler: Handler = async (event, _context) => {
-    const { notifications } = JSON.parse(event.body!);
+    const notifications = JSON.parse(event.body!);
 
     if (!notifications || notifications.length < 1) {
         return {
