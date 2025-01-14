@@ -28,6 +28,7 @@
     "mongodb": "^6.12.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "react-toastify": "^11.0.2"
   }
 }
