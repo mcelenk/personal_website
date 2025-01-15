@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { useAuth } from './AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
-import '../styles/GameList.css';
-import '../styles/Common.css';
 import { ObjectId } from 'mongodb';
 import { ACTIVE_ALLOWED_GAME_COUNT } from '../gameplay/constants';
+
+import '../styles/GameList.css';
+import '../styles/Common.css';
 
 interface Game {
     gameId: string,
