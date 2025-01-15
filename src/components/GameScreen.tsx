@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import ConfirmModal from './ConfirmModal';
@@ -29,6 +29,27 @@ const GameScreen: React.FC = () => {
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false);
+
+    const useAsyncCallback = () => {
+        const [isExecuting, setIsExecuting] = useState(false);
+        const executeAsync = useCallback(async (callback: () => Promise<void>) => {
+            setIsExecuting(true);
+            try {
+                await callback();
+            } catch (error) {
+                console.error('Error in async operation:', error);
+            } finally {
+                setIsExecuting(false);
+            }
+        }, []);
+        return { executeAsync, isExecuting };
+    };
+    const { executeAsync, isExecuting } = useAsyncCallback();
+    const gameEndCallback = () => {
+        executeAsync(async () => {
+            await notifyAndNavigate(NotificationType.GAME_END);
+        });
+    };
 
     const notifyAndNavigate = async (type: NotificationType): Promise<void> => {
         await createNotifications(type);
@@ -130,8 +151,8 @@ const GameScreen: React.FC = () => {
     useEffect(() => {
         if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData && !game) {
 
-            const endGameHook = async (): Promise<void> => {
-                await notifyAndNavigate(NotificationType.GAME_END);
+            const endGameHook = (): void => {
+                gameEndCallback();
             };
 
             const saveGameHook = (data: any) => {
