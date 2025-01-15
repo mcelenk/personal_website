@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import ConfirmModal from './ConfirmModal';
+
 import { Game } from '../gameplay/game';
 import '../styles/Common.css';
 import '../styles/GameScreen.css';
@@ -19,8 +21,21 @@ const GameScreen: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [gameData, setGameData] = useState<any | null>(null);
     const [serializationData, setSerializationData] = useState<any | null>(null);
-
     const [isAwaiting, setIsAwaiting] = useState(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
+
+    const handleResign = () => {
+        setShowModal(true);
+    }
+
+    const handleConfirmResign = () => {
+        // actual handling of resignation
+        setShowModal(false);
+    }
+
+    const handleCancelResign = () => {
+        setShowModal(false);
+    }
 
     useEffect(() => {
         const fetchGameData = async () => {
@@ -145,10 +160,6 @@ const GameScreen: React.FC = () => {
         }
     }, [serializationData]);
 
-    const handleResign = async (): Promise<void> => {
-
-    }
-
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -165,6 +176,8 @@ const GameScreen: React.FC = () => {
             <canvas ref={canvasBackRef} id="back" width={window.innerWidth} height={window.innerHeight}></canvas>
             <canvas ref={canvasFrontRef} id="front" width={window.innerWidth} height={window.innerHeight}></canvas>
             {isAwaiting && (<div className="awaiting-message show"> Awaiting your opponent(s) </div>)}
+
+            <ConfirmModal show={showModal} onClose={handleCancelResign} onConfirm={handleConfirmResign} />
         </div>
     );
 };
