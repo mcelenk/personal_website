@@ -158,8 +158,10 @@ const GameScreen: React.FC = () => {
     }
     return (
         <div>
-            <button className="common-button.back-button" onClick={() => navigate('/games')}>Back to Game List</button>
-            <button className='common-button.resign-button' onClick={handleResign}>Resign</button>
+            <div className="button-container">
+                <button className="common-button.back-button" onClick={() => navigate('/games')}>Back to Game List</button>
+                <button className='common-button.resign-button' onClick={handleResign}>Resign</button>
+            </div>
             <canvas ref={canvasBackRef} id="back" width={window.innerWidth} height={window.innerHeight}></canvas>
             <canvas ref={canvasFrontRef} id="front" width={window.innerWidth} height={window.innerHeight}></canvas>
             {isAwaiting && (<div className="awaiting-message show"> Awaiting your opponent(s) </div>)}
