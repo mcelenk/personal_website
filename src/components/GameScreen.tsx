@@ -145,6 +145,10 @@ const GameScreen: React.FC = () => {
         }
     }, [serializationData]);
 
+    const handleResign = async (): Promise<void> => {
+
+    }
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -154,7 +158,8 @@ const GameScreen: React.FC = () => {
     }
     return (
         <div>
-            <button className="common-button" onClick={() => navigate('/games')}>Back to Game List</button>
+            <button className="common-button.back-button" onClick={() => navigate('/games')}>Back to Game List</button>
+            <button className='common-button.resign-button' onClick={handleResign}>Resign</button>
             <canvas ref={canvasBackRef} id="back" width={window.innerWidth} height={window.innerHeight}></canvas>
             <canvas ref={canvasFrontRef} id="front" width={window.innerWidth} height={window.innerHeight}></canvas>
             {isAwaiting && (<div className="awaiting-message show"> Awaiting your opponent(s) </div>)}

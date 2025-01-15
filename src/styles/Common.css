@@ -41,3 +41,13 @@
     cursor: not-allowed;
     opacity: 0.6;
 }
+
+.common-button.back-button {
+    top: 10px;
+    left: 10px;
+}
+
+.common-button.resign-button {
+    top: 10px;
+    left: 150px;
+}
