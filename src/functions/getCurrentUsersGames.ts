@@ -17,6 +17,9 @@ const handler: Handler = async (event, _context) => {
 
         const database = client.db('AntiyoyCloneDB');
         const collection = database.collection('GameTurn');
+        await collection.deleteMany();
+        const gameStateCollection = database.collection('GameState');
+        await gameStateCollection.deleteMany();
 
         const query = { userId: userId, isActive: true };
         const sort: { [key: string]: SortDirection } = { isCurrent: -1 }; // -1 for descending order, 1 for ascending order 
