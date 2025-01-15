@@ -158,7 +158,7 @@ const GameScreen: React.FC = () => {
     }
     return (
         <div>
-            <div className="button-container">
+            <div className="button-container.absolute-positioning">
                 <button className="common-button.back-button" onClick={() => navigate('/games')}>Back to Game List</button>
                 <button className='common-button.resign-button' onClick={handleResign}>Resign</button>
             </div>
