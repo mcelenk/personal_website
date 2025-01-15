@@ -73,6 +73,10 @@ export class FieldManager implements SingleClickHandler {
         this.cursorForMenuButtons = cursor;
     }
 
+    public stopInteraction = (): void => {
+        this.turnEnded = true;
+    }
+
     constructor(
         dimension: Dimension,
         resourceConfig: ResourceConfig,

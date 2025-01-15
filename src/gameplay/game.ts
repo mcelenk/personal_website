@@ -13,14 +13,12 @@ export class Game {
     private canvasFront: HTMLCanvasElement;
     private ctxFront: CanvasRenderingContext2D;
 
-    private gameRunning: boolean = true;
-
     private latestTransform: Transform;
     private fManager: FieldManager | null = null;
     private start: number;
     private currentPlayerId: string;
     private saveGameHook: (gameData: any) => void;
-    private endGameHook: (winnerId: string, loserId: string) => void;
+    private endGameHook: () => void;
 
     private gameData: any;
 
@@ -29,7 +27,7 @@ export class Game {
         currentPlayerId: string,
         gameData: any,
         saveGameHook: (gameData: any) => void,
-        endGameHook: (winnerId: string, loserId: string) => void,
+        endGameHook: () => void,
     ) {
         this.canvasBack = canvasBack;
         this.canvasFront = canvasFront;
@@ -105,7 +103,7 @@ export class Game {
     }
 
     private endGame = (): void => {
-        this.endGameHook(this.currentPlayerId, this.gameData.players.filter((x: string) => x != this.currentPlayerId)[0]);
+        this.endGameHook();
     }
 
     private redraw = (transform: Transform) => {
@@ -113,17 +111,11 @@ export class Game {
         this.gameLoop();
     }
 
-    public stopGame = () => {
-        this.gameRunning = false;
-    }
-
-    public resumeGame = () => {
-        this.gameRunning = true;
+    public stopGame = (): void => {
+        this.fManager?.stopInteraction();
     }
 
     public gameLoop = () => {
-        if (!this.gameRunning) return;
-
         requestAnimationFrame(this.gameLoop);
 
         const diff = performance.now() - this.start;

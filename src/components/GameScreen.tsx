@@ -7,6 +7,11 @@ import { Game } from '../gameplay/game';
 import '../styles/Common.css';
 import '../styles/GameScreen.css';
 
+enum NotificationType {
+    GAME_END = 0,
+    RESIGNATION = 1,
+}
+
 const GameScreen: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const { user } = useAuth();
@@ -25,16 +30,71 @@ const GameScreen: React.FC = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false);
 
+    const notifyAndNavigate = async (type: NotificationType): Promise<void> => {
+        await createNotifications(type);
+        setTimeout(() => {
+            navigate('/games')
+        }, 1000);
+    }
+
+    const createNotifications = async (type: NotificationType): Promise<void> => {
+        const gameName = gameData.gameName;
+        const notifications = [];
+
+        switch (type) {
+            case NotificationType.GAME_END:
+                notifications.push({
+                    userId: user.sub,
+                    message: `Congratulations, you won the game ${gameName}`,
+                });
+                notifications.push({
+                    userId: gameData.players.filter((x: string) => x !== user.sub)[0],
+                    message: `You've lost the game ${gameName}, better luck next time!`,
+                });
+                break;
+            case NotificationType.RESIGNATION:
+                notifications.push({
+                    userId: user.sub,
+                    message: `You've resigned from the game ${gameName}`,
+                });
+                notifications.push({
+                    userId: gameData.players.filter((x: string) => x !== user.sub)[0],
+                    message: `Because your opponent(s) resigned, you've won the game ${gameName}`,
+                });
+                break;
+            default:
+                throw Error(`Unknown notification type: ${type}!`);
+        }
+
+        try {
+            const response = await fetch('/.netlify/functions/createGameNotification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ notifications: notifications, gameId: gameData.id }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log('Success:', data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     const handleResign = () => {
         setShowModal(true);
     }
 
-    const handleConfirmResign = () => {
+    const handleConfirmResign = async (): Promise<void> => {
         // actual handling of resignation
         game?.stopGame();
         setButtonsDisabled(true);
         setShowModal(false);
-
+        await notifyAndNavigate(NotificationType.RESIGNATION);
     }
 
     const handleCancelResign = () => {
@@ -70,43 +130,8 @@ const GameScreen: React.FC = () => {
     useEffect(() => {
         if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData && !game) {
 
-            const createNotifications = async (winnerPlayerId: string, losingPlayerId: string): Promise<void> => {
-                const gameName = gameData.gameName;
-                const winnerMessage = `Congratulations, you won the game ${gameName}`;
-                const loserMessage = `You've lost the game ${gameName}, better luck next time!`;
-
-                const notifications = [{
-                    userId: winnerPlayerId,
-                    message: winnerMessage,
-                }, {
-                    userId: losingPlayerId,
-                    message: loserMessage,
-                }];
-
-                try {
-                    const response = await fetch('/.netlify/functions/createGameNotification', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ notifications: notifications, gameId: gameData.id }),
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    console.log('Success:', data);
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            };
-
-            const endGameHook = async (winnerPlayerId: string, losingPlayerId: string): Promise<void> => {
-                await createNotifications(winnerPlayerId, losingPlayerId);
-                setTimeout(() => {
-                    navigate('/games')
-                }, 1000);
+            const endGameHook = async (): Promise<void> => {
+                await notifyAndNavigate(NotificationType.GAME_END);
             };
 
             const saveGameHook = (data: any) => {
@@ -174,7 +199,7 @@ const GameScreen: React.FC = () => {
     return (
         <div>
             <div className="button-container absolute-positioning">
-                <button className="common-button" disabled={buttonsDisabled} onClick={() => navigate('/games')}>Back to Game List</button>
+                <button className="common-button" onClick={() => navigate('/games')}>Back to Game List</button>
                 <button className='common-button' disabled={buttonsDisabled} onClick={handleResign}>Resign</button>
             </div>
             <canvas ref={canvasBackRef} id="back" width={window.innerWidth} height={window.innerHeight}></canvas>
