@@ -23,6 +23,7 @@ const GameScreen: React.FC = () => {
     const [serializationData, setSerializationData] = useState<any | null>(null);
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false);
 
     const handleResign = () => {
         setShowModal(true);
@@ -30,7 +31,10 @@ const GameScreen: React.FC = () => {
 
     const handleConfirmResign = () => {
         // actual handling of resignation
+        game?.stopGame();
+        setButtonsDisabled(true);
         setShowModal(false);
+
     }
 
     const handleCancelResign = () => {
@@ -99,7 +103,7 @@ const GameScreen: React.FC = () => {
             };
 
             const endGameHook = async (winnerPlayerId: string, losingPlayerId: string): Promise<void> => {
-                createNotifications(winnerPlayerId, losingPlayerId);
+                await createNotifications(winnerPlayerId, losingPlayerId);
                 setTimeout(() => {
                     navigate('/games')
                 }, 1000);
@@ -170,8 +174,8 @@ const GameScreen: React.FC = () => {
     return (
         <div>
             <div className="button-container absolute-positioning">
-                <button className="common-button" onClick={() => navigate('/games')}>Back to Game List</button>
-                <button className='common-button' onClick={handleResign}>Resign</button>
+                <button className="common-button" disabled={buttonsDisabled} onClick={() => navigate('/games')}>Back to Game List</button>
+                <button className='common-button' disabled={buttonsDisabled} onClick={handleResign}>Resign</button>
             </div>
             <canvas ref={canvasBackRef} id="back" width={window.innerWidth} height={window.innerHeight}></canvas>
             <canvas ref={canvasFrontRef} id="front" width={window.innerWidth} height={window.innerHeight}></canvas>

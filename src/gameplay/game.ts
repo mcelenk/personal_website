@@ -13,6 +13,8 @@ export class Game {
     private canvasFront: HTMLCanvasElement;
     private ctxFront: CanvasRenderingContext2D;
 
+    private gameRunning: boolean = true;
+
     private latestTransform: Transform;
     private fManager: FieldManager | null = null;
     private start: number;
@@ -111,7 +113,17 @@ export class Game {
         this.gameLoop();
     }
 
+    public stopGame = () => {
+        this.gameRunning = false;
+    }
+
+    public resumeGame = () => {
+        this.gameRunning = true;
+    }
+
     public gameLoop = () => {
+        if (!this.gameRunning) return;
+
         requestAnimationFrame(this.gameLoop);
 
         const diff = performance.now() - this.start;
