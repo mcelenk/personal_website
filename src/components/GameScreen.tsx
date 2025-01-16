@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import ConfirmModal from './ConfirmModal';
-
 import { Game } from '../gameplay/game';
+
 import '../styles/Common.css';
 import '../styles/GameScreen.css';
 
@@ -146,6 +146,8 @@ const GameScreen: React.FC = () => {
             }
         };
         fetchGameData();
+        const interval = setInterval(fetchGameData, 10000);
+        return () => clearInterval(interval);
     }, [id, user]);
 
     useEffect(() => {
