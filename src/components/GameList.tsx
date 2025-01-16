@@ -65,7 +65,7 @@ const GameList: React.FC = () => {
 
     useEffect(() => {
         fetchData(user);
-        const interval = setInterval(fetchData, 10000);
+        const interval = setInterval(() => { fetchData(user) }, 10000);
         return () => clearInterval(interval);
     }, [user]);
 
