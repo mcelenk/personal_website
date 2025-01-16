@@ -16,15 +16,22 @@ const handler: Handler = async (event, _context) => {
         await client.connect();
 
         const database = client.db('AntiyoyCloneDB');
-        const collection = database.collection('GameTurn');
+        const gameTurnCollection = database.collection('GameTurn');
 
         const query = { userId: userId, isActive: true };
-        const sort: { [key: string]: SortDirection } = { isCurrent: -1 }; // -1 for descending order, 1 for ascending order 
-        const records = await collection.find(query).sort(sort).toArray();
+        const sort: { [key: string]: SortDirection } = { isCurrent: -1 };
+        const gameTurns = await gameTurnCollection.find(query).sort(sort).toArray();
+
+        const notificationCollection = database.collection('GameNotification');
+        const notificationsQuery = { userId: userId, isRead: false };
+        const notifications = await notificationCollection.find(notificationsQuery).toArray();
 
         return {
             statusCode: 200,
-            body: JSON.stringify(records),
+            body: JSON.stringify({
+                gameTurns: gameTurns,
+                notifications: notifications
+            }),
         };
     } catch (error) {
         console.error('Error connecting to MongoDB', error);

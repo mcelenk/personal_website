@@ -17,83 +17,57 @@ interface Game {
 
 interface Notification {
     _id: ObjectId,
-    gameName: string,
     message: string
 }
 
 const GameList: React.FC = () => {
     const [games, setGames] = useState<Array<Game>>([]);
-    const [notifications, setNotifications] = useState<Array<Notification>>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [gamesLoaded, setGamesLoaded] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
     const { user } = useAuth();
 
-    useEffect(() => {
-        const fetchGames = async () => {
+    const markNotificationsAsRead = async (notificationIds: Array<ObjectId>) => {
+        if (notificationIds && notificationIds.length > 0) {
             try {
-                const response = await fetch(`/.netlify/functions/getCurrentUsersGames?userId=${user.sub}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                setGames(data);
+                await fetch('/.netlify/functions/markNotificationsRead', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ notificationIds }),
+                });
             } catch (err) {
-                setError('Error fetching game data');
                 console.error(err);
-            } finally {
-                setGamesLoaded(true);
-            }
+            };
         };
+    }
 
-        fetchGames();
-    }, [user]);
+    const fetchData = async (user: { sub: string }) => {
+        try {
+            const response = await fetch(`/.netlify/functions/getCurrentUsersGamesAndNotifications?userId=${user.sub}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setGames(data.gameTurns);
+            data.notifications.forEach((notification: Notification) => {
+                toast(notification.message, { autoClose: 5000 });
+            });
+            markNotificationsAsRead(data.notifications.map((n: Notification) => n._id));
+        } catch (err) {
+            setError('Error fetching game data');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchNotifications = async () => {
-            if (gamesLoaded) {
-                try {
-                    const response = await fetch(`/.netlify/functions/getGameNotifications?userId=${user.sub}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const data: Array<Notification> = await response.json();
-                    (window as any).nd = data;
-                    setNotifications(data);
-
-                    const notificationIds = data.map((x: Notification) => x._id);
-                    data.forEach((notification) => { toast(notification.message, { autoClose: 5000 }); });
-                    markNotificationsAsRead(notificationIds);
-
-                } catch (err) {
-                    setError('Error fetching notifications data');
-                    console.error(err);
-                } finally {
-                    setLoading(false);
-                }
-            }
-        };
-
-        const markNotificationsAsRead = async (notificationIds: Array<ObjectId>) => {
-            if (notificationIds && notificationIds.length > 0) {
-                try {
-                    await fetch('/.netlify/functions/markNotificationsRead', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ notificationIds }),
-                    });
-                } catch (err) {
-                    // setError('Error updating notifications data');
-                    console.error(err);
-                };
-            };
-        }
-
-        fetchNotifications();
-    }, [user, gamesLoaded]);
+        fetchData(user);
+        const interval = setInterval(fetchData, 10000);
+        return () => clearInterval(interval);
+    }, [user]);
 
     if (loading) {
         return <div>Loading...</div>;
