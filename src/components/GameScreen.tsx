@@ -157,7 +157,7 @@ const GameScreen: React.FC = () => {
     }, [id, user, isAuthorized, gameData]);
 
     useEffect(() => {
-        if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData && !game) {
+        if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData) {
 
             const endGameHook = (): void => {
                 gameEndCallback();
