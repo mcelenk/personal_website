@@ -122,33 +122,39 @@ const GameScreen: React.FC = () => {
         setShowModal(false);
     }
 
-    useEffect(() => {
-        const fetchGameData = async () => {
-            try {
-                const response = await fetch(`/.netlify/functions/getGameState?gameId=${id}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                const gameData = data.gameData;
-                if (gameData.players.includes(user.sub)) {
-                    setIsAuthorized(true);
-                    setGameData(gameData);
-                    setIsAwaiting(gameData.currentUserId !== user.sub);
-                } else {
-                    setIsAuthorized(false);
-                }
-            } catch (err) {
-                console.error('Error fetching game details:', err);
-                setError('Failed to fetch game details. Please try again later.');
-            } finally {
-                setIsLoading(false);
+    const fetchGameData = async () => {
+        try {
+            const response = await fetch(`/.netlify/functions/getGameState?gameId=${id}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        };
+            const data = await response.json();
+            const gameData = data.gameData;
+            if (gameData.players.includes(user.sub)) {
+                setIsAuthorized(true);
+                setGameData(gameData);
+                setIsAwaiting(gameData.currentUserId !== user.sub);
+            } else {
+                setIsAuthorized(false);
+            }
+        } catch (err) {
+            console.error('Error fetching game details:', err);
+            setError('Failed to fetch game details. Please try again later.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
         fetchGameData();
-        const interval = setInterval(fetchGameData, 10000);
+        const interval = setInterval(async () => {
+            if (isAuthorized && gameData && gameData.currentUserId !== user.sub) {
+                await fetchGameData();
+            }
+        }, 10000);
+
         return () => clearInterval(interval);
-    }, [id, user]);
+    }, [id, user, isAuthorized, gameData]);
 
     useEffect(() => {
         if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData && !game) {
