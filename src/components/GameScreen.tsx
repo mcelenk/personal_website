@@ -185,6 +185,7 @@ const GameScreen: React.FC = () => {
                         saveGameHook,
                         endGameHook
                     );
+                    setGameDataUpdated(false);
 
                     gameInstance.initialize(isAwaiting, (state: boolean) => {
                         setIsAwaiting(state);
