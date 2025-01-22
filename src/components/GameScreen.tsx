@@ -153,13 +153,13 @@ const GameScreen: React.FC = () => {
 
     useEffect(() => {
         fetchGameData();
-        const interval = setInterval(() => {
-            if (isAuthorized && gameData && gameData.currentUserId !== user.sub) {
-                fetchGameData();
-            }
-        }, 50000);
+        // const interval = setInterval(() => {
+        //     if (isAuthorized && gameData && gameData.currentUserId !== user.sub) {
+        //         fetchGameData();
+        //     }
+        // }, 50000);
 
-        return () => clearInterval(interval);
+        // return () => clearInterval(interval);
     }, [id, user, isAuthorized, gameData]);
 
     useEffect(() => {
