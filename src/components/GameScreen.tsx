@@ -130,22 +130,18 @@ const GameScreen: React.FC = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            if (latestDt == null) {
+            if (latestDt != data.insertDt) {
                 setLatestDt(data.insertDt);
-            } else {
-                if (latestDt != data.insertDt) {
-                    setLatestDt(data.insertDt);
-                    const gameData = data.gameData;
-                    if (gameData.players.includes(user.sub)) {
-                        setIsAuthorized(true);
-                        setGameData(gameData);
-                        setIsAwaiting(gameData.currentUserId !== user.sub);
-                    } else {
-                        setIsAuthorized(false);
-                    }
+                const gameData = data.gameData;
+                if (gameData.players.includes(user.sub)) {
+                    setIsAuthorized(true);
+                    setGameData(gameData);
+                    setIsAwaiting(gameData.currentUserId !== user.sub);
                 } else {
-
+                    setIsAuthorized(false);
                 }
+            } else {
+                // ??
             }
         } catch (err) {
             console.error('Error fetching game details:', err);
