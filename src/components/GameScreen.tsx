@@ -25,6 +25,7 @@ const GameScreen: React.FC = () => {
     const [_error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [gameData, setGameData] = useState<any | null>(null);
+    const [gameDataUpdated, setGameDataUpdated] = useState<boolean>(false);
     const [serializationData, setSerializationData] = useState<any | null>(null);
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -132,6 +133,7 @@ const GameScreen: React.FC = () => {
             const data = await response.json();
             if (latestDt != data.insertDt) {
                 setLatestDt(data.insertDt);
+                setGameDataUpdated(true);
                 const gameData = data.gameData;
                 if (gameData.players.includes(user.sub)) {
                     setIsAuthorized(true);
@@ -163,7 +165,7 @@ const GameScreen: React.FC = () => {
     }, [id, user, isAuthorized, gameData]);
 
     useEffect(() => {
-        if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData) {
+        if (isAuthorized && canvasBackRef.current && canvasFrontRef.current && gameData && gameDataUpdated) {
 
             const endGameHook = (): void => {
                 gameEndCallback();
