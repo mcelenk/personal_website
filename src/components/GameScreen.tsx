@@ -29,6 +29,7 @@ const GameScreen: React.FC = () => {
     const [isAwaiting, setIsAwaiting] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false);
+    const [latestDt, setLatestDt] = useState<Date | null>(null);
 
     const useAsyncCallback = () => {
         const [isExecuting, setIsExecuting] = useState(false);
@@ -129,13 +130,22 @@ const GameScreen: React.FC = () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            const gameData = data.gameData;
-            if (gameData.players.includes(user.sub)) {
-                setIsAuthorized(true);
-                setGameData(gameData);
-                setIsAwaiting(gameData.currentUserId !== user.sub);
+            if (latestDt == null) {
+                setLatestDt(data.insertDt);
             } else {
-                setIsAuthorized(false);
+                if (latestDt != data.insertDt) {
+                    setLatestDt(data.insertDt);
+                    const gameData = data.gameData;
+                    if (gameData.players.includes(user.sub)) {
+                        setIsAuthorized(true);
+                        setGameData(gameData);
+                        setIsAwaiting(gameData.currentUserId !== user.sub);
+                    } else {
+                        setIsAuthorized(false);
+                    }
+                } else {
+
+                }
             }
         } catch (err) {
             console.error('Error fetching game details:', err);
@@ -147,11 +157,11 @@ const GameScreen: React.FC = () => {
 
     useEffect(() => {
         fetchGameData();
-        const interval = setInterval(async () => {
+        const interval = setInterval(() => {
             if (isAuthorized && gameData && gameData.currentUserId !== user.sub) {
-                await fetchGameData();
+                fetchGameData();
             }
-        }, 10000);
+        }, 50000);
 
         return () => clearInterval(interval);
     }, [id, user, isAuthorized, gameData]);
