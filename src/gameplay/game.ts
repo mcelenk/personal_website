@@ -7,11 +7,11 @@ import { Hex } from './hex';
 import { SeadableRandom } from './seedableRandom';
 
 export class Game {
-    private canvasBack: HTMLCanvasElement;
-    private ctxBack: CanvasRenderingContext2D;
+    private canvasBack: HTMLCanvasElement | null;
+    private ctxBack: CanvasRenderingContext2D | null;
 
-    private canvasFront: HTMLCanvasElement;
-    private ctxFront: CanvasRenderingContext2D;
+    private canvasFront: HTMLCanvasElement | null;
+    private ctxFront: CanvasRenderingContext2D | null;
 
     private latestTransform: Transform;
     private fManager: FieldManager | null = null;
@@ -42,10 +42,10 @@ export class Game {
         this.endGameHook = endGameHook;
 
         const observer = new ResizeObserver(() => {
-            this.canvasBack.width = this.canvasBack.clientWidth;
-            this.canvasBack.height = this.canvasBack.clientHeight;
-            this.canvasFront.width = this.canvasBack.clientWidth;
-            this.canvasFront.height = this.canvasBack.clientHeight;
+            this.canvasBack!.width = this.canvasBack?.clientWidth ?? 1;
+            this.canvasBack!.height = this.canvasBack?.clientHeight ?? 1;
+            this.canvasFront!.width = this.canvasBack?.clientWidth ?? 1;
+            this.canvasFront!.height = this.canvasBack?.clientHeight ?? 1;
             this.gameLoop();
         });
         observer.observe(this.canvasBack!);
@@ -64,7 +64,7 @@ export class Game {
         const resourceConfig = new ResourceConfig();
         await resourceConfig.loadResources().then(() => {
             this.fManager = new FieldManager(
-                this.canvasFront,
+                this.canvasFront!,
                 resourceConfig,
                 this.gameData,
                 turnEnded,
@@ -72,7 +72,7 @@ export class Game {
                 awaitStateChangedHook,
                 this.endGame
             );
-            new UserEvents(this.canvasFront, this.fManager, this.redraw);
+            new UserEvents(this.canvasFront!, this.fManager, this.redraw);
         });
     }
 
@@ -111,18 +111,34 @@ export class Game {
         this.gameLoop();
     }
 
+    private running: boolean = true;
+
     public stopGame = (): void => {
         this.fManager?.stopInteraction();
+        this.running = false;
+    }
+
+    public dispose = (): void => {
+        this.stopGame();
+        this.canvasBack = null;
+        this.ctxBack = null;
+        this.canvasFront = null;
+        this.ctxFront = null;
+        this.fManager = null;
+        this.saveGameHook = () => { };
+        this.endGameHook = () => { }
     }
 
     public gameLoop = () => {
-        requestAnimationFrame(this.gameLoop);
+        if (this.running) {
+            requestAnimationFrame(this.gameLoop);
+        }
 
         const diff = performance.now() - this.start;
         if (diff > 16 && (this.fManager ?? null) instanceof FieldManager) {
-            this.ctxBack.fillStyle = "black";
-            this.ctxBack.fillRect(0, 0, this.canvasBack.width, this.canvasBack.height);
-            this.ctxFront.clearRect(0, 0, this.canvasBack.width, this.canvasBack.height);
+            this.ctxBack!.fillStyle = "black";
+            this.ctxBack!.fillRect(0, 0, this.canvasBack!.width, this.canvasBack!.height);
+            this.ctxFront!.clearRect(0, 0, this.canvasBack!.width, this.canvasBack!.height);
             this.fManager?.draw(this.ctxBack, this.ctxFront, this.latestTransform);
             this.start = performance.now();
         }

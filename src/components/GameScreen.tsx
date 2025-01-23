@@ -177,6 +177,7 @@ const GameScreen: React.FC = () => {
 
             const initializeGame = async () => {
                 try {
+                    game?.dispose();
                     const gameInstance = new Game(
                         canvasBackRef.current!,
                         canvasFrontRef.current!,
