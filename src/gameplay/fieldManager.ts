@@ -372,8 +372,9 @@ export class FieldManager implements SingleClickHandler {
                             }
                         } else {
                             const unitType = this.getStrongestUnitAround(x);
-                            if (unitType != null && unitType >= overlay.getUnitToBeAdded()) {
-                                return false;
+                            if (unitType != null) {
+                                if (unitType > overlay.getUnitToBeAdded()) return false;
+                                if (unitType == UnitType.KNIGHT && overlay.getUnitToBeAdded() == UnitType.KNIGHT) return true;
                             }
                             const neighbourObj = this.getStrongestObjAround(x);
                             switch (neighbourObj) {
