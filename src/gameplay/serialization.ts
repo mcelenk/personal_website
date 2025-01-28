@@ -1,3 +1,4 @@
+import { Transform } from "./transform";
 import { UnitType } from "./unit"
 
 export type SerializedHex = {
@@ -20,4 +21,5 @@ export type SerializedGame = {
     provinceBalances: Record<number, Record<number, number>> | undefined,
     history: Array<any>;
     id: string,
+    transform?: Record<string, Transform>,
 }

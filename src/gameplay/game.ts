@@ -34,7 +34,12 @@ export class Game {
         this.ctxBack = this.canvasBack.getContext("2d")!;
         this.ctxFront = this.canvasFront.getContext("2d")!;
 
-        this.latestTransform = new Transform();
+        if (gameData.transform && currentPlayerId in gameData.transform) {
+            this.latestTransform = gameData.transform[currentPlayerId];
+        } else {
+            this.latestTransform = new Transform();
+        }
+
         this.start = performance.now();
 
         this.currentPlayerId = currentPlayerId;
@@ -99,6 +104,8 @@ export class Game {
         resultObj.lastModifiedBy = this.currentPlayerId;
         resultObj.id = this.gameData.id; // Important! But shouldn't be, fix it
         resultObj.gameName = this.gameData.gameName;
+        resultObj.transform = this.gameData.transform ?? {};
+        resultObj.transform[this.currentPlayerId] = this.latestTransform;
         this.saveGameHook(resultObj);
     }
 
