@@ -108,11 +108,10 @@ Starting Game Ext \/
 * What would happen when chosen 'yes' to are you sure? Create appropriate Notifications \/
     createGameNotifications function both creates the notifications records and updates the GameTurn.isActive: false, this is good enough.
     Perhaps we may like to identify such a game as not complete, but it is not P0/P1. (and it may turn out to be useless)
+                                                                                                                                            /
+* !!! BOTH GAME LIST AND GAME SCREEN CAN POOL, or utilize websockets, new and necessary topic, in order to make games sort of interactive \/
+
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-                                                                                                                                          \/
-* !!! BOTH GAME LIST AND GAME SCREEN CAN POOL, or utilize websockets, new and necessary topic, in order to make games sort of interactive /\
-
                \/
 * Leaderboard? /\

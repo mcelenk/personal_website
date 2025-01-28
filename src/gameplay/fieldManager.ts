@@ -17,6 +17,7 @@ import { RandomGenerator } from './randomGenerator';
 import { NEUTRAL_FRACTION_INDEX, PROVINCELESS_INDEX } from './constants';
 import { NeighbourExplorer } from './neighbouring';
 import { IncomeCalculation } from './incomeCalculation';
+import { SingleClickHandler } from './userEvents';
 
 const INITIAL_BALANCE = 10;
 
@@ -32,11 +33,6 @@ type UnitHandlingParams = {
     willAnimate: boolean,
     actionType: ActionType,
 };
-
-export interface SingleClickHandler {
-    handleSingleClick: (origPosition: Position) => boolean;
-    updateMenuItemDisplay: (globalAlpha: number, cursor: string) => void;
-}
 
 export class FieldManager implements SingleClickHandler {
     private fWidth: number;

@@ -1,6 +1,10 @@
-import { SingleClickHandler } from './fieldManager';
 import { Transform } from './transform';
 import { Position } from "./positioning";
+
+export interface SingleClickHandler {
+    handleSingleClick: (origPosition: Position) => boolean;
+    updateMenuItemDisplay: (globalAlpha: number, cursor: string) => void;
+}
 
 export class UserEvents {
     private canvas: HTMLCanvasElement;
