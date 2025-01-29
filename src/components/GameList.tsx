@@ -78,7 +78,9 @@ const GameList: React.FC = () => {
     }
     return (
         <>
-            {games.length < ACTIVE_ALLOWED_GAME_COUNT && (<button className="common-button" onClick={() => navigate('/create')}>Create a new game</button>)}
+            <div className="button-container absolute-positioning">
+                {games.length < ACTIVE_ALLOWED_GAME_COUNT && (<button className="common-button" onClick={() => navigate('/create')}>Create a new game</button>)}
+            </div>
             <div className="game-list-container">
                 <h2>Available Games</h2>
                 <ul className="game-list">
