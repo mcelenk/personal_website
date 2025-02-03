@@ -22,12 +22,12 @@ const GameScreen: React.FC = () => {
 
     const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
     const [game, setGame] = useState<Game | null>(null);
-    const [_error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [gameData, setGameData] = useState<any | null>(null);
     const [gameDataUpdated, setGameDataUpdated] = useState<boolean>(false);
     const [serializationData, setSerializationData] = useState<any | null>(null);
-    const [isAwaiting, setIsAwaiting] = useState(false);
+    const [showAwaiting, setShowAwaiting] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false);
     const [latestDt, setLatestDt] = useState<Date | null>(null);
@@ -132,18 +132,16 @@ const GameScreen: React.FC = () => {
             }
             const data = await response.json();
             if (latestDt != data.insertDt) {
-                setLatestDt(data.insertDt);
-                setGameDataUpdated(true);
                 const gameData = data.gameData;
                 if (gameData.players.includes(user.sub)) {
                     setIsAuthorized(true);
                     setGameData(gameData);
-                    setIsAwaiting(gameData.currentUserId !== user.sub);
+                    setShowAwaiting(gameData.currentUserId !== user.sub);
                 } else {
                     setIsAuthorized(false);
                 }
-            } else {
-                // ??
+                setLatestDt(data.insertDt);
+                setGameDataUpdated(true);
             }
         } catch (err) {
             console.error('Error fetching game details:', err);
@@ -188,8 +186,8 @@ const GameScreen: React.FC = () => {
                     );
                     setGameDataUpdated(false);
 
-                    gameInstance.initialize(isAwaiting, (state: boolean) => {
-                        setIsAwaiting(state);
+                    gameInstance.initialize(showAwaiting, (state: boolean) => {
+                        setShowAwaiting(state);
                     }).then(() => {
                         setGame(gameInstance);
                         gameInstance.gameLoop();
@@ -232,6 +230,10 @@ const GameScreen: React.FC = () => {
         return <div>Loading...</div>;
     }
 
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     if (!isAuthorized) {
         return <Navigate to="/games" />;
     }
@@ -243,7 +245,7 @@ const GameScreen: React.FC = () => {
             </div>
             <canvas ref={canvasBackRef} id="back" width={window.innerWidth} height={window.innerHeight}></canvas>
             <canvas ref={canvasFrontRef} id="front" width={window.innerWidth} height={window.innerHeight}></canvas>
-            {isAwaiting && (<div className="awaiting-message show"> Awaiting your opponent(s) </div>)}
+            {showAwaiting && (<div className="awaiting-message show"> Awaiting your opponent(s) </div>)}
 
             <ConfirmModal show={showModal} onClose={handleCancelResign} onConfirm={handleConfirmResign} />
         </div>
