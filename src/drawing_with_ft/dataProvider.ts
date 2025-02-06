@@ -56,7 +56,7 @@ export class DefaultDataProvider implements IDataProvider {
             return result;
         } catch (error) {
             console.error('Error fetching the JSON file:', error);
-            throw new Error(error);
+            throw new Error('' + error);
         }
     }
 }

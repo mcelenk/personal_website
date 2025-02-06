@@ -96,12 +96,12 @@ export class Drawing {
     private accumulatedDeltaValues: number = 0;
     private currentAnimationFrameNo: number = 0;
     private data: DrawingData | undefined;
-    private circles: Array<Circle>;
-    private flamePathPoints: Array<paper.Point>;
+    private circles: Array<Circle> = [];
+    private flamePathPoints: Array<paper.Point> = [];
     private dataProvider: IDataProvider;
 
-    private limitPositive: number;
-    private limitNegative: number;
+    private limitPositive: number = 0;
+    private limitNegative: number = 0;
     private totalLength: number = 0;
     private lengths: Array<number> = [];
 
@@ -113,8 +113,8 @@ export class Drawing {
 
     // Our Paperjs drawing objects
     // The path drawn with the tip of the arrow of the last circle
-    private flamePath: paper.Path;
-    private background: paper.Path.Rectangle;
+    private flamePath: paper.Path | undefined;
+    private background: paper.Path.Rectangle | undefined;
 
 
     constructor(dataProvider: IDataProvider) {
@@ -526,7 +526,7 @@ export class Drawing {
     }
 
     private renderFlame = (): void => {
-        if (this.flamePathPoints.length > 1) {
+        if (this.flamePathPoints.length > 1 && this.flamePath) {
 
             this.flamePath.segments = [];
             this.flamePath.strokeWidth = paper.view.bounds.height / GLOBAL_SCALE_FACTOR;
@@ -539,7 +539,7 @@ export class Drawing {
             }
             this.setBackground();
             this.flamePathPoints.forEach((element) => {
-                this.flamePath.add(element);
+                this.flamePath!.add(element);
             });
             this.flamePath.smooth();
         }
