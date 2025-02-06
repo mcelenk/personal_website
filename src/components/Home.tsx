@@ -10,8 +10,6 @@ const Home: React.FC = () => {
     useEffect(() => {
         const canvas = canvasRef.current;
         if (canvas) {
-            // Install paper.js and setup the canvas
-            paper.install(window);
             paper.setup(canvas);
             const drawing = new Drawing(new DefaultDataProvider());
             drawing.initialize().then(() => {
@@ -20,6 +18,7 @@ const Home: React.FC = () => {
                 }
                 paper.view.onResize = () => {
                     drawing.setBackground();
+                    drawing.restart();
                 };
                 drawing.restart();
             });
