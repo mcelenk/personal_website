@@ -3,6 +3,10 @@
     "transformers": {
         "*.ts": [
             "@parcel/transformer-typescript-tsc"
+        ],
+        "*.html": [
+            "@parcel/transformer-html"
         ]
-    }
+    },
+    "filePath": "./public"
 }
