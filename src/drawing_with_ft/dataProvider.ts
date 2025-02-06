@@ -9,7 +9,7 @@ import { DrawingData, IDataProvider } from "./drawing";
 export class DefaultDataProvider implements IDataProvider {
     private readonly DATA_FOLDER = 'drawing_data';
 
-    public resourceNames: Array<string> = ['monroe', 'david', 'monalisa', 'einstein'];
+    public readonly resourceNames: Array<string> = ['monroe', 'david', 'monalisa', 'einstein'];
 
     public fetchData = async (key?: string): Promise<DrawingData> => {
         if (!(key ?? '' in this.resourceNames)) {
