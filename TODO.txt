@@ -113,5 +113,7 @@ Starting Game Ext \/
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                      \/
+Button sizes sohuld be responsive, both those in the components and those rendered within the canvas. /\
                \/
 * Leaderboard? /\

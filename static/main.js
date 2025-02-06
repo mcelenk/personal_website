@@ -1,5 +1,4 @@
 ﻿window.dottilde = function () {
-    //So many constants some of which should be refined actually
     var MAX_CIRCLE_COUNT = 500;
     var MIN_CIRCLE_COUNT = 1;
     var FPS_ADJUSTED_DELTA_LIMIT = 0.04166; // 0.0333; // fps = (1 / FPS_ADJUSTED_DELTA_LIMIT) ~= 30
@@ -68,6 +67,7 @@
 
     var limitPositive;
     var limitNegative;
+    var initialized = false;
 
 
     // sets limitPositive and limitNegative according to numCircles
@@ -110,22 +110,26 @@
     }
 
     function tryRetrieveData(name) {
-        var xhttp = new XMLHttpRequest();
-        var selection = name ? 'name=' + name : 'name=monroe';
+        var response = getData();
+        data = response;
+        init();
+        // restart():
+        // var xhttp = new XMLHttpRequest();
+        // var selection = name ? 'name=' + name : 'name=monroe';
 
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var resp = JSON.parse(this.responseText);
-                data = resp;
-                window.data = data;
-                init();
-                restart();
-            }
-        };
-        xhttp.open("GET", "/.netlify/functions/get-data?" + selection, true);
-        xhttp.setRequestHeader("Content-type", "application/json");
+        // xhttp.onreadystatechange = function () {
+        //     if (this.readyState == 4 && this.status == 200) {
+        //         var resp = JSON.parse(this.responseText);
+        //         data = resp;
+        //         window.data = data;
+        //         init();
+        //         restart();
+        //     }
+        // };
+        // xhttp.open("GET", "/.netlify/functions/get-data?" + selection, true);
+        // xhttp.setRequestHeader("Content-type", "application/json");
 
-        xhttp.send(null);
+        // xhttp.send(null);
 
     }
 
@@ -157,7 +161,7 @@
         if (data.prefferedDt) {
             dt = data.prefferedDt;
         }
-        initialized = 1;
+        initialized = true;
     }
 
     function prefillFxValues() {
@@ -263,7 +267,7 @@
                 if (data.animation.zoom.startFrame <= currentAnimationFrameNo) {
                     if (data.animation.zoom.endFrame > currentAnimationFrameNo) {
 
-                        ; scrollInternalWithScale({
+                        scrollInternalWithScale({
                             wheelDelta: data.animation.zoom.wheelDelta,
                             offsetX: circles[1].base.position.x / 2 + circles[circles.length - 1].base.position.x / 2,
                             offsetY: circles[1].base.position.y / 2 + circles[circles.length - 1].base.position.y / 2,
@@ -289,7 +293,7 @@
             if (data.animation.snap) {
                 if (data.animation.snap.startFrame <= currentAnimationFrameNo) {
                     toggleSnapToTip(1);
-                    var item = document.getElementById("snapToTip").checked = 0;
+                    document.getElementById("snapToTip").checked = 0;
                     data.animation.snap = null;
                 }
             }
@@ -543,9 +547,6 @@
             data.roundCompletedInfo = null;
         }
     }
-
-
-    var initialized;
 
     var tmpDrawingPoints;
     return {

@@ -4,6 +4,7 @@ import Login from './Login';
 import GameList from './GameList';
 import GameScreen from './GameScreen';
 import GameCreate from './GameCreate';
+import Home from './Home';
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -12,7 +13,7 @@ const App: React.FC = () => {
         <AuthProvider>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Navigate to="/login" />} />
+                    <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route
                         path="/games"
