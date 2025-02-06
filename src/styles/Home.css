@@ -33,7 +33,7 @@ main {
 }
 
 /* Canvas styling */
-canvas {
+.home-canvas {
     width: 100%;
     height: 500px;
     /* Adjust the height as needed */

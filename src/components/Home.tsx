@@ -39,7 +39,7 @@ const Home: React.FC = () => {
             </header>
 
             <main>
-                <canvas id="myCanvas" ref={canvasRef}></canvas>
+                <canvas id="myCanvas" ref={canvasRef} className="home-canvas"></canvas>
             </main>
 
             <footer>
