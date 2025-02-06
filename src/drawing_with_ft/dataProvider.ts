@@ -17,7 +17,7 @@ export class DefaultDataProvider implements IDataProvider {
         }
 
         try {
-            const response = await fetch(`/public/${this.DATA_FOLDER}/${key}.json`);
+            const response = await fetch(`/${this.DATA_FOLDER}/${key}.json`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
