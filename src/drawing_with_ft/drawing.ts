@@ -417,8 +417,10 @@ export class Drawing {
                         this.scrollInternalWithScale({
                             paceUpdate: false,
                             delta: this.data.animation.zoom.wheelDelta,
-                            offsetX: this.circles[0].base.position.x / 3 + this.circles[1].base.position.x / 3 + this.circles[this.circles.length - 1].base.position.x / 3,
-                            offsetY: this.circles[0].base.position.y / 3 + this.circles[1].base.position.y / 3 + this.circles[this.circles.length - 1].base.position.y / 3,
+                            // offsetX: this.circles[0].base.position.x / 3 + this.circles[1].base.position.x / 3 + this.circles[this.circles.length - 1].base.position.x / 3,
+                            // offsetY: this.circles[0].base.position.y / 3 + this.circles[1].base.position.y / 3 + this.circles[this.circles.length - 1].base.position.y / 3,
+                            offsetX: this.circles[1].base.position.x,
+                            offsetY: this.circles[1].base.position.y,
                         }, this.data.animation.zoom.scale);
                     } else {
                         this.data.animation.zoom = undefined;

@@ -38,7 +38,7 @@ export class DefaultDataProvider implements IDataProvider {
                 },
                 animation: {
                     zoom: {
-                        wheelDelta: -0.02,
+                        wheelDelta: -0.03,
                         scale: 1.0578,
                         startFrame: 30,
                         endFrame: 500,
@@ -46,10 +46,10 @@ export class DefaultDataProvider implements IDataProvider {
                     pace: {
                         wheelDelta: 0.2279,
                         startFrame: 380,
-                        endFrame: 550,
+                        endFrame: 535,
                     },
                     snap: {
-                        startFrame: 551,
+                        startFrame: 500,
                     },
                 },
             };
