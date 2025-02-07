@@ -27,8 +27,8 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <header>
-                <nav>
+            <header className="home-header">
+                <nav className="home-nav">
                     <ul>
                         <li><a href="#home">Home</a></li>
                         <li><a href="#portfolio">Portfolio</a></li>
@@ -38,13 +38,13 @@ const Home: React.FC = () => {
                 </nav>
             </header>
 
-            <main>
+            <main className="home-main">
                 <div className="home-canvas-wrapper">
                     <canvas id="myCanvas" ref={canvasRef} className="home-canvas"></canvas>
                 </div>
             </main>
 
-            <footer>
+            <footer className="home-footer">
                 <div className="social-media">
                     <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                     <a href="https://github.com/yourprofile" target="_blank" rel="noopener noreferrer">GitHub</a>
