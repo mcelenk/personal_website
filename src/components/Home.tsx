@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Drawing } from '../drawing_with_ft/drawing';
 import { DefaultDataProvider } from '../drawing_with_ft/dataProvider';
 import * as paper from 'paper';
@@ -6,6 +7,7 @@ import '../styles/Home.css';
 
 const Home: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -30,10 +32,10 @@ const Home: React.FC = () => {
             <header className="home-header">
                 <nav className="home-nav">
                     <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#portfolio">Portfolio</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#home" onClick={() => navigate('/')}>Home</a></li>
+                        <li><a href="#portfolio" onClick={() => navigate('/games')}>Portfolio</a></li>
+                        <li><a href="#about" onClick={() => navigate('/about')}>About</a></li>
+                        <li><a href="#contact" onClick={() => navigate('/contact')}>Contact</a></li>
                     </ul>
                 </nav>
             </header>
