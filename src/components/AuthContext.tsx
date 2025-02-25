@@ -6,7 +6,7 @@ interface AuthContextType {
 }
 
 interface AuthProviderProps {
-    children: ReactNode; // This defines the type for children
+    children: ReactNode;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
