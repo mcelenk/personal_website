@@ -4,7 +4,7 @@ const Contact: React.FC = () => {
   return (
     <div>
       <h2>Contact</h2>
-      <p>City, Country</p>
+      <p>Amsterdam, The Netherlands</p>
       <p>
         <a href="mailto:mcelenk@dottilde.com">mcelenk@dottilde.com</a>
       </p>
