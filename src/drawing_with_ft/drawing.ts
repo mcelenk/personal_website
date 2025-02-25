@@ -269,11 +269,9 @@ export class Drawing {
                 const theta = thetaFixedPart * step * this.dt;
                 const rotationVector = [Math.cos(theta), -Math.sin(theta)];
 
-                let mult = this.complexMult(rotationVector, fx);
-                mult[0] *= this.dt;
-                mult[1] *= this.dt;
-                sum[0] += mult[0];
-                sum[1] += mult[1];
+                const mult = this.complexMult(rotationVector, fx);
+                sum[0] += mult[0] * this.dt;
+                sum[1] += mult[1] * this.dt;
             }
             result.push(sum);
         }

@@ -45,7 +45,7 @@ export class DefaultDataProvider implements IDataProvider {
                     },
                     pace: {
                         wheelDelta: 0.2279,
-                        startFrame: 380,
+                        startFrame: 340,
                         endFrame: 540,
                     },
                     snap: {
