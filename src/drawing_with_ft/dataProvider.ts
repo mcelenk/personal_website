@@ -14,7 +14,6 @@ export class DefaultDataProvider implements IDataProvider {
     public fetchData = async (key?: string): Promise<DrawingData> => {
         if (!(key ?? '' in this.resourceNames)) {
             key = this.resourceNames[Math.floor(Math.random() * this.resourceNames.length)];
-            key = "monroe";
         }
 
         try {
@@ -29,7 +28,7 @@ export class DefaultDataProvider implements IDataProvider {
                 snappedToTip: true,
                 stopped: false,
                 initialZoom: 200, //process.env.START_ZOOM, //400.0,
-                numCircles: 250,
+                numCircles: 150,
                 fill: true,
                 prefferedDt: 0.0009332,
                 roundCompletedInfo: {
