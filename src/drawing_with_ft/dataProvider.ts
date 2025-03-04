@@ -14,6 +14,7 @@ export class DefaultDataProvider implements IDataProvider {
     public fetchData = async (key?: string): Promise<DrawingData> => {
         if (!(key ?? '' in this.resourceNames)) {
             key = this.resourceNames[Math.floor(Math.random() * this.resourceNames.length)];
+            key = "monroe";
         }
 
         try {
