@@ -28,7 +28,7 @@ export class DefaultDataProvider implements IDataProvider {
                 snappedToTip: true,
                 stopped: false,
                 initialZoom: 200, //process.env.START_ZOOM, //400.0,
-                numCircles: 150,
+                numCircles: 200,
                 fill: true,
                 prefferedDt: 0.0009332,
                 roundCompletedInfo: {
