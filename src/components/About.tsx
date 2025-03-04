@@ -1,8 +1,9 @@
 import React from 'react';
+import '../styles/Common.css';
 
 const About: React.FC = () => {
     return (
-        <div>
+        <div className='text-container'>
             <h1>About Me</h1>
             <p>
                 Hey, there! My name’s Mustafa Çelenk. I'm a software engineer with a passion for indie 2d (and isometric) games (currently diving deep into HTML canvas implementations).

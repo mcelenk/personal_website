@@ -46,3 +46,10 @@
     top: 10px;
     left: 150px;
 }
+
+.text-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: justify;
+}

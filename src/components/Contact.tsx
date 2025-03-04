@@ -1,9 +1,10 @@
 import React from 'react';
+import '../styles/Common.css';
 
 const Contact: React.FC = () => {
   return (
-    <div>
-      <h2>Contact</h2>
+    <div className='text-container'>
+      <h1>Contact</h1>
       <p>Amsterdam, The Netherlands</p>
       <p>
         <a href="mailto:mcelenk@dottilde.com">mcelenk@dottilde.com</a>
