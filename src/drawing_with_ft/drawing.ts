@@ -5,6 +5,7 @@ import {
     GLOBAL_SCALE_FACTOR, INPUT_VALUE_SCALE_FACTOR, MAGIC_RATIO, MAGIC_RATIO_REPICROCAL, TRIANGLE_RATIO,
     TRIANGLE_SPACING_ANGLE
 } from "./constants";
+import { Transform } from '../gameplay/transform';
 
 type ScrollData = {
     paceUpdate: boolean,
@@ -354,9 +355,27 @@ export class Drawing {
         });
     }
 
+    private prevTransform: Transform | undefined = undefined;
+
+    public scrollWithTransform = (transform: Transform): void => {
+        if (this.data && (this.data.animation.pace || this.data.animation.zoom || this.data.animation.snap)) {
+            return;
+        }
+        if (this.prevTransform) {
+            const scaleDelta = transform.scale / this.prevTransform.scale;
+            paper.view.scale(scaleDelta);
+
+            const deltaX = transform.x - this.prevTransform.x;
+            const deltaY = transform.y - this.prevTransform.y;
+            const shiftVector = new paper.Point(deltaX, deltaY);
+            paper.view.translate(shiftVector);
+        }
+        this.prevTransform = transform.clone();
+    }
+
     private scrollInternalWithScale = (e: ScrollData, scale: number): void => {
-        let delta = Math.max(-1, Math.min(1, e.delta));
-        delta = delta / 10.0 * scale;
+
+        let delta = e.delta / 10.0 * scale;
 
         if (e.paceUpdate) { // ANIM PACE
             this.data!.paceFactor += this.data!.paceFactor * delta;
@@ -368,7 +387,7 @@ export class Drawing {
         //         decreaseCircleCount();
         // }
         else { // ZOOM
-            var zoomRatio = delta > 0 ? MAGIC_RATIO_REPICROCAL / scale : MAGIC_RATIO * scale;
+            let zoomRatio = delta > 0 ? MAGIC_RATIO_REPICROCAL / scale : MAGIC_RATIO * scale;
             paper.view.scale(zoomRatio);
 
             const mousePosInViewSystem = paper.view.viewToProject(new paper.Point(e.offsetX!, e.offsetY!));

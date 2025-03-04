@@ -13,4 +13,12 @@ export class Transform {
         this.x += deltaX;
         this.y += deltaY;
     }
+
+    public toString(): string {
+        return this.x + " " + this.y + " " + this.scale;
+    }
+
+    public clone(): Transform {
+        return new Transform(this.x, this.y, this.scale);
+    }
 }
