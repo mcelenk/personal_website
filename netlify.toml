@@ -10,11 +10,6 @@
   node_bundler = "esbuild"
 
 [[redirects]]
-  from = "/static/*"
-  to = "/static/:splat"
-  status = 200
-
-[[redirects]]
   from = "/data/*"
   to = "/data/:splat"
   status = 200
