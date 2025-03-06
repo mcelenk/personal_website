@@ -53,3 +53,18 @@
     padding: 20px;
     text-align: justify;
 }
+
+.text-container hr {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.text-container section p {
+    margin: 0;
+    padding: 5px 0;
+}
+
+.email-link {
+    margin: 0;
+    font-weight: 900;
+}
