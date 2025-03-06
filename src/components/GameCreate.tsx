@@ -94,11 +94,11 @@ const GameCreate: React.FC = () => {
     }
 
     return (
-        <div>
+        <div className="game-create-container">
             <h2>Create a New Game</h2>
 
             <label>
-                Choose Opponent:
+                Choose An Opponent:
                 <select
                     value={selectedPlayer}
                     onChange={e => { setSelectedPlayer(e.target.value); setCreateGameButtonDisabled(false); }}>
@@ -112,7 +112,7 @@ const GameCreate: React.FC = () => {
             </label>
 
             <label>
-                Choose Map Type:
+                Choose Map Size:
                 <select
                     value={selectedMapSize}
                     onChange={e => setSelectedMapSize(parseInt(e.target.value))}
@@ -126,7 +126,7 @@ const GameCreate: React.FC = () => {
             </label>
             <div className="button-container">
                 <button className="common-button" onClick={handleCreateGame} disabled={createGameButtonDisabled}>Create Game</button>
-                <button className="common-button" onClick={() => navigate('/games')}>Back to Game List</button>
+                <button className="common-button" onClick={() => navigate('/games')}>Back</button>
             </div>
         </div>
     );
