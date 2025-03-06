@@ -1,5 +1,3 @@
-/* GameList.css */
-
 .game-list-container {
     padding: 20px;
     max-width: 800px;
@@ -9,6 +7,8 @@
 .game-list-container h2 {
     text-align: center;
     margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .game-list {
@@ -46,4 +46,31 @@
     margin: 0;
     font-size: 1.2em;
     color: #343a40;
+}
+
+.heading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.plus-icon {
+    font-size: 24px;
+    margin-left: 15px;
+    cursor: pointer;
+    border: 2px solid #6582ed;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.plus-icon:hover {
+    background-color: #6582ed;
+    color: white;
 }

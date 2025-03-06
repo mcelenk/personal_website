@@ -5,7 +5,7 @@ import { useAuth } from './AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { ObjectId } from 'mongodb';
 import { ACTIVE_ALLOWED_GAME_COUNT } from '../gameplay/constants';
-
+import '@fortawesome/fontawesome-free/css/all.css'
 import '../styles/GameList.css';
 import '../styles/Common.css';
 
@@ -78,11 +78,15 @@ const GameList: React.FC = () => {
     }
     return (
         <>
-            <div className="button-container absolute-positioning">
-                {games.length < ACTIVE_ALLOWED_GAME_COUNT && (<button className="common-button" onClick={() => navigate('/create')}>Create a new game</button>)}
-            </div>
             <div className="game-list-container">
-                <h2>Available Games</h2>
+                <div className="heading-container">
+                    <h2>Available Games</h2>
+                    {games.length < ACTIVE_ALLOWED_GAME_COUNT && (
+                        <div className="plus-icon" onClick={() => navigate('/create')}>
+                            <i className="fas fa-plus"></i>
+                        </div>
+                    )}
+                </div>
                 <ul className="game-list">
                     {games.map(game => (
                         <li key={game.gameId} className="game-item" onClick={() => navigate(`/game/${game.gameId}`)}>
