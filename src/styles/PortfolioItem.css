@@ -4,16 +4,14 @@
 }
 
 .portfolio-card {
-    display: flex; /* Use flexbox layout */
-    align-items: center; /* Center align items vertically */
-    background-color: #2c2c2c; /* Set a grey background */
-    border: 1px solid #3a3a3a; /* Dark grey border */
+    background-color: #2c2c2c;
+    border: 1px solid #3a3a3a;
     border-radius: 8px;
     padding: 20px;
-    text-align: left; /* Align text to the left */
+    text-align: left;
     transition: transform 0.2s, box-shadow 0.2s;
-    max-width: 800px; /* Set max width to make items narrower */
-    margin: 0 auto; /* Center the portfolio cards */
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .portfolio-card:hover {
@@ -22,24 +20,26 @@
 }
 
 .portfolio-image {
-    width: 150px; /* Set a fixed width for the image */
+    width: 150px;
     height: auto;
     border-radius: 8px;
-    margin-right: 20px; /* Add space between image and content */
+    margin-right: 20px;
+    float: left;
+    margin-bottom: 10px;
 }
 
 .portfolio-content {
-    flex: 1; /* Allow content to take the remaining space */
+    color: #d4d4d4;
 }
 
 .portfolio-content h3 {
-    color: #d4d4d4; /* Light grey text for title */
+    color: #d4d4d4;
     margin: 0;
     font-size: 1.5em;
 }
 
 .portfolio-content p {
-    color: #bdbdbd; /* Light grey text for description */
+    color: #bdbdbd;
     margin: 10px 0;
     font-size: 1em;
 }
@@ -56,5 +56,23 @@
     padding: 5px 10px;
     border-radius: 5px;
     margin: 5px;
-    color: #d4d4d4; /* Light grey text for technologies */
+    color: #d4d4d4;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .portfolio-card {
+        display: block;
+        text-align: center;
+    }
+
+    .portfolio-image {
+        float: none;
+        display: block;
+        margin: 0 auto 10px auto;
+    }
+
+    .portfolio-content {
+        text-align: center;
+    }
 }
