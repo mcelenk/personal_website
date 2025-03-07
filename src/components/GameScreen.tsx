@@ -236,7 +236,7 @@ const GameScreen: React.FC = () => {
         combinedContext.drawImage(canvasBackRef.current!, 0, 0);
         combinedContext.drawImage(canvasFrontRef.current!, 0, 0);
 
-        const canvas = combinedCanvas;
+        let canvas = combinedCanvas;
         const frames: string[] = [];
         const duration = 6000; // Capture duration in milliseconds
         const frameRate = 5; // Lower the frame rate to reduce size (e.g., 5 frames per second)
@@ -266,8 +266,9 @@ const GameScreen: React.FC = () => {
                 );
                 return;
             }
-
-            frames.push(canvas.toDataURL('image/png'));
+            combinedContext.drawImage(canvasBackRef.current!, 0, 0);
+            combinedContext.drawImage(canvasFrontRef.current!, 0, 0);
+            frames.push(combinedCanvas.toDataURL('image/png'));
             setTimeout(() => captureFrame(frameCount + 1), 1000 / frameRate);
         };
 
