@@ -3,6 +3,7 @@ import { useAuth } from './AuthContext';
 import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import './styles/Common.css';
 
 const clientId = '156611515968-i72vifujdb8pqdnl2mnb1lqqp4mvhtu8.apps.googleusercontent.com';
 const Login: React.FC = () => {
@@ -61,12 +62,23 @@ const Login: React.FC = () => {
     };
 
     return (
-        <GoogleOAuthProvider clientId={clientId}>
-            <GoogleLogin
-                onSuccess={onSuccess}
-                onError={onFailure}
-            />
-        </GoogleOAuthProvider>
+        <>
+            <div className='text-container'>
+                <p>
+                    It looks like you're trying to access a restricted area of my website, \
+                    potentially to play Antiyoy Online. To move forward, you need to log in with your Google account. \
+                    Additionally, your account must be acknowledged and registered as a test user by me. \
+                    This requirement helps manage the quotas of the free-tier services running this website.\
+                    If you want to become a test user, feel free to drop me an <a href="mailto:mcelenk@dottilde.com">email</a>.
+                </p>
+            </div>
+            <GoogleOAuthProvider clientId={clientId}>
+                <GoogleLogin
+                    onSuccess={onSuccess}
+                    onError={onFailure}
+                />
+            </GoogleOAuthProvider>
+        </>
     );
 };
 
