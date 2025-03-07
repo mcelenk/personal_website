@@ -8,7 +8,7 @@ const Header: React.FC = () => {
             <nav className="home-nav">
                 <ul>
                     <li><a href="#home" onClick={() => navigate('/')}>Home</a></li>
-                    <li><a href="#portfolio" onClick={() => navigate('/games')}>Portfolio</a></li>
+                    <li><a href="#portfolio" onClick={() => navigate('/portfolio')}>Portfolio</a></li>
                     <li><a href="#about" onClick={() => navigate('/about')}>About</a></li>
                     <li><a href="#contact" onClick={() => navigate('/contact')}>Contact</a></li>
                 </ul>

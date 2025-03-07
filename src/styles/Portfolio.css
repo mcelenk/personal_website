@@ -1,0 +1,11 @@
+.portfolio-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.portfolio-container h2 {
+    margin-bottom: 40px;
+    color: #d4d4d4;
+}

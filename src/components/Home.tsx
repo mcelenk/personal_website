@@ -2,15 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Drawing } from '../drawing_with_ft/drawing';
 import { DefaultDataProvider } from '../drawing_with_ft/dataProvider';
-import * as paper from 'paper';
-import '../styles/Home.css';
+
 import { UserEvents } from '../gameplay/userEvents';
 import { Position } from '../gameplay/positioning';
 import { Transform } from '../gameplay/transform';
 
+import * as paper from 'paper';
+import '../styles/Home.css';
+
 const Home: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const canvas = canvasRef.current;

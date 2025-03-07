@@ -4,6 +4,8 @@ import { useAuth } from './AuthContext';
 import ConfirmModal from './ConfirmModal';
 import { Game } from '../gameplay/game';
 
+import gifshot from 'gifshot';
+
 import '../styles/Common.css';
 import '../styles/GameScreen.css';
 
@@ -226,6 +228,45 @@ const GameScreen: React.FC = () => {
         }
     }, [serializationData]);
 
+    const captureAnimation = () => {
+        const canvas = canvasFrontRef.current!;
+        const frames: string[] = [];
+        const duration = 6000; // Capture duration in milliseconds
+        const frameRate = 5; // Lower the frame rate to reduce size (e.g., 5 frames per second)
+        const totalFrames = (duration / 1000) * frameRate;
+
+        const captureFrame = (frameCount: number) => {
+            if (frameCount >= totalFrames) {
+                gifshot.createGIF(
+                    {
+                        images: frames,
+                        gifWidth: canvas.width / 4, // Reduce resolution by half
+                        gifHeight: canvas.height / 4, // Reduce resolution by half
+                        interval: 1 / frameRate,
+                        numWorkers: 2,
+                        numFrames: totalFrames,
+                        sampleInterval: 10, // Increase sample interval to reduce size
+                    },
+                    (obj) => {
+                        if (!obj.error) {
+                            const image = obj.image;
+                            const a = document.createElement('a');
+                            a.href = image!;
+                            a.download = 'animation.gif';
+                            a.click();
+                        }
+                    }
+                );
+                return;
+            }
+
+            frames.push(canvas.toDataURL('image/png'));
+            setTimeout(() => captureFrame(frameCount + 1), 1000 / frameRate);
+        };
+
+        captureFrame(0);
+    };
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -242,6 +283,7 @@ const GameScreen: React.FC = () => {
             <div className="button-container absolute-positioning">
                 <button className="common-button" onClick={() => navigate('/games')}>Back to Game List</button>
                 <button className='common-button' disabled={buttonsDisabled} onClick={handleResign}>Resign</button>
+                <button onClick={captureAnimation}>Capture Animation</button>
             </div>
             <canvas ref={canvasBackRef} id="back" width={window.innerWidth} height={window.innerHeight}></canvas>
             <canvas ref={canvasFrontRef} id="front" width={window.innerWidth} height={window.innerHeight}></canvas>
