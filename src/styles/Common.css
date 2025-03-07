@@ -74,3 +74,20 @@
     margin: 0;
     font-weight: 900;
 }
+
+@media (max-width: 600px) {
+    .text-container {
+        padding: 10px;
+        text-align: left;
+    }
+
+    .text-container h1,
+    .text-container h2 {
+        text-align: center;
+    }
+
+    .text-container p,
+    .text-container ul {
+        text-align: left;
+    }
+}
