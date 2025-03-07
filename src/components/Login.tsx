@@ -65,10 +65,10 @@ const Login: React.FC = () => {
         <>
             <div className='text-container'>
                 <p>
-                    It looks like you're trying to access a restricted area of my website, \
-                    potentially to play Antiyoy Online. To move forward, you need to log in with your Google account. \
-                    Additionally, your account must be acknowledged and registered as a test user by me. \
-                    This requirement helps manage the quotas of the free-tier services running this website.\
+                    It looks like you're trying to access a restricted area of my website,
+                    potentially to play Antiyoy Online. To move forward, you need to log in with your Google account.
+                    Additionally, your account must be acknowledged and registered as a test user by me.
+                    This requirement helps manage the quotas of the free-tier services running this website.
                     If you want to become a test user, feel free to drop me an <a href="mailto:mcelenk@dottilde.com">email</a>.
                 </p>
             </div>
