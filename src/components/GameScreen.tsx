@@ -229,7 +229,14 @@ const GameScreen: React.FC = () => {
     }, [serializationData]);
 
     const captureAnimation = () => {
-        const canvas = canvasFrontRef.current!;
+        const combinedCanvas = document.createElement('canvas');
+        const combinedContext = combinedCanvas.getContext('2d', { willReadFrequently: true })!;
+        combinedCanvas.width = canvasBackRef.current!.width;
+        combinedCanvas.height = canvasBackRef.current!.height;
+        combinedContext.drawImage(canvasBackRef.current!, 0, 0);
+        combinedContext.drawImage(canvasFrontRef.current!, 0, 0);
+
+        const canvas = combinedCanvas;
         const frames: string[] = [];
         const duration = 6000; // Capture duration in milliseconds
         const frameRate = 5; // Lower the frame rate to reduce size (e.g., 5 frames per second)
