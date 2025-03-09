@@ -27,7 +27,7 @@ export class DefaultDataProvider implements IDataProvider {
                 paceFactor: 0.000613,
                 snappedToTip: true,
                 stopped: false,
-                initialZoom: 200, //process.env.START_ZOOM, //400.0,
+                initialZoom: 200,
                 numCircles: 250,
                 fill: true,
                 prefferedDt: 0.0009332,
@@ -59,4 +59,36 @@ export class DefaultDataProvider implements IDataProvider {
             throw new Error('' + error);
         }
     }
+}
+
+export class UserFileDataProvider implements IDataProvider {
+    private file: File;
+    private fileData: DrawingData | null = null;
+    constructor(file: File) {
+        this.file = file;
+    }
+
+    public fetchData = async (key?: string): Promise<DrawingData> => {
+        if (this.fileData) return this.fileData;
+
+        const text = await this.file.text();
+        const points = JSON.parse(text);
+        this.fileData = {
+            points: points,
+            initialZoom: 1,
+            paceFactor: 0.025,
+            snappedToTip: false,
+            stopped: false,
+            numCircles: 4,
+            fill: true,
+            prefferedDt: 0.0009332,
+            roundCompletedInfo: {
+                factor: 7,
+                numRounds: 1,
+                dimmed: true,
+            }
+        };
+        return this.fileData;
+    }
+
 }

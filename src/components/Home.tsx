@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Drawing } from '../drawing_with_ft/drawing';
 import { DefaultDataProvider } from '../drawing_with_ft/dataProvider';
 

@@ -9,6 +9,7 @@ import About from './About';
 import Layout from './Layout';
 import Contact from './Contact';
 import Portfolio from './Portfolio';
+import DrawingWithFT from './DrawingWithFT';
 import CV from './Cv';
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
@@ -25,6 +26,7 @@ const App: React.FC = () => {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/cv" element={<CV />} />
                         <Route path="/portfolio" element={<Portfolio />} />"
+                        <Route path="/drawing" element={<DrawingWithFT />} />
                         <Route path="/games" element={<ProtectedRoute element={<GameList />} />} />
                         <Route path="/game/:id" element={<ProtectedRoute element={<GameScreen />} />} />
                         <Route path="/create" element={<ProtectedRoute element={<GameCreate />} />} />

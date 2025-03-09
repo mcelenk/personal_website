@@ -83,7 +83,7 @@ export type DrawingData = {
     fill: boolean,
     prefferedDt: number,
     roundCompletedInfo: RoundCompletionInfo | undefined,
-    animation: AnimationInfo,
+    animation?: AnimationInfo,
     maxFrameNumWeCare?: number,
 };
 
@@ -153,6 +153,31 @@ export class Drawing {
         if (this.data) {
             this.reset();
             this.go();
+        }
+    }
+
+    public setNumCircles = (numCircles: number): void => {
+        if (this.data) {
+            this.data.numCircles = numCircles;
+            this.restart();
+        }
+    }
+
+    public getNumCircles = (): number | undefined => {
+        if (this.data) {
+            return this.data.numCircles;
+        }
+    }
+
+    public setPace = (paceFactor: number): void => {
+        if (this.data) {
+            this.data.paceFactor = 0.025 * paceFactor;
+        }
+    }
+
+    public getPace = (): number | undefined => {
+        if (this.data) {
+            return this.data.paceFactor / 0.025;
         }
     }
 
@@ -358,7 +383,7 @@ export class Drawing {
     private prevTransform: Transform | undefined = undefined;
 
     public scrollWithTransform = (transform: Transform): void => {
-        if (this.data && (this.data.animation.pace || this.data.animation.zoom || this.data.animation.snap)) {
+        if (this.data && this.data.animation && (this.data.animation.pace || this.data.animation.zoom || this.data.animation.snap)) {
             return;
         }
         if (this.prevTransform) {

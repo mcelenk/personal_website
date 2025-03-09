@@ -8,7 +8,7 @@ interface PortfolioItemType {
     title: string;
     description: ReactElement;
     technologies?: string[];
-    navigateTo: string; // Add navigateTo property for navigation
+    navigateTo: string;
 }
 
 const Portfolio: React.FC = () => {
@@ -22,7 +22,7 @@ const Portfolio: React.FC = () => {
                 and a will to learn more about <a href="http://paperjs.org/" target="_blank" rel="noopener noreferrer">PaperJS</a>,
                 I created this project to visualize how a complex shape can be represented by a sum of simpler shapes using Fourier Transform.</>,
             technologies: ['PaperJS', 'HTML Canvas', 'Typescript'],
-            navigateTo: '/project1', // Define the navigation path
+            navigateTo: '/drawing',
         },
         {
             imageSrc: '/assets/antiyoy.gif',
@@ -33,7 +33,6 @@ const Portfolio: React.FC = () => {
             technologies: ['Typescript', 'HTML Canvas', 'Serverless Functions', 'MongoDB'],
             navigateTo: '/games',
         },
-        // Add more portfolio items as needed
     ];
 
     return (
@@ -45,7 +44,7 @@ const Portfolio: React.FC = () => {
                     title={item.title}
                     description={item.description}
                     technologies={item.technologies}
-                    onClick={() => navigate(item.navigateTo)} // Handle navigation on click
+                    onClick={() => navigate(item.navigateTo)}
                 />
             ))}
         </div>
