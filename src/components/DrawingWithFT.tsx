@@ -88,7 +88,7 @@ const DrawingWithFT: React.FC = () => {
                     You can adjust the number of arrows and their speed with the sliders on the left.
                 </p>
                 <p>
-                    You can also download an example file <a href="/drawing_data/monalisa.json" target="_blank" rel="noopener noreferrer">here</a>.
+                    You can also download an example file <a href="/drawing_data/monalisa.json" download="example.json" rel="noopener noreferrer">here</a>.
                 </p>
             </div>
 
