@@ -15,6 +15,8 @@ const DrawingWithFT: React.FC = () => {
     const [paceFactor, setPaceFactor] = useState<number>(2);
     const [drawing, setDrawing] = useState<Drawing | null>(null);
 
+    const NUM_CIRCLES_MAX = 250;
+
     useEffect(() => {
         if (file && canvasRef.current) {
             const canvas = canvasRef.current;
@@ -25,7 +27,7 @@ const DrawingWithFT: React.FC = () => {
             setDrawing(instance);
 
             instance.initialize().then(() => {
-                setNumCircles(instance.getNumCircles() ?? 2);
+                setNumCircles(Math.min(NUM_CIRCLES_MAX, instance.getNumCircles() ?? 2));
                 setPaceFactor(instance.getPace() ?? 1);
                 paper.view.onFrame = (event: { delta: number; }) => {
                     instance.animateItems(event.delta);
@@ -112,7 +114,7 @@ const DrawingWithFT: React.FC = () => {
                         type="range"
                         id="slider1"
                         min="2"
-                        max="250"
+                        max={`${NUM_CIRCLES_MAX}`}
                         value={numCircles}
                         onChange={(e) => setNumCircles(Number(e.target.value))}
                         className="slider"

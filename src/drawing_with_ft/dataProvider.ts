@@ -79,7 +79,7 @@ export class UserFileDataProvider implements IDataProvider {
             paceFactor: 0.025,
             snappedToTip: false,
             stopped: false,
-            numCircles: 4,
+            numCircles: 250,
             fill: true,
             prefferedDt: 0.0009332,
             roundCompletedInfo: {
