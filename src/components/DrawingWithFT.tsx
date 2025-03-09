@@ -11,6 +11,7 @@ import '../styles/DrawingWithFT.css';
 const DrawingWithFT: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [file, setFile] = useState<File | null>(null);
+    const [scrollY, setScrollY] = useState(0);
     const [numCircles, setNumCircles] = useState<number>(10);
     const [paceFactor, setPaceFactor] = useState<number>(2);
     const [drawing, setDrawing] = useState<Drawing | null>(null);
@@ -60,6 +61,10 @@ const DrawingWithFT: React.FC = () => {
         drawing?.setNumCircles(numCircles);
     }, [numCircles]);
 
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +73,11 @@ const DrawingWithFT: React.FC = () => {
             setFile(selectedFile);
         }
     };
+
+    const handleScroll = () => {
+        setScrollY(window.scrollY);
+    };
+
 
     return (
         <div className="drawing-with-ft-container">
@@ -95,7 +105,7 @@ const DrawingWithFT: React.FC = () => {
             </div>
 
 
-            <div className="controls">
+            <div className="controls" style={{ top: `${Math.max(10, 10 + scrollY)}px` }}>
                 <div className="file-upload">
                     <input
                         type="file"
