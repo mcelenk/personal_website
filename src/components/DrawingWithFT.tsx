@@ -11,7 +11,6 @@ import '../styles/DrawingWithFT.css';
 const DrawingWithFT: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [file, setFile] = useState<File | null>(null);
-    const [scrollY, setScrollY] = useState(0);
     const [numCircles, setNumCircles] = useState<number>(10);
     const [paceFactor, setPaceFactor] = useState<number>(2);
     const [drawing, setDrawing] = useState<Drawing | null>(null);
@@ -61,23 +60,12 @@ const DrawingWithFT: React.FC = () => {
         drawing?.setNumCircles(numCircles);
     }, [numCircles]);
 
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
         if (selectedFile) {
             setFile(selectedFile);
         }
     };
-
-    const handleScroll = () => {
-        setScrollY(window.scrollY);
-    };
-
 
     return (
         <div className="drawing-with-ft-container">
@@ -88,65 +76,66 @@ const DrawingWithFT: React.FC = () => {
                     The file should be in the following format:
                 </p>
                 <pre>
-                    {`[
-    { "x": 187.86668395996094, "y": 45.199989318847656 },
-    { "x": 189.34558832645416, "y": 45.72212503105402 },
-    ...
-]`}
+                    {`[ { "x": 187.86668395996094, "y": 45.199989318847656 },
+                        { "x": 189.34558832645416, "y": 45.72212503105402 },
+                    ... ]`}
                 </pre>
                 <p>
                     Using Fourier Transform, a chain of rotating arrows is generated.
                     Each arrow's base is positioned at the tip of the previous one, and the final arrow traces the geometry.
                     You can adjust the number of arrows and their speed with the sliders on the left.
                 </p>
+                <ul>
+                    <li><strong># Circles:</strong> Control the number of circles on the canvas.</li>
+                    <li><strong>Pace:</strong> Control the animation speed.</li>
+                </ul>
                 <p>
-                    You can also download an example file <a href="/drawing_data/monalisa.json" download="example.json" rel="noopener noreferrer">here</a>.
+                    Download an example file <a href="/drawing_data/monalisa.json" download="example.json" rel="noopener noreferrer">here</a>.
                 </p>
             </div>
+            <div className="canvas-and-controls-wrapper">
+                <div className="controls">
+                    <div className="file-upload">
+                        <input
+                            type="file"
+                            id="file-input"
+                            accept=".json"
+                            onChange={handleFileChange}
+                        />
+                        <label htmlFor="file-input" className="custom-file-upload">
+                            Choose JSON File
+                        </label>
+                    </div>
 
+                    <div className="sliders">
+                        <label htmlFor="slider1" className="slider-label"># Circles:</label>
+                        <input
+                            type="range"
+                            id="slider1"
+                            min="2"
+                            max="250"
+                            value={numCircles}
+                            onChange={(e) => setNumCircles(Number(e.target.value))}
+                            className="slider"
+                        />
+                        <span>{numCircles}</span>
 
-            <div className="controls" style={{ top: `${Math.max(10, 10 + scrollY)}px` }}>
-                <div className="file-upload">
-                    <input
-                        type="file"
-                        id="file-input"
-                        accept=".json"
-                        onChange={handleFileChange}
-                    />
-                    <label htmlFor="file-input" className="custom-file-upload">
-                        Choose JSON File
-                    </label>
+                        <label htmlFor="slider2" className="slider-label">Pace:</label>
+                        <input
+                            type="range"
+                            id="slider2"
+                            min="1"
+                            max="10"
+                            value={paceFactor}
+                            onChange={(e) => setPaceFactor(Number(e.target.value))}
+                            className="slider"
+                        />
+                        <span>{paceFactor}</span>
+                    </div>
                 </div>
-
-                <div className="sliders">
-                    <label htmlFor="slider1" className="slider-label"># Circles:</label>
-                    <input
-                        type="range"
-                        id="slider1"
-                        min="2"
-                        max={`${NUM_CIRCLES_MAX}`}
-                        value={numCircles}
-                        onChange={(e) => setNumCircles(Number(e.target.value))}
-                        className="slider"
-                    />
-                    <span>{numCircles}</span>
-
-                    <label htmlFor="slider2" className="slider-label">Pace:</label>
-                    <input
-                        type="range"
-                        id="slider2"
-                        min="1"
-                        max="10"
-                        value={paceFactor}
-                        onChange={(e) => setPaceFactor(Number(e.target.value))}
-                        className="slider"
-                    />
-                    <span>{paceFactor}</span>
+                <div className="file-upload-canvas-wrapper">
+                    <canvas ref={canvasRef} className="canvas"></canvas>
                 </div>
-            </div>
-
-            <div className="file-upload-canvas-wrapper">
-                <canvas ref={canvasRef} className="canvas"></canvas>
             </div>
         </div>
     );
