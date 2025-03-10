@@ -55,9 +55,12 @@
 
 .text-container {
     max-width: 800px;
+    width: 100%;
     box-sizing: border-box;
-    text-align: justify;
+    text-align: center;
     overflow-wrap: break-word;
+    word-wrap: break-word;
+    margin: 0 auto;
 }
 
 .text-container hr {
@@ -77,6 +80,7 @@
 
 @media (max-width: 600px) {
     .text-container {
+        max-width: 100%;
         padding: 10px;
         word-wrap: break-word;
         overflow-x: hidden;
