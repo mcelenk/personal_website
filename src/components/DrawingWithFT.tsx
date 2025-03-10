@@ -77,8 +77,9 @@ const DrawingWithFT: React.FC = () => {
                 </p>
                 <pre>
                     {`[ { "x": 187.86668395996094, "y": 45.199989318847656 },
-                        { "x": 189.34558832645416, "y": 45.72212503105402 },
-                    ... ]`}
+ { "x": 189.34558832645416, "y": 45.72212503105402 },
+ ...
+ ]`}
                 </pre>
                 <p>
                     Using Fourier Transform, a chain of rotating arrows is generated.

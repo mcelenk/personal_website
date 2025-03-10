@@ -54,10 +54,10 @@
 }
 
 .text-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
     text-align: justify;
+    overflow-wrap: break-word;
 }
 
 .text-container hr {
@@ -78,7 +78,8 @@
 @media (max-width: 600px) {
     .text-container {
         padding: 10px;
-        text-align: left;
+        word-wrap: break-word;
+        overflow-x: hidden;
     }
 
     .text-container h1,
