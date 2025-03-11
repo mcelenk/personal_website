@@ -237,7 +237,7 @@ const GameScreen: React.FC = () => {
         return <Navigate to="/games" />;
     }
     return (
-        <div className='wrapper'>
+        <div>
             <div className="button-container absolute-positioning">
                 <button className="common-button" onClick={() => navigate('/games')}>Back to Game List</button>
                 <button className='common-button' disabled={buttonsDisabled} onClick={handleResign}>Resign</button>
