@@ -15,25 +15,27 @@
 
 .button-container.absolute-positioning {
     position: absolute;
-    left: 5px;
-    top: 5px;
+    left: 10px;
+    top: 10px;
+    z-index: 50;
 }
 
 .common-button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.7);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     z-index: 10;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
 }
 
 .common-button:hover {
-    background-color: #0056b3;
+    background-color: rgba(0, 86, 179, 0.8);
     transform: scale(1.05);
+    opacity: 1;
 }
 
 .common-button:disabled {
