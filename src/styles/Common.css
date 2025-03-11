@@ -16,7 +16,7 @@
 .button-container.absolute-positioning {
     position: absolute;
     left: 5px;
-    top: 15px;
+    top: 5vh;
 }
 
 .common-button {
