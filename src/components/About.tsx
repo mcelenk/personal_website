@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/Common.css';
 
 const About: React.FC = () => {
     return (

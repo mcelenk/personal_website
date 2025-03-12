@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/Common.css';
 import '../styles/ConfirmModal.css';
 
 interface ConfirmModalProps {

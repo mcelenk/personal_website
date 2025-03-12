@@ -3,7 +3,6 @@ import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import ConfirmModal from './ConfirmModal';
 import { Game } from '../gameplay/game';
-import '../styles/Common.css';
 import '../styles/GameScreen.css';
 
 enum NotificationType {

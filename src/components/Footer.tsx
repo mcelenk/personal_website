@@ -1,8 +1,7 @@
 import React from 'react';
-
 const Footer: React.FC = () => {
     return (
-        <footer className="home-footer">
+        <footer className="footer-container">
             <div className="social-media">
                 <a href="https://www.linkedin.com/in/mcelenk/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 <a href="https://github.com/mcelenk" target="_blank" rel="noopener noreferrer">GitHub</a>

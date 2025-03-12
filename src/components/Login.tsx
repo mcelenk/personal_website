@@ -3,7 +3,6 @@ import { useAuth } from './AuthContext';
 import { CredentialResponse, GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import '../styles/Common.css';
 
 const clientId = '156611515968-i72vifujdb8pqdnl2mnb1lqqp4mvhtu8.apps.googleusercontent.com';
 const Login: React.FC = () => {

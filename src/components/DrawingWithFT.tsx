@@ -5,7 +5,6 @@ import { UserEvents } from '../gameplay/userEvents';
 import { Position } from '../gameplay/positioning';
 import { Transform } from '../gameplay/transform';
 import * as paper from 'paper';
-import '../styles/Common.css';
 import '../styles/DrawingWithFT.css';
 
 const DrawingWithFT: React.FC = () => {

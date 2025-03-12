@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 const Header: React.FC = () => {
     const navigate = useNavigate();
     return (
-        <header className="home-header">
-            <nav className="home-nav">
+        <header className="header-container">
+            <nav className="navigation-container">
                 <ul>
                     <li><a href="#home" onClick={() => navigate('/')}>Home</a></li>
                     <li><a href="#portfolio" onClick={() => navigate('/portfolio')}>Portfolio</a></li>

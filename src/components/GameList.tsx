@@ -7,7 +7,6 @@ import { ObjectId } from 'mongodb';
 import { ACTIVE_ALLOWED_GAME_COUNT } from '../gameplay/constants';
 import '@fortawesome/fontawesome-free/css/all.css'
 import '../styles/GameList.css';
-import '../styles/Common.css';
 
 interface Game {
     gameId: string,

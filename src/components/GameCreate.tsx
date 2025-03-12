@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { MapSize } from '../gameplay/mapGenerator';
-import '../styles/Common.css';
 import '../styles/GameCreate.css';
 
 
